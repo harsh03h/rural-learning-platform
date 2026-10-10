@@ -13,7 +13,9 @@ import {
   ChevronDown,
   ChevronRight,
   HardDrive,
-  UserCog
+  UserCog,
+  HelpCircle,
+  LifeBuoy
 } from 'lucide-react';
 import { translations, supportedLanguages } from '../data/mockData';
 
@@ -34,7 +36,8 @@ export function Navbar({
   onSyncNow,
   downloadedCount,
   onOpenDownloads,
-  onOpenArchitecture
+  onOpenArchitecture,
+  onOpenHelp
 }) {
   const t = translations[lang] || translations['en'];
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -181,6 +184,16 @@ export function Navbar({
             </div>
           </div>
 
+          {/* Help & Support Desk Pill Button */}
+          <button
+            onClick={onOpenHelp}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 border border-upsaffron-300/80 transition-all shadow-2xs group cursor-pointer"
+            title="GyanSetu Help & Support Desk (Toll-Free: 1800-180-5321)"
+          >
+            <HelpCircle className="w-3.5 h-3.5 text-upsaffron-600 group-hover:scale-110 transition-transform" />
+            <span className="hidden lg:inline">Help & Support</span>
+          </button>
+
           {/* User Profile / Menu Dropdown */}
           <div className="relative" ref={menuRef}>
             {currentUser ? (
@@ -311,6 +324,24 @@ export function Navbar({
                     </span>
                   </button>
 
+                  <button
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
+                      onOpenHelp();
+                    }}
+                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-upsaffron-50 text-slate-700 hover:text-upsaffron-800 flex items-center justify-between transition font-medium group"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-upsaffron-100 text-upsaffron-700 flex items-center justify-center transition">
+                        <HelpCircle className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="font-semibold text-xs">Help & Support Desk</span>
+                    </span>
+                    <span className="text-[10px] text-upsaffron-700 bg-upsaffron-50 px-2 py-0.5 rounded-full border border-upsaffron-200 font-bold">
+                      Toll-Free
+                    </span>
+                  </button>
+
                   <div className="pt-1.5 mt-1 border-t border-slate-100">
                     <button
                       onClick={() => {
@@ -357,6 +388,13 @@ export function Navbar({
           className={`px-3 py-1 rounded-full font-semibold shrink-0 ${role === 'admin' ? 'bg-upnavy-800 text-white' : 'text-slate-600'}`}
         >
           Admin
+        </button>
+        <button
+          onClick={onOpenHelp}
+          className="px-2.5 py-1 rounded-full font-bold text-upsaffron-700 bg-upsaffron-100 border border-upsaffron-200 shrink-0 flex items-center gap-1 ml-auto"
+        >
+          <HelpCircle className="w-3 h-3" />
+          <span>Help</span>
         </button>
       </div>
     </header>

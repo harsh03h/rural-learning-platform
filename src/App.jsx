@@ -11,7 +11,8 @@ import { AiSaathiChat } from './components/AiSaathiChat';
 import { SystemArchitectureModal } from './components/SystemArchitectureModal';
 import { DownloadsModal } from './components/DownloadsModal';
 import { ProfileEditModal } from './components/ProfileEditModal';
-import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap } from 'lucide-react';
+import { HelpSupportModal } from './components/HelpSupportModal';
+import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap, HelpCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
 import bannerImg from './assets/gyansetu-banner.png';
@@ -66,6 +67,7 @@ export function App() {
   const [isAiSaathiOpen, setIsAiSaathiOpen] = useState(false);
   const [isArchitectureOpen, setIsArchitectureOpen] = useState(false);
   const [isDownloadsOpen, setIsDownloadsOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState(null);
 
   const showToast = (msg) => {
@@ -233,6 +235,7 @@ export function App() {
         downloadedCount={downloadedIds.length}
         onOpenDownloads={() => setIsDownloadsOpen(true)}
         onOpenArchitecture={() => setIsArchitectureOpen(true)}
+        onOpenHelp={() => setIsHelpModalOpen(true)}
       />
 
       {/* Main Body Content by Active Role */}
@@ -356,19 +359,55 @@ export function App() {
         onOpenLesson={(ch) => setActiveLesson(ch)}
       />
 
+      <HelpSupportModal
+        isOpen={isHelpModalOpen}
+        onClose={() => setIsHelpModalOpen(false)}
+        lang={lang}
+      />
+
+      {/* Floating Help & Support Quick Trigger */}
+      <div className="fixed bottom-5 right-5 z-40 flex items-center">
+        <button
+          onClick={() => setIsHelpModalOpen(true)}
+          className="bg-upnavy-950 hover:bg-upnavy-900 text-white font-bold text-xs py-2.5 px-4 rounded-full shadow-2xl border border-upsaffron-500/80 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer group"
+          title="GyanSetu Help & Support Desk (Toll Free: 1800-180-5321)"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-400 group-hover:animate-ping" />
+          <HelpCircle className="w-4 h-4 text-upsaffron-400 group-hover:rotate-12 transition-transform" />
+          <span className="tracking-tight">Help & Support</span>
+        </button>
+      </div>
+
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200/90 bg-white/90 backdrop-blur-sm py-4 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-upsaffron-500" />
-            <strong className="text-upnavy-950">GyanSetu (ज्ञानसेतु)</strong> • Major Project 2026-27
+      <footer className="mt-auto border-t border-slate-200/90 bg-white/90 backdrop-blur-sm py-4 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-upsaffron-500" />
+              <strong className="text-upnavy-950">GyanSetu (ज्ञानसेतु)</strong>
+              <span className="text-slate-400">• Rural EdTech Initiative</span>
+            </div>
+            <span className="hidden sm:inline text-slate-300">|</span>
+            <div className="flex items-center gap-1.5 text-[11px] text-slate-600">
+              <span>National Toll-Free:</span>
+              <a href="tel:18001805321" className="font-mono font-bold text-upnavy-950 hover:text-upsaffron-600 transition">
+                1800-180-5321
+              </a>
+            </div>
           </div>
+
           <div className="flex items-center gap-4 text-[11px]">
-            <button onClick={() => setIsArchitectureOpen(true)} className="hover:underline text-upnavy-800 hover:text-upsaffron-600 font-bold transition">
-              System Architecture & Viva Defense
+            <button
+              onClick={() => setIsHelpModalOpen(true)}
+              className="text-upsaffron-700 hover:text-upsaffron-800 font-bold hover:underline flex items-center gap-1 transition"
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>Help & Support Desk</span>
             </button>
             <span>•</span>
-            <span className="text-slate-400"></span>
+            <button onClick={() => setIsArchitectureOpen(true)} className="hover:underline text-upnavy-800 hover:text-upsaffron-600 font-bold transition">
+              Technical Architecture & Viva
+            </button>
           </div>
         </div>
       </footer>
