@@ -1,6 +1,6 @@
 # GyanSetu (ज्ञानसेतु) — Digital Learning Platform for Rural School Students
 
-> **Final Year Engineering Major Project (2026–2027)**  
+>   
 > **Domain:** EdTech, Offline-First PWA, AI-Assisted Adaptive Learning, Human-Computer Interaction for Low-Resource Environments
 
 ---
