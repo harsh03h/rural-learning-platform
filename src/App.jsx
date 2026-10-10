@@ -14,6 +14,7 @@ import { ProfileEditModal } from './components/ProfileEditModal';
 import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
+import bannerImg from './assets/gyansetu-banner.png';
 
 export function App() {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -235,7 +236,17 @@ export function App() {
       />
 
       {/* Main Body Content by Active Role */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 pt-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 pt-5">
+        {/* Official GyanSetu Portal National Banner */}
+        <div className="mb-6 rounded-3xl overflow-hidden shadow-xs border border-slate-200/90 bg-white hover:shadow-md transition-all duration-300">
+          <img
+            src={bannerImg}
+            alt="GyanSetu - One Nation One Digital Platform"
+            className="w-full h-auto block select-none rounded-3xl"
+            loading="eager"
+          />
+        </div>
+
         {/* If user logged out: Prompt login card */}
         {!currentUser && (
           <div className="mb-6 bg-gradient-to-r from-upnavy-900 via-upnavy-800 to-upnavy-950 text-white p-6 rounded-3xl shadow-xl border border-upnavy-700/60 flex flex-col sm:flex-row items-center justify-between gap-4">
