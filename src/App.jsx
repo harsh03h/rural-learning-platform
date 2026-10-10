@@ -29,7 +29,7 @@ export function App() {
       role: 'student',
       grade: 'Class 7A',
       rollNo: '24',
-      school: 'Govt Upper Primary School Rampur',
+      school: 'Model Senior Secondary School Rampur',
       avatar: '🎓'
     };
   });

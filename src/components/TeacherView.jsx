@@ -90,6 +90,18 @@ export const ASSIGNED_CLASSES = [
     role: "Secondary Lead",
     schedule: "Tue, Thu, Sat (03:00 PM - 04:00 PM)",
     badgeColor: "bg-rose-50 text-rose-700 border-rose-200"
+  },
+  {
+    id: "class-10a",
+    name: "Class 10A",
+    grade: "Class 10",
+    section: "Section A",
+    subject: "Board Prep Mathematics & Science",
+    studentCount: 35,
+    room: "Room 402",
+    role: "Senior Board Exam Lead",
+    schedule: "Mon - Sat (08:00 AM - 09:00 AM)",
+    badgeColor: "bg-indigo-50 text-indigo-700 border-indigo-200"
   }
 ];
 
@@ -486,6 +498,80 @@ export const INITIAL_ALL_STUDENTS = [
     status: "Good Progress",
     syncStatus: "Synced",
     isPresent: true
+  },
+
+  // Class 10A Students (Board Exam Candidates)
+  {
+    id: "stu-10a-1",
+    name: "Alok Nath",
+    rollNo: "02",
+    classGrade: "Class 10A",
+    overallScore: 93,
+    lastActive: "Today, 08:45 AM",
+    weakTopics: [],
+    status: "Top Board Candidate",
+    syncStatus: "Synced",
+    isPresent: true
+  },
+  {
+    id: "stu-10a-2",
+    name: "Bhavna Chawla",
+    rollNo: "07",
+    classGrade: "Class 10A",
+    overallScore: 44,
+    lastActive: "Yesterday",
+    weakTopics: ["Quadratic Equations", "Trigonometry"],
+    status: "Needs Remedial Attention",
+    syncStatus: "1 Quiz Pending",
+    isPresent: false
+  },
+  {
+    id: "stu-10a-3",
+    name: "Chetan Sharma",
+    rollNo: "14",
+    classGrade: "Class 10A",
+    overallScore: 76,
+    lastActive: "Today, 10:15 AM",
+    weakTopics: ["Light Optics"],
+    status: "Good Progress",
+    syncStatus: "Synced",
+    isPresent: true
+  },
+  {
+    id: "stu-10a-4",
+    name: "Divyanshu Rai",
+    rollNo: "20",
+    classGrade: "Class 10A",
+    overallScore: 88,
+    lastActive: "Active Now",
+    weakTopics: [],
+    status: "Star Performer",
+    syncStatus: "Synced",
+    isPresent: true
+  },
+  {
+    id: "stu-10a-5",
+    name: "Ekta Maurya",
+    rollNo: "25",
+    classGrade: "Class 10A",
+    overallScore: 49,
+    lastActive: "2 days ago",
+    weakTopics: ["Chemical Equations", "Triangles"],
+    status: "Needs Remedial Attention",
+    syncStatus: "Synced",
+    isPresent: true
+  },
+  {
+    id: "stu-10a-6",
+    name: "Farhan Ansari",
+    rollNo: "32",
+    classGrade: "Class 10A",
+    overallScore: 70,
+    lastActive: "Today, 01:25 PM",
+    weakTopics: ["Life Processes"],
+    status: "Average Progress",
+    syncStatus: "Synced",
+    isPresent: true
   }
 ];
 
@@ -529,6 +615,14 @@ const CLASS_ANALYTICS = {
     { topic: "Motion & Laws of Motion (गति)", pct: 73, status: "Proficient", color: "bg-sky-600", note: "Newton's 1st and 3rd laws understood with examples" },
     { topic: "Democracy in Contemporary World", pct: 85, status: "Mastered", color: "bg-emerald-600", note: "Good analysis of electoral participation" },
     { topic: "Information Technology & Spreadsheets", pct: 88, status: "Mastered", color: "bg-indigo-600", note: "Basic formulas and data entry proficiency" }
+  ],
+  "Class 10A": [
+    { topic: "Real Numbers & Euclid Lemma (वास्तविक संख्याएँ)", pct: 88, status: "Mastered", color: "bg-emerald-600", note: "Strong grasp of Fundamental Theorem of Arithmetic" },
+    { topic: "Quadratic Equations (द्विघात समीकरण)", pct: 46, status: "Urgent Remedial", color: "bg-rose-600", note: "Discriminant formula sign errors in test papers" },
+    { topic: "Introduction to Trigonometry (त्रिकोणमिति)", pct: 42, status: "Urgent Remedial", color: "bg-rose-600", note: "Struggling with tan/sin/cos standard angle ratios" },
+    { topic: "Chemical Reactions & Equations (रासायनिक अभिक्रियाएं)", pct: 82, status: "Mastered", color: "bg-emerald-600", note: "Balancing equations well understood" },
+    { topic: "Life Processes & Respiration (जैव प्रक्रम)", pct: 79, status: "Proficient", color: "bg-sky-600", note: "Human digestive enzyme pathways clear" },
+    { topic: "Light: Reflection & Refraction (प्रकाशिकी)", pct: 64, status: "Developing", color: "bg-amber-500", note: "Ray diagrams practice scheduled" }
   ]
 };
 
@@ -892,7 +986,7 @@ export function TeacherView({ lang }) {
         </div>
 
         {/* Class Cards Selector Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-1">
           {ASSIGNED_CLASSES.map(cls => {
             const isSelected = cls.name === selectedClass;
             const clsStudentCount = allStudents.filter(s => s.classGrade === cls.name).length;

@@ -212,7 +212,7 @@ export function AdminView({ lang = 'en' }) {
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-500 font-medium">
-            Govt Model Senior Secondary School Rampur • Block Bilaspur • District Rampur (UP)
+            Model Senior Secondary School Rampur • Block Bilaspur • District Rampur (UP)
           </p>
         </div>
 
@@ -1080,7 +1080,7 @@ export function AdminView({ lang = 'en' }) {
               <div className="grid grid-cols-2 gap-3 pb-3 border-b border-slate-200">
                 <div>
                   <span className="text-slate-400 block text-[10px] uppercase font-bold">School Name</span>
-                  <span className="font-bold text-upnavy-950">Govt Model Sr Sec School Rampur</span>
+                  <span className="font-bold text-upnavy-950">Model Senior Secondary School Rampur</span>
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px] uppercase font-bold">U-DISE Code</span>

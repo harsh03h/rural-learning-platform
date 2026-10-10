@@ -82,7 +82,7 @@ export function DiagnosticModal({ isOpen, onClose, lang, onSaveResults }) {
                 Diagnostic Baseline Assessment
               </h2>
               <p className="text-xs text-slate-500">
-                Evaluating Class 7 Foundational Math & Science Prerequisites
+                Evaluating Foundational Math & Science Prerequisites (Classes 6 to 10)
               </p>
             </div>
           </div>

@@ -18,7 +18,10 @@ import {
   TrendingUp,
   Volume2,
   HardDrive,
-  Target
+  Target,
+  GraduationCap,
+  School,
+  CheckCheck
 } from 'lucide-react';
 import { translations, sampleCourses, getLocalized } from '../data/mockData';
 
@@ -38,16 +41,18 @@ export function StudentView({
 }) {
   const t = translations[lang] || translations['en'];
   const [activeTab, setActiveTab] = useState('courses'); // 'courses' | 'remedial' | 'progress'
+  const [selectedGrade, setSelectedGrade] = useState('all'); // 'all' | 'Class 6' | 'Class 7' | 'Class 8' | 'Class 9' | 'Class 10'
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [filterOfflineOnly, setFilterOfflineOnly] = useState(false);
 
   const studentFirstName = currentUser?.name ? currentUser.name.split(' ')[0] : (lang === 'hi' ? 'रोहन' : 'Rohan');
   const studentGrade = currentUser?.grade || 'Class 7A';
   const studentRoll = currentUser?.rollNo || '24';
-  const studentSchool = currentUser?.school || 'Govt Upper Primary School Rampur';
+  const studentSchool = currentUser?.school || 'Model Senior Secondary School Rampur';
   const studentAvatar = currentUser?.avatar || '🎓';
 
   const filteredCourses = sampleCourses.filter(c => {
+    if (selectedGrade !== 'all' && c.classGrade !== selectedGrade) return false;
     if (selectedSubject !== 'all' && c.subject !== selectedSubject) return false;
     return true;
   });
@@ -60,8 +65,12 @@ export function StudentView({
         <div className="lg:col-span-2 bg-gradient-to-br from-white via-white to-upnavy-50/50 rounded-3xl p-5 sm:p-8 border border-slate-200/80 shadow-xs relative overflow-hidden flex flex-col justify-between">
           <div className="space-y-3 relative z-10">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[11px] font-bold text-upnavy-900 bg-upnavy-100/80 px-3 py-1 rounded-full border border-upnavy-200">
-                {studentGrade} • Roll {studentRoll}
+              <span className="text-[11px] font-bold text-upnavy-900 bg-upnavy-100/90 px-3 py-1 rounded-full border border-upnavy-200 flex items-center gap-1.5">
+                <GraduationCap className="w-3.5 h-3.5 text-upnavy-700" />
+                <span>{studentGrade} • Roll {studentRoll}</span>
+              </span>
+              <span className="text-[10px] font-black bg-upsaffron-100 text-upsaffron-900 px-3 py-1 rounded-full border border-upsaffron-300">
+                Classes 6 to 10 Platform
               </span>
               <span className="text-xs text-slate-500 font-medium truncate max-w-xs sm:max-w-md">
                 {studentSchool}
@@ -74,8 +83,8 @@ export function StudentView({
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 max-w-lg leading-relaxed">
               {lang === 'hi' 
-                ? 'कम डेटा में भी आपकी पढ़ाई कभी नहीं रुकेगी। आज का प्राथमिकता पाठ: भिन्न एवं दशमलव।'
-                : 'Study uninterrupted even on slow 2G/3G connections. Today\'s priority topic: Fractions & Decimals.'}
+                ? 'कक्षा 6 से 10 के सभी विषयों (गणित, विज्ञान, अंग्रेजी, सामाजिक विज्ञान, हिंदी, डिजिटल साक्षरता) की संपूर्ण तैयारी कम डेटा व ऑफ़लाइन मोड में।'
+                : 'Dedicated rural learning platform for Classes 6 to 10. Study NCERT & State Board Mathematics, Science, English, Social Science, Hindi, and Digital Literacy even on 2G/3G.'}
             </p>
           </div>
 
@@ -156,7 +165,7 @@ export function StudentView({
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
-            <span>Courses & Modules</span>
+            <span>Class 6–10 Courses & Modules</span>
           </button>
 
           <button
@@ -183,7 +192,7 @@ export function StudentView({
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5" />
-            <span>Analytics & Badges</span>
+            <span>Mastery & Grade Progression</span>
           </button>
         </div>
 
@@ -193,14 +202,84 @@ export function StudentView({
           className="text-xs font-bold text-upnavy-900 hover:text-upsaffron-600 flex items-center gap-1.5 transition self-start sm:self-auto bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs"
         >
           <Compass className="w-3.5 h-3.5 text-upsaffron-600" />
-          <span>{lang === 'hi' ? 'दक्षता स्तर जांच परीक्षा दें' : 'Retake Diagnostic Test'}</span>
+          <span>{lang === 'hi' ? 'दक्षता स्तर जांच परीक्षा दें' : 'Diagnostic Test (Grades 6–10)'}</span>
         </button>
       </div>
 
       {/* TAB 1: COURSES & MODULES */}
       {activeTab === 'courses' && (
-        <div className="space-y-5 animate-fadeIn">
-          {/* Subject Filter Bar */}
+        <div className="space-y-4 animate-fadeIn">
+          {/* A. DEDICATED CLASS SWITCHER BAR (CLASSES 6 TO 10) */}
+          <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200/80 shadow-xs space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-lg bg-upnavy-900 text-upsaffron-400 flex items-center justify-center shrink-0">
+                  <School className="w-3.5 h-3.5" />
+                </div>
+                <div>
+                  <h3 className="text-xs sm:text-sm font-black text-upnavy-950 uppercase tracking-wide">
+                    Curriculum by Class (Grades 6 to 10)
+                  </h3>
+                  <p className="text-[11px] text-slate-500">
+                    Aligned with NCERT & State Board syllabus for middle and secondary students
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-xs text-slate-600 font-semibold bg-slate-50 px-3 py-1 rounded-xl border border-slate-200/60 self-start sm:self-auto">
+                <span>Active: </span>
+                <strong className="text-upnavy-900">
+                  {selectedGrade === 'all' ? 'All Grades (6 to 10)' : `${selectedGrade}`}
+                </strong>
+                <span className="text-slate-400 font-normal"> ({filteredCourses.length} Courses available)</span>
+              </div>
+            </div>
+
+            {/* Class Selection Pills */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-1">
+              {[
+                { id: 'all', label: 'All Classes (6–10)', sub: '30 Courses', badge: 'All' },
+                { id: 'Class 6', label: 'Class 6', sub: 'Middle School', badge: 'Foundation' },
+                { id: 'Class 7', label: 'Class 7', sub: 'Middle School', badge: 'Core' },
+                { id: 'Class 8', label: 'Class 8', sub: 'Upper Primary', badge: 'Advanced' },
+                { id: 'Class 9', label: 'Class 9', sub: 'Secondary', badge: 'Concepts' },
+                { id: 'Class 10', label: 'Class 10', sub: 'Secondary', badge: 'Board Prep' }
+              ].map(g => {
+                const isSelected = selectedGrade === g.id;
+                return (
+                  <button
+                    key={g.id}
+                    onClick={() => setSelectedGrade(g.id)}
+                    className={`p-2.5 rounded-2xl text-left transition-all duration-150 border flex flex-col justify-between ${
+                      isSelected
+                        ? 'bg-gradient-to-br from-upnavy-900 to-upnavy-950 text-white border-upnavy-900 shadow-sm ring-2 ring-upsaffron-500/80 scale-[1.02]'
+                        : 'bg-slate-50 hover:bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className={`text-xs font-black ${isSelected ? 'text-white' : 'text-upnavy-950'}`}>
+                        {g.label}
+                      </span>
+                      {isSelected ? (
+                        <span className="w-3.5 h-3.5 rounded-full bg-upsaffron-500 text-white flex items-center justify-center text-[9px] font-black">
+                          ✓
+                        </span>
+                      ) : (
+                        <span className="text-[9px] font-bold bg-slate-200/80 text-slate-600 px-1.5 py-0.2 rounded-md">
+                          {g.badge}
+                        </span>
+                      )}
+                    </div>
+                    <div className={`text-[10px] ${isSelected ? 'text-upsaffron-200' : 'text-slate-400'}`}>
+                      {g.sub}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* B. Subject Filter Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
             <div className="flex items-center gap-1.5 text-xs overflow-x-auto max-w-full pb-1 sm:pb-0 scrollbar-none">
               <button
@@ -260,7 +339,7 @@ export function StudentView({
             </button>
           </div>
 
-          {/* Course Cards Grid */}
+          {/* C. Course Cards Grid */}
           {(() => {
             const allVisibleChapters = filteredCourses.flatMap(course => 
               course.chapters.filter(ch => !filterOfflineOnly || downloadedIds.includes(ch.id))
@@ -272,18 +351,19 @@ export function StudentView({
                   <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto border border-amber-200">
                     <Download className="w-6 h-6" />
                   </div>
-                  <h4 className="text-sm font-bold text-upnavy-950">No Offline Chapters Found</h4>
+                  <h4 className="text-sm font-bold text-upnavy-950">No Chapters Found for Current Filter</h4>
                   <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                    You currently have no chapters cached for this filter. Save any chapter for offline use to study without internet.
+                    No chapters match your combination of Grade ({selectedGrade}), Subject, and Offline state.
                   </p>
                   <button
                     onClick={() => {
-                      setFilterOfflineOnly(false);
+                      setSelectedGrade('all');
                       setSelectedSubject('all');
+                      setFilterOfflineOnly(false);
                     }}
                     className="px-4 py-2 bg-upnavy-800 hover:bg-upsaffron-600 text-white rounded-xl text-xs font-bold transition"
                   >
-                    View All Available Chapters
+                    Reset All Filters (View All Classes)
                   </button>
                 </div>
               );
@@ -304,11 +384,24 @@ export function StudentView({
                           >
                             {/* Concept Visual Illustration Banner */}
                             <div className="mb-4">
-                              <div className="flex items-center justify-between mb-3">
-                                <span className="text-[11px] font-bold uppercase tracking-wider text-upnavy-800 bg-upnavy-50 px-3 py-1 rounded-full border border-upnavy-200/60">
-                                  {getLocalized(course.title, lang)}
-                                </span>
-                                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-200/60">
+                              <div className="flex items-center justify-between mb-3 gap-2">
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  {/* Prominent Class Badge */}
+                                  <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full border ${
+                                    course.classGrade === 'Class 6' ? 'bg-purple-100 text-purple-900 border-purple-200' :
+                                    course.classGrade === 'Class 7' ? 'bg-amber-100 text-amber-900 border-amber-200' :
+                                    course.classGrade === 'Class 8' ? 'bg-emerald-100 text-emerald-900 border-emerald-200' :
+                                    course.classGrade === 'Class 9' ? 'bg-rose-100 text-rose-900 border-rose-200' :
+                                    'bg-indigo-100 text-indigo-900 border-indigo-200'
+                                  }`}>
+                                    {course.classGrade}
+                                  </span>
+                                  <span className="text-[11px] font-bold text-upnavy-800 bg-upnavy-50 px-2.5 py-0.5 rounded-full border border-upnavy-200/60 truncate max-w-[200px]">
+                                    {getLocalized(course.title, lang)}
+                                  </span>
+                                </div>
+
+                                <div className="flex items-center gap-1 text-xs font-semibold text-slate-400 bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-200/60 shrink-0">
                                   <Zap className="w-3 h-3 text-upsaffron-500 fill-upsaffron-500" />
                                   <span>{chapter.sizeKB} KB</span>
                                 </div>
@@ -362,11 +455,16 @@ export function StudentView({
           <div className="bg-white p-7 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h3 className="text-xl font-bold text-upnavy-950">
-                  Topic Mastery & Remedial Roadmap
-                </h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-upnavy-950">
+                    Topic Mastery & Remedial Roadmap (Classes 6–10)
+                  </h3>
+                  <span className="text-[11px] bg-upnavy-100 text-upnavy-900 font-bold px-2 py-0.5 rounded-full">
+                    Adaptive AI Engine
+                  </span>
+                </div>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Our diagnostic engine evaluates foundational prerequisites before unlocking complex topics
+                  Our diagnostic engine evaluates foundational prerequisites across Classes 6 to 10 before unlocking complex topics
                 </p>
               </div>
               <button
@@ -380,7 +478,9 @@ export function StudentView({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
               <div className="p-5 rounded-2xl bg-rose-50/70 border border-rose-200/90 space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-sm text-rose-950">Fractions (भिन्न)</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-sm text-rose-950">Fractions & Decimals (Class 7)</span>
+                  </div>
                   <span className="text-[10px] font-bold bg-rose-200/80 text-rose-900 px-2.5 py-0.5 rounded-full">
                     Priority Weak (40%)
                   </span>
@@ -401,7 +501,7 @@ export function StudentView({
 
               <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/90 space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-sm text-amber-950">Percentages (प्रतिशत)</span>
+                  <span className="font-bold text-sm text-amber-950">Linear Equations (Class 8 Prerequisite)</span>
                   <span className="text-[10px] font-bold bg-amber-200/80 text-amber-900 px-2.5 py-0.5 rounded-full">
                     Prerequisite Locked
                   </span>
@@ -413,25 +513,25 @@ export function StudentView({
 
               <div className="p-5 rounded-2xl bg-upnavy-50/70 border border-upnavy-200/90 space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-sm text-upnavy-950">Decimals (दशमलव)</span>
-                  <span className="text-[10px] font-bold bg-upnavy-200/80 text-upnavy-900 px-2.5 py-0.5 rounded-full">
-                    Mastered (90%)
+                  <span className="font-bold text-sm text-upnavy-950">Whole Numbers & Place Value (Class 6)</span>
+                  <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">
+                    Mastered (95%) ✓
                   </span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Strong conceptual foundation in comparing decimals and hundredths.
+                  Strong conceptual foundation in Indian place value system and arithmetic operations.
                 </p>
               </div>
 
-              <div className="p-5 rounded-2xl bg-upnavy-50/70 border border-upnavy-200/90 space-y-2">
+              <div className="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200/90 space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-sm text-upnavy-950">Geometry Basics</span>
-                  <span className="text-[10px] font-bold bg-upnavy-200/80 text-upnavy-900 px-2.5 py-0.5 rounded-full">
-                    Proficient (75%)
+                  <span className="font-bold text-sm text-indigo-950">Real Numbers & Euclid Lemma (Class 10 Prep)</span>
+                  <span className="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full font-bold">
+                    Upcoming Milestone
                   </span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Clear understanding of perimeter calculations for rectangular fields and squares.
+                  Unlocks automatically as soon as Class 8 & 9 rational numbers and factoring are completed.
                 </p>
               </div>
             </div>
@@ -439,83 +539,123 @@ export function StudentView({
         </div>
       )}
 
-      {/* TAB 3: SUBJECT PROGRESS & BADGES */}
+      {/* TAB 3: SUBJECT PROGRESS & GRADE PROGRESSION RADAR */}
       {activeTab === 'progress' && (
-        <div className="bg-white p-7 rounded-3xl border border-slate-200/80 shadow-xs space-y-6 animate-fadeIn">
-          <div>
-            <h3 className="text-xl font-bold text-upnavy-950">
-              Curriculum Mastery & Badges
-            </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Track your syllabus completion across Class 7 core subjects
-            </p>
+        <div className="space-y-6 animate-fadeIn">
+          {/* Grade Progression Radar (Classes 6 to 10) */}
+          <div className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
+            <div>
+              <h3 className="text-lg font-bold text-upnavy-950 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-upsaffron-600" />
+                <span>Secondary School Progression Ladder (Classes 6 to 10)</span>
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Multi-year academic tracking designed to prepare rural students for secondary board examination excellence
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
+              {[
+                { grade: 'Class 6', status: 'Mastered', pct: 95, color: 'bg-emerald-500', tag: 'Foundation ✓' },
+                { grade: 'Class 7', status: 'Current Grade', pct: 76, color: 'bg-upsaffron-500', tag: 'Active 🎯' },
+                { grade: 'Class 8', status: 'In Progress', pct: 45, color: 'bg-sky-500', tag: 'Upper Primary' },
+                { grade: 'Class 9', status: 'Unlocked', pct: 20, color: 'bg-purple-500', tag: 'Secondary Core' },
+                { grade: 'Class 10', status: 'Board Target', pct: 10, color: 'bg-indigo-500', tag: 'Board Exam 🏆' }
+              ].map((ladder, idx) => (
+                <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-black text-xs text-upnavy-950">{ladder.grade}</span>
+                    <span className="text-[10px] font-bold text-slate-500">{ladder.tag}</span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                    <div className={`${ladder.color} h-2 rounded-full`} style={{ width: `${ladder.pct}%` }} />
+                  </div>
+                  <div className="flex justify-between text-[11px]">
+                    <span className="text-slate-400">{ladder.status}</span>
+                    <span className="font-bold text-upnavy-900">{ladder.pct}%</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">📐 Mathematics</span>
-                <span className="text-upnavy-800 font-black">{studentStats.subjectProgress.math}%</span>
-              </div>
-              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                <div className="bg-upnavy-800 h-2.5 rounded-full transition-all duration-500" style={{ width: `${studentStats.subjectProgress.math}%` }} />
-              </div>
-              <div className="text-[11px] text-slate-400">Chapters: 2 completed • 1 remaining</div>
+          {/* Subject Mastery Breakdown */}
+          <div className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
+            <div>
+              <h3 className="text-lg font-bold text-upnavy-950">
+                Subject Syllabus Completion
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Track your syllabus completion across core subjects in the curriculum
+              </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">🔬 Science</span>
-                <span className="text-upsaffron-700 font-black">{studentStats.subjectProgress.science}%</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-slate-900">📐 Mathematics</span>
+                  <span className="text-upnavy-800 font-black">{studentStats.subjectProgress.math}%</span>
+                </div>
+                <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                  <div className="bg-upnavy-800 h-2.5 rounded-full transition-all duration-500" style={{ width: `${studentStats.subjectProgress.math}%` }} />
+                </div>
+                <div className="text-[11px] text-slate-400">Classes 6 to 10 Modules: 8 completed</div>
               </div>
-              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                <div className="bg-upsaffron-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${studentStats.subjectProgress.science}%` }} />
-              </div>
-              <div className="text-[11px] text-slate-400">Nutrition in Plants: Completed</div>
-            </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">📖 English</span>
-                <span className="text-sky-700 font-black">{studentStats.subjectProgress.english}%</span>
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-slate-900">🔬 Science</span>
+                  <span className="text-upsaffron-700 font-black">{studentStats.subjectProgress.science}%</span>
+                </div>
+                <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                  <div className="bg-upsaffron-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${studentStats.subjectProgress.science}%` }} />
+                </div>
+                <div className="text-[11px] text-slate-400">Photosynthesis & Crop Farming: Mastered</div>
               </div>
-              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                <div className="bg-sky-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${studentStats.subjectProgress.english}%` }} />
-              </div>
-              <div className="text-[11px] text-slate-400">Basic Grammar: In progress</div>
-            </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">🌍 Social Science</span>
-                <span className="text-emerald-700 font-black">78%</span>
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-slate-900">📖 English</span>
+                  <span className="text-sky-700 font-black">{studentStats.subjectProgress.english}%</span>
+                </div>
+                <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                  <div className="bg-sky-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${studentStats.subjectProgress.english}%` }} />
+                </div>
+                <div className="text-[11px] text-slate-400">Grammar & Dialogue: In progress</div>
               </div>
-              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                <div className="bg-emerald-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `78%` }} />
-              </div>
-              <div className="text-[11px] text-slate-400">Panchayati Raj: Completed</div>
-            </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">🇮🇳 Hindi Literature</span>
-                <span className="text-rose-700 font-black">85%</span>
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-slate-900">🌍 Social Science</span>
+                  <span className="text-emerald-700 font-black">78%</span>
+                </div>
+                <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                  <div className="bg-emerald-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `78%` }} />
+                </div>
+                <div className="text-[11px] text-slate-400">Constitution & Panchayati Raj: Completed</div>
               </div>
-              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                <div className="bg-rose-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `85%` }} />
-              </div>
-              <div className="text-[11px] text-slate-400">Vasant Part 2: Poetry Completed</div>
-            </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">💻 Digital Literacy</span>
-                <span className="text-indigo-700 font-black">90%</span>
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-slate-900">🇮🇳 Hindi Literature</span>
+                  <span className="text-rose-700 font-black">85%</span>
+                </div>
+                <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                  <div className="bg-rose-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `85%` }} />
+                </div>
+                <div className="text-[11px] text-slate-400">Poetry & Munshi Premchand Stories: Completed</div>
               </div>
-              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                <div className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `90%` }} />
+
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <span className="text-slate-900">💻 Digital Literacy</span>
+                  <span className="text-indigo-700 font-black">90%</span>
+                </div>
+                <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                  <div className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `90%` }} />
+                </div>
+                <div className="text-[11px] text-slate-400">Cyber Safety & Board Portals: Mastered</div>
               </div>
-              <div className="text-[11px] text-slate-400">Cyber Safety & Safe UPI: Mastered</div>
             </div>
           </div>
         </div>

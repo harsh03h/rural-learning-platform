@@ -73,7 +73,7 @@ export function Navbar({
                 Gyan<span className="text-upsaffron-600">Setu</span>
               </span>
               <span className="hidden sm:block text-[10px] text-slate-500 font-semibold tracking-tight">
-                Rural EdTech Portal
+                Classes 6–10 EdTech
               </span>
             </div>
           </div>
