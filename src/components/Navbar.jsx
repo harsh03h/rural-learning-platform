@@ -56,7 +56,7 @@ export function Navbar({
 
   return (
     <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-xs transition-all">
-      {/* UP Portal Government Aesthetic Accent Line */}
+      {/* GyanSetu EdTech Aesthetic Accent Line */}
       <div className="h-1 w-full bg-gradient-to-r from-upsaffron-600 via-amber-400 to-upnavy-800" />
       
       <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">

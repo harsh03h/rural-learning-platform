@@ -49,13 +49,13 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
   const [selectedAvatar, setSelectedAvatar] = useState('🎓');
   const [selectedGrade, setSelectedGrade] = useState('Class 7');
   const [rollNo, setRollNo] = useState('');
-  const [schoolName, setSchoolName] = useState('Govt Model Upper Primary School');
+  const [schoolName, setSchoolName] = useState('Model Senior Secondary School Rampur');
   const [regLanguage, setRegLanguage] = useState(lang || 'en');
   const [guardianPhone, setGuardianPhone] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [otpVal, setOtpVal] = useState('');
 
-  // Quick Demo Accounts for College Evaluators
+  // Quick Demo Accounts for Evaluators
   const demoAccounts = [
     {
       role: 'student',
@@ -68,7 +68,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
         role: 'student',
         grade: 'Class 7A',
         rollNo: '24',
-        school: 'Govt Upper Primary School Rampur',
+        school: 'Model Senior Secondary School Rampur',
         avatar: '🎓'
       }
     },
@@ -82,7 +82,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
         name: 'Mr. R.K. Sharma',
         role: 'teacher',
         designation: 'Senior Math & Science Teacher',
-        school: 'Govt Upper Primary School Rampur',
+        school: 'Model Senior Secondary School Rampur',
         avatar: '👨‍🏫'
       }
     },
@@ -110,7 +110,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
         name: 'Dr. Anita Deshmukh',
         role: 'admin',
         designation: 'School Headmaster & Admin',
-        school: 'Govt Model Senior Secondary School Rampur',
+        school: 'Model Senior Secondary School Rampur',
         avatar: '🏛️'
       }
     }
@@ -503,7 +503,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
                   <input
                     type="text"
                     required
-                    placeholder="Govt Upper Primary School Rampur"
+                    placeholder="Model Senior Secondary School Rampur"
                     className="w-full pl-10 pr-3 py-2.5 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-upsaffron-500 transition"
                     value={schoolName}
                     onChange={e => setSchoolName(e.target.value)}

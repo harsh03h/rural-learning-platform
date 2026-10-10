@@ -2251,7 +2251,7 @@ CO2 + जल --[धूप + क्लोरोफिल]--> **ग्लूको
 
 ### 2. How to Introduce Yourself
 1. "Hello, my name is **Rohan**."
-2. "I study in **Class 7** at Govt School."
+2. "I study in **Class 7** at Model School."
 3. "My favourite subject is **Mathematics**."
 4. "Nice to meet you!"
 
@@ -2367,11 +2367,11 @@ The **Gram Sabha** consists of all adult villagers who are 18 years or older and
 
 ### 3. Key Responsibilities
 - Construction and maintenance of water sources, village roads, and school buildings.
-- Executing government welfare schemes (MNREGA, scholarship distribution).`,
+- Executing rural development schemes (MNREGA, scholarship distribution).`,
           hi: `### 1. ग्राम सभा क्या है?
 **ग्राम सभा** गांव के उन सभी वयस्क ग्रामीणों की सभा है जिनकी आयु 18 वर्ष या उससे अधिक है और जिनका नाम मतदाता सूची में दर्ज है।
 - ग्राम सभा ग्राम पंचायत के कार्यों की निगरानी करती है।
-- यह सरकारी धन के सदुपयोग को सुनिश्चित करती है।
+- यह विकास योजनाओं और सार्वजनिक धन के सदुपयोग को सुनिश्चित करती है।
 
 ### 2. पंचायती राज के तीन स्तर (3-Tiers)
 1. **ग्राम पंचायत (ग्राम स्तर):** मुखिया/प्रधान व वार्ड सदस्यों द्वारा संचालित।

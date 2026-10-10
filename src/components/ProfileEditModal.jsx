@@ -43,7 +43,7 @@ export function ProfileEditModal({ isOpen, onClose, currentUser, onSaveProfile, 
   const [avatar, setAvatar] = useState(currentUser.avatar || '🎓');
   const [grade, setGrade] = useState(currentUser.grade || 'Class 7A');
   const [rollNo, setRollNo] = useState(currentUser.rollNo || '24');
-  const [school, setSchool] = useState(currentUser.school || 'Govt Upper Primary School Rampur');
+  const [school, setSchool] = useState(currentUser.school || 'Model Senior Secondary School Rampur');
   const [selectedLanguage, setSelectedLanguage] = useState(currentUser.language || lang || 'en');
   const [phone, setPhone] = useState(currentUser.phone || '+91 98765 43210');
   const [designation, setDesignation] = useState(currentUser.designation || 'Senior Subject Teacher');
@@ -55,7 +55,7 @@ export function ProfileEditModal({ isOpen, onClose, currentUser, onSaveProfile, 
       setAvatar(currentUser.avatar || '🎓');
       setGrade(currentUser.grade || 'Class 7A');
       setRollNo(currentUser.rollNo || '24');
-      setSchool(currentUser.school || 'Govt Upper Primary School Rampur');
+      setSchool(currentUser.school || 'Model Senior Secondary School Rampur');
       setSelectedLanguage(currentUser.language || lang || 'en');
       setPhone(currentUser.phone || '+91 98765 43210');
       setDesignation(currentUser.designation || 'Senior Subject Teacher');
@@ -265,7 +265,7 @@ export function ProfileEditModal({ isOpen, onClose, currentUser, onSaveProfile, 
                 required
                 value={school}
                 onChange={(e) => setSchool(e.target.value)}
-                placeholder="e.g. Govt Upper Primary School Rampur"
+                placeholder="e.g. Model Senior Secondary School Rampur"
                 className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-upsaffron-500 text-xs font-semibold text-slate-900 transition"
               />
               <School className="w-4 h-4 text-slate-400 absolute left-3 top-3" />

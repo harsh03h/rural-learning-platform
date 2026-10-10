@@ -124,7 +124,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
         guideText = 'ଜ୍ଞାନସେତୁ ସହାୟତା କେନ୍ଦ୍ରକୁ ସ୍ୱାଗତ। ଇଣ୍ଟରନେଟ ବିନା ପଢିବା ପାଇଁ ପାଠକୁ ଡାଉନଲୋଡ କରନ୍ତୁ। ସହାୟତା ପାଇଁ 1800 180 5321 ରେ କଲ କରନ୍ତୁ।';
         break;
       default:
-        guideText = 'Welcome to the GyanSetu Support Desk. To study without internet, open any chapter and tap Save Offline. For immediate government assistance, call our toll-free number 1800 180 5321.';
+        guideText = 'Welcome to the GyanSetu Support Desk. To study without internet, open any chapter and tap Save Offline. For immediate platform support, call our toll-free number 1800 180 5321.';
         break;
     }
 
