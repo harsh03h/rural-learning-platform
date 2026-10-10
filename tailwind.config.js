@@ -17,7 +17,7 @@ export default {
           500: '#3472a5',
           600: '#235987',
           700: '#1a466c',
-          800: '#062F4F', // Primary Uttar Pradesh Portal Navy
+          800: '#062F4F', 
           900: '#062640',
           950: '#031728',
           DEFAULT: '#062F4F',
@@ -29,7 +29,7 @@ export default {
           300: '#fdba74',
           400: '#fb923c',
           500: '#f97316',
-          600: '#e4541f', // Primary UP Portal Saffron / Burnt Orange
+          600: '#e4541f', 
           700: '#c2410c',
           800: '#9a3412',
           900: '#7c2d12',
