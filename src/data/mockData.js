@@ -826,6 +826,437 @@ CO2 + जल --[धूप + क्लोरोफिल]--> **ग्लूको
         ]
       }
     ]
+  },
+  {
+    id: "eng-c7",
+    subject: "english",
+    classGrade: "Class 7",
+    title: {
+      en: "Class 7 English Communication",
+      hi: "कक्षा 7 अंग्रेजी संचार व व्याकरण",
+      mr: "इयत्ता 7 वी इंग्रजी संवाद",
+      bn: "সপ্তম শ্রেণী ইংরেজি যোগাযোগ",
+      te: "7వ తరగతి ఆంగ్ల సంభాషణ",
+      ta: "7ஆம் வகுப்பு ஆங்கில உரையாடல்",
+      gu: "ધોરણ 7 અંગ્રેજી સંવાદ",
+      kn: "7 ನೇ ತರಗತಿ ಇಂಗ್ಲಿಷ್ ಸಂವಹನ",
+      pa: "ਜਮਾਤ 7ਵੀਂ ਅੰਗਰੇਜ਼ੀ ਸੰਚਾਰ",
+      od: "ସପ୍ତମ ଶ୍ରେଣୀ ଇଂରାଜୀ ଯୋଗାଯୋଗ"
+    },
+    icon: "BookOpen",
+    color: "from-sky-500 to-blue-600",
+    chapters: [
+      {
+        id: "eng-c7-ch1",
+        title: {
+          en: "Everyday English & Self-Introduction",
+          hi: "दैनिक बोलचाल व अपना परिचय",
+          mr: "दैनंदिन संवाद आणि स्वतःची ओळख",
+          bn: "দৈনন্দিন ইংরেজি ও আত্মপরিচয়",
+          te: "రోజువారీ ఇంగ్లీష్ & స్వీయ పరిచయం",
+          ta: "அன்றாட ஆங்கிலம் & சுய அறிமுகம்",
+          gu: "રોજીંદુ અંગ્રેજી અને સ્વ-પરિચય",
+          kn: "ದೈನಂದಿನ ಇಂಗ್ಲಿಷ್ ಮತ್ತು ಸ್ವಯಂ ಪರಿಚಯ",
+          pa: "ਰੋਜ਼ਾਨਾ ਅੰਗਰੇਜ਼ੀ ਅਤੇ ਆਪਣੀ ਜਾਣ-ਪਛਾਣ",
+          od: "ଦୈନନ୍ଦିନ ଇଂରାଜୀ ଏବଂ ଆତ୍ମ ପରିଚୟ"
+        },
+        topicKey: "English Grammar",
+        sizeKB: 18,
+        isDownloaded: false,
+        summary: {
+          en: "Learn to introduce yourself, greet teachers, and ask simple questions politely.",
+          hi: "अंग्रेजी में आत्मविश्वास से अपना परिचय देना, अभिवादन करना और सरल सवाल पूछना सीखें।",
+          mr: "आत्मविश्वासाने इंग्रजीत स्वतःची ओळख करून देणे आणि साधे प्रश्न विचारणे शिका.",
+          bn: "ইংরেজি ভাষায় নিজের পরিচয় দেওয়া ও অভিবাদন জানানো শিখুন।",
+          te: "ఇంగ్లీషులో ఆత్మవిశ్వాసంతో మిమ్మల్ని మీరు పరిచయం చేసుకోవడం నేర్చుకోండి.",
+          ta: "ஆங்கிலத்தில் உங்களை நம்பிக்கையுடன் அறிமுகப்படுத்த கற்றுக்கொள்ளுங்கள்.",
+          gu: "અંગ્રેજીમાં આત્મવિશ્વાસથી પોતાનો પરિચય આપતા શીખો.",
+          kn: "ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಪರಿಚಯಿಸಿಕೊಳ್ಳುವುದನ್ನು ಕಲಿಯಿರಿ.",
+          pa: "ਅੰਗਰੇਜ਼ੀ ਵਿੱਚ ਆਪਣੀ ਜਾਣ-ਪਛਾਣ ਕਰਵਾਉਣਾ ਸਿੱਖੋ।",
+          od: "ଇଂରାଜୀରେ ନିଜର ପରିଚୟ ଦେବା ଶିଖନ୍ତୁ।"
+        },
+        lowDataContent: {
+          en: `### 1. Greetings in English
+- **Good Morning:** 6:00 AM to 12:00 PM (Used with teachers and elders)
+- **Good Afternoon:** 12:00 PM to 5:00 PM
+- **Good Evening:** 5:00 PM onwards
+
+### 2. How to Introduce Yourself
+1. "Hello, my name is **Rohan**."
+2. "I study in **Class 7** at Govt School."
+3. "My favourite subject is **Mathematics**."
+4. "Nice to meet you!"
+
+### 3. Polite Words
+Always use:
+- **Please:** when requesting something ("Please lend me your pencil.")
+- **Thank you:** when receiving help ("Thank you, teacher!")
+- **Excuse me:** when seeking attention politely.`,
+          hi: `### 1. अंग्रेजी में अभिवादन (Greetings)
+- **Good Morning:** सुबह 6 से दोपहर 12 बजे तक (शिक्षकों व बड़ों के लिए)
+- **Good Afternoon:** दोपहर 12 से शाम 5 बजे तक
+- **Good Evening:** शाम 5 बजे के बाद
+
+### 2. अपना परिचय कैसे दें (Self-Introduction)
+1. "Hello, my name is **रोहन**।" (नमस्ते, मेरा नाम रोहन है।)
+2. "I study in **Class 7**।" (मैं कक्षा 7 में पढ़ता हूँ।)
+3. "My favourite subject is **Science**।" (मेरा प्रिय विषय विज्ञान है।)
+4. "Nice to meet you!" (आपसे मिलकर खुशी हुई!)
+
+### 3. विनम्र शब्द (Golden Polite Words)
+- **Please:** किसी चीज़ के अनुरोध के लिए ("कृपया...")
+- **Thank you:** सहायता मिलने पर ("धन्यवाद!")
+- **Sorry:** गलती होने पर क्षमा मांगने के लिए।`
+        },
+        audioScript: {
+          en: "Welcome to English Communication. Today we learn how to introduce ourselves. You can say: Hello, my name is Rohan, and I study in Class 7. Always use polite words like Please and Thank You.",
+          hi: "अंग्रेजी संवाद पाठ में आपका स्वागत है। आज हम अपना परिचय देना सीखेंगे। आप कह सकते हैं: Hello, my name is Rohan. हमेशा Please और Thank You जैसे विनम्र शब्दों का प्रयोग करें।"
+        },
+        quiz: [
+          {
+            id: "q-eng-1",
+            question: {
+              en: "What should you say to a teacher at 9:00 in the morning?",
+              hi: "सुबह 9 बजे शिक्षक को क्या कहना चाहिए?",
+              mr: "सकाळी 9 वाजता शिक्षकांना काय म्हणाल?",
+              bn: "সকাল ৯টায় শিক্ষককে কী বলা উচিত?",
+              te: "ఉదయం 9 గంటలకు ఉపాధ్యాయుడికి ఏమి చెప్పాలి?",
+              ta: "காலை 9 மணிக்கு ஆசிரியரிடம் என்ன சொல்ல வேண்டும்?",
+              gu: "સવારે 9 વાગ્યે શિક્ષકને શું કહેવું જોઈએ?",
+              kn: "ಬೆಳಿಗ್ಗೆ 9 ಗಂಟೆಗೆ ಶಿಕ್ಷಕರಿಗೆ ಏನು ಹೇಳಬೇಕು?",
+              pa: "ਸਵੇਰੇ 9 ਵਜੇ ਅਧਿਆਪਕ ਨੂੰ ਕੀ ਕਹਿਣਾ ਚਾਹੀਦਾ ਹੈ?",
+              od: "ସକାଳ ୯ଟାରେ ଶିକ୍ଷକଙ୍କୁ କ’ଣ କହିବା ଉଚିତ?"
+            },
+            options: ["Good Night", "Good Morning", "Good Evening", "Goodbye"],
+            correct: 1,
+            explanation: {
+              en: "Between 6 AM and 12 PM, we greet with Good Morning.",
+              hi: "सुबह 6 से दोपहर 12 बजे तक Good Morning कहा जाता है।"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "soc-c7",
+    subject: "social",
+    classGrade: "Class 7",
+    title: {
+      en: "Class 7 Social Science & Civics",
+      hi: "कक्षा 7 सामाजिक विज्ञान व नागरिक शास्त्र",
+      mr: "इयत्ता 7 वी सामाजिक शास्त्र आणि नागरिकशास्त्र",
+      bn: "সপ্তম শ্রেণী সমাজবিজ্ঞান ও পৌরবিজ্ঞান",
+      te: "7వ తరగతి సాంఘిక శాస్త్రం",
+      ta: "7ஆம் வகுப்பு சமூக அறிவியல்",
+      gu: "ધોરણ 7 સામાજિક વિજ્ઞાન",
+      kn: "7 ನೇ ತರಗತಿ ಸಮಾಜ ವಿಜ್ಞಾನ",
+      pa: "ਜਮਾਤ 7ਵੀਂ ਸਮਾਜਿਕ ਵਿਗਿਆਨ",
+      od: "ସପ୍ତମ ଶ୍ରେଣୀ ସାମାଜିକ ବିଜ୍ଞାନ"
+    },
+    icon: "Compass",
+    color: "from-emerald-500 to-teal-700",
+    chapters: [
+      {
+        id: "soc-c7-ch1",
+        title: {
+          en: "Gram Panchayat & Village Governance",
+          hi: "ग्राम पंचायत एवं स्थानीय ग्रामीण शासन",
+          mr: "ग्रामपंचायत आणि स्थानिक ग्रामीण शासन",
+          bn: "গ্রাম পঞ্চায়েত ও স্থানীয় গ্রামীণ শাসন",
+          te: "గ్రామ పంచాయతీ & స్థానిక పాలన",
+          ta: "கிராம பஞ்சாயத்து & உள்ளாட்சி நிர்வாகம்",
+          gu: "ગ્રામ પંચાયત અને સ્થાનિક શાસન",
+          kn: "ಗ್ರಾಮ ಪಂಚಾಯತ್ ಮತ್ತು ಸ್ಥಳೀಯ ಆಡಳಿತ",
+          pa: "ਗ੍ਰਾਮ ਪੰਚਾਇਤ ਅਤੇ ਪੇਂਡੂ ਪ੍ਰਸ਼ਾਸਨ",
+          od: "ଗ୍ରାମ ପଞ୍ଚାୟତ ଏବଂ ଗ୍ରାମୀଣ ପ୍ରଶାସନ"
+        },
+        topicKey: "Civics",
+        sizeKB: 21,
+        isDownloaded: false,
+        summary: {
+          en: "Learn how the Gram Sabha meets, how the Sarpanch/Pradhan is elected, and how village funds are used for schools and handpumps.",
+          hi: "जानें कि ग्राम सभा की बैठक कैसे होती है, प्रधान का चुनाव और गांव में स्कूल-नल-सड़क का विकास कैसे होता है।",
+          mr: "ग्रामसभेची बैठक कशी होते आणि सरपंचांची निवड कशी होते ते जाणून घ्या.",
+          bn: "গ্রামসভা কীভাবে কাজ করে এবং প্রধান কীভাবে নির্বাচিত হয় তা জানুন।",
+          te: "గ్రామసభ ఎలా పనిచేస్తుందో మరియు సర్పంచ్ ఎలా ఎన్నికవుతారో తెలుసుకోండి.",
+          ta: "கிராம சபை எவ்வாறு செயல்படுகிறது என்பதை அறியுங்கள்.",
+          gu: "ગ્રામ પંચાયત અને સરપંચની કામગીરી સમજો.",
+          kn: "ಗ್ರಾಮ ಸಭೆ ಮತ್ತು ಪಂಚಾಯತ್ ಕಾರ್ಯವೈಖರಿಯನ್ನು ತಿಳಿಯಿರಿ.",
+          pa: "ਗ੍ਰਾਮ ਪੰਚਾਇਤ ਦੇ ਕੰਮਕਾਜ ਬਾਰੇ ਜਾਣੋ।",
+          od: "ଗ୍ରାମ ପଞ୍ଚାୟତର କାର୍ଯ୍ୟାବଳୀ ବୁଝନ୍ତୁ।"
+        },
+        lowDataContent: {
+          en: `### 1. What is a Gram Sabha?
+The **Gram Sabha** consists of all adult villagers who are 18 years or older and registered to vote in the village.
+- The Gram Sabha reviews the work of the Gram Panchayat.
+- It prevents the Panchayat from misusing public funds.
+
+### 2. The 3-Tier Panchayati Raj System
+1. **Gram Panchayat (Village Level):** Headed by the Sarpanch / Gram Pradhan.
+2. **Panchayat Samiti / Block Level:** Coordinates several village panchayats.
+3. **Zila Parishad (District Level):** Coordinates development plans for the entire district.
+
+### 3. Key Responsibilities
+- Construction and maintenance of water sources, village roads, and school buildings.
+- Executing government welfare schemes (MNREGA, scholarship distribution).`,
+          hi: `### 1. ग्राम सभा क्या है?
+**ग्राम सभा** गांव के उन सभी वयस्क ग्रामीणों की सभा है जिनकी आयु 18 वर्ष या उससे अधिक है और जिनका नाम मतदाता सूची में दर्ज है।
+- ग्राम सभा ग्राम पंचायत के कार्यों की निगरानी करती है।
+- यह सरकारी धन के सदुपयोग को सुनिश्चित करती है।
+
+### 2. पंचायती राज के तीन स्तर (3-Tiers)
+1. **ग्राम पंचायत (ग्राम स्तर):** मुखिया/प्रधान व वार्ड सदस्यों द्वारा संचालित।
+2. **क्षेत्र पंचायत/ब्लॉक (प्रखंड स्तर):** कई ग्राम पंचायतों का समूह।
+3. **जिला परिषद (जिला स्तर):** पूरे जिले के विकास कार्यों की योजना बनाना।
+
+### 3. ग्राम पंचायत के प्रमुख कार्य
+- गांव की गलियों, खड़ंजों, नालियों और हैंडपंपों की मरम्मत।
+- प्राथमिक विद्यालय, आंगनवाड़ी और स्वास्थ्य सुविधाओं की देखरेख।`
+        },
+        audioScript: {
+          en: "Welcome to Social Science. Today we explore the Gram Panchayat, our village local government. The Gram Sabha includes all villagers aged 18 and above. They elect the Gram Pradhan to maintain village roads, water pumps, and local schools.",
+          hi: "सामाजिक विज्ञान में आपका स्वागत है। आज हम ग्राम पंचायत और स्थानीय शासन के बारे में जानेंगे। 18 वर्ष से अधिक उम्र के सभी ग्रामीण ग्राम सभा के सदस्य होते हैं जो प्रधान का चुनाव करते हैं।"
+        },
+        quiz: [
+          {
+            id: "q-soc-1",
+            question: {
+              en: "What is the minimum age to be a voting member of the Gram Sabha?",
+              hi: "ग्राम सभा का मतदाता सदस्य बनने के लिए न्यूनतम आयु क्या है?",
+              mr: "ग्रामसभेचे सदस्य होण्यासाठी किमान वय किती असावे?",
+              bn: "গ্রামসভার সদস্য হওয়ার জন্য ন্যূনতম বয়স কত?",
+              te: "గ్రామసభలో సభ్యుడిగా ఉండటానికి కనీస వయస్సు ఎంత?",
+              ta: "கிராம சபை உறுப்பினராக குறைந்தபட்ச வயது என்ன?",
+              gu: "ગ્રામસભાના સભ્ય બનવા માટે લઘુત્તમ ઉંમર કેટલી છે?",
+              kn: "ಗ್ರಾಮ ಸಭೆಯ ಸದಸ್ಯರಾಗಲು ಕನಿಷ್ಠ ವಯಸ್ಸು ಎಷ್ಟು?",
+              pa: "ਗ੍ਰਾਮ ਸਭਾ ਦਾ ਮੈਂਬਰ ਬਣਨ ਲਈ ਘੱਟੋ-ਘੱਟ ਉਮਰ ਕਿੰਨੀ ਹੈ?",
+              od: "ଗ୍ରାମସଭାର ସଦସ୍ୟ ହେବା ପାଇଁ ସର୍ବନିମ୍ନ ବୟସ କେତେ?"
+            },
+            options: ["16 Years", "18 Years", "21 Years", "25 Years"],
+            correct: 1,
+            explanation: {
+              en: "Every Indian citizen aged 18 or above with voting rights in the village is a Gram Sabha member.",
+              hi: "18 वर्ष या उससे अधिक आयु के पंजीकृत मतदाता ग्राम सभा के सदस्य होते हैं।"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "hindi-c7",
+    subject: "hindi",
+    classGrade: "Class 7",
+    title: {
+      en: "Class 7 Hindi Literature (Vasant)",
+      hi: "कक्षा 7 हिंदी साहित्य (वसंत भाग-2)",
+      mr: "इयत्ता 7 वी हिंदी साहित्य",
+      bn: "সপ্তম শ্রেণী হিন্দি সাহিত্য",
+      te: "7వ తరగతి హిందీ సాహిత్యం",
+      ta: "7ஆம் வகுப்பு இந்தி இலக்கியம்",
+      gu: "ધોરણ 7 હિન્દી સાહિત્ય",
+      kn: "7 ನೇ ತರಗತಿ ಹಿಂದಿ ಸಾಹಿತ್ಯ",
+      pa: "ਜਮਾਤ 7ਵੀਂ ਹਿੰਦੀ ਸਾਹਿਤ",
+      od: "ସପ୍ତମ ଶ୍ରେଣୀ ହିନ୍ଦୀ ସାହିତ୍ୟ"
+    },
+    icon: "BookOpen",
+    color: "from-rose-500 to-red-600",
+    chapters: [
+      {
+        id: "hindi-c7-ch1",
+        title: {
+          en: "Hum Panchhi Unmukt Gagan Ke (Poem)",
+          hi: "हम पंछी उन्मुक्त गगन के (कविता)",
+          mr: "आम्ही मुक्त आकाशातील पक्षी (कविता)",
+          bn: "আমরা মুক্ত আকাশের পাখি (কবিতা)",
+          te: "మేము స్వేచ్ఛా పక్షులం (కవిత)",
+          ta: "நாங்கள் சுதந்திரப் பறவைகள் (கவிதை)",
+          gu: "અમે મુક્ત આકાશના પંખી (કાવ્ય)",
+          kn: "ನಾವು ಮುಕ್ತ ಆಕಾಶದ ಹಕ್ಕಿಗಳು (ಕವಿತೆ)",
+          pa: "ਅਸੀਂ ਮੁਕਤ ਅਸਮਾਨ ਦੇ ਪੰਛੀ (ਕਵਿਤਾ)",
+          od: "ଆମେ ମୁକ୍ତ ଆକାଶର ପକ୍ଷୀ (କବିତା)"
+        },
+        topicKey: "Hindi Poetry",
+        sizeKB: 19,
+        isDownloaded: false,
+        summary: {
+          en: "Dr. Shivmangal Singh 'Suman's poetic masterpiece celebrating the joy of freedom over gold cages.",
+          hi: "डॉ. शिवमंगल सिंह 'सुमन' द्वारा रचित प्रसिद्ध कविता जो सोने के पिंजरे से बेहतर आज़ादी की उड़ान को बताती है।",
+          mr: "स्वातंत्र्याचे मोल समजावणारी प्रसिद्ध कविता.",
+          bn: "স্বাধীনতার আনন্দ প্রকাশ করে ড. শিবমঙ্গল সিংহের বিখ্যাত কবিতা।",
+          te: "స్వేచ్ఛ యొక్క ప్రాముఖ్యతను వివరించే కవిత.",
+          ta: "சுதந்திரத்தின் பெருமையை விளக்கும் கவிதை.",
+          gu: "સ્વાતંત્ર્યનું મહત્વ સમજાવતી સુંદર કવિતા.",
+          kn: "ಸ್ವಾತಂತ್ರ್ಯದ ಮಹತ್ವವನ್ನು ಸಾರುವ ಕವನ.",
+          pa: "ਆਜ਼ਾਦੀ ਦੀ ਮਹੱਤਤਾ ਦਰਸਾਉਂਦੀ ਪ੍ਰਸਿੱਧ ਕਵਿਤਾ।",
+          od: "ସ୍ୱାଧୀନତାର ମହତ୍ତ୍ୱ ବର୍ଣ୍ଣନା କରୁଥିବା କବିତା।"
+        },
+        lowDataContent: {
+          en: `### 1. Poem Theme: Freedom & Nature
+The poet speaks in the voice of caged birds who declare that they cannot sing in captivity, even if kept in cages of gold.
+
+### 2. Key Stanzas
+*"हम पंछी उन्मुक्त गगन के, पिंजरबद्ध न गा पाएँगे।*
+*कनक-तीलियों से टकराकर, पुलकित पंख टूट जाएँगे।..."*
+
+### 3. Word Meanings (शब्दार्थ)
+- **उन्मुक्त (Unmukt):** Open / Free (खुला / आज़ाद)
+- **कनक (Kanak):** Gold (सोना)
+- **कटुक निंबौरी (Katuk Nimbouri):** Bitter neem fruit (नीम का कड़वा फल)
+- **नीड़ (Need):** Nest (घोंसला)`,
+          hi: `### 1. कविता का मूल भाव
+इस कविता में कवि डॉ. शिवमंगल सिंह 'सुमन' ने पक्षियों के माध्यम से आज़ादी के महत्व को दर्शाया है। पक्षी कहते हैं कि सोने के पिंजरे में बंद रहकर वे गा नहीं पाएंगे।
+
+### 2. प्रमुख पंक्तियाँ
+*"हम पंछी उन्मुक्त गगन के,*
+*पिंजरबद्ध न गा पाएँगे।*
+*कनक-तीलियों से टकराकर,*
+*पुलकित पंख टूट जाएँगे।..."*
+
+### 3. कठिन शब्दार्थ
+- **उन्मुक्त:** खुला, बंधनमुक्त।
+- **कनक:** सोना (Gold)।
+- **कटुक निंबौरी:** नीम का कड़वा फल।
+- **नीड़:** घोंसला (आश्रय)।`
+        },
+        audioScript: {
+          en: "Welcome to Hindi Literature. Today we recite the poem 'Hum Panchhi Unmukt Gagan Ke' by Dr. Shivmangal Singh Suman. The poem teaches us that freedom is precious for every living creature, even more valuable than gold bowls.",
+          hi: "हिंदी साहित्य में आपका स्वागत है। आज हम डॉ. शिवमंगल सिंह 'सुमन' की कविता 'हम पंछी उन्मुक्त गगन के' सुनेंगे। यह कविता आज़ादी और स्वाभिमान का संदेश देती है।"
+        },
+        quiz: [
+          {
+            id: "q-hin-1",
+            question: {
+              en: "What does the word 'कनक' (Kanak) mean in the poem?",
+              hi: "कविता में 'कनक' शब्द का क्या अर्थ है?",
+              mr: "कवितेत 'कनक' शब्दाचा अर्थ काय आहे?",
+              bn: "কবিতায় 'কনক' শব্দের অর্থ কী?",
+              te: "కవితలో 'కనక్' పదానికి అర్థం ఏమిటి?",
+              ta: "கவிதையில் 'கனக்' என்ற சொல்லின் பொருள் என்ன?",
+              gu: "કવિતામાં 'કનક' શબ્દનો અર્થ શું છે?",
+              kn: "ಕವಿತೆಯಲ್ಲಿ 'ಕನಕ' ಪದದ ಅರ್ಥವೇನು?",
+              pa: "ਕਵਿਤਾ ਵਿੱਚ 'ਕਨਕ' ਸ਼ਬਦ ਦਾ ਕੀ ਅਰਥ ਹੈ?",
+              od: "କବିତାରେ 'କନକ' ଶବ୍ଦର ଅର୍ଥ କ’ଣ?"
+            },
+            options: ["लोहा (Iron)", "सोना (Gold)", "चांदी (Silver)", "लकड़ी (Wood)"],
+            correct: 1,
+            explanation: {
+              en: "'कनक' means Gold (सोना).",
+              hi: "'कनक' का अर्थ सोना (Gold) होता है।"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "comp-c7",
+    subject: "computer",
+    classGrade: "Class 7",
+    title: {
+      en: "Class 7 Digital Literacy & Cyber Safety",
+      hi: "कक्षा 7 डिजिटल साक्षरता व साइबर सुरक्षा",
+      mr: "इयत्ता 7 वी डिजिटल साक्षरता",
+      bn: "সপ্তম শ্রেণী ডিজিটাল সাক্ষরতা",
+      te: "7వ తరగతి డిజిటల్ అక్షరాస్యత",
+      ta: "7ஆம் வகுப்பு டிஜிட்டல் எழுத்தறிவு",
+      gu: "ધોરણ 7 ડિજિટલ સાક્ષરતા",
+      kn: "7 ನೇ ತರಗತಿ ಡಿಜಿಟಲ್ ಸಾಕ್ಷರತೆ",
+      pa: "ਜਮਾਤ 7ਵੀਂ ਡਿਜੀਟਲ ਸਾਖਰਤਾ",
+      od: "ସପ୍ତମ ଶ୍ରେଣୀ ଡିଜିଟାଲ ସାକ୍ଷରତା"
+    },
+    icon: "Cpu",
+    color: "from-indigo-500 to-purple-600",
+    chapters: [
+      {
+        id: "comp-c7-ch1",
+        title: {
+          en: "Smartphone Basics & Safe UPI / Internet",
+          hi: "स्मार्टफोन मूल बातें व सुरक्षित UPI/इंटरनेट",
+          mr: "स्मार्टफोन आणि सुरक्षित इंटरनेट वापर",
+          bn: "স্মার্টফোন ও নিরাপদ ইন্টারনেট ব্যবহার",
+          te: "స్మార్ట్‌ఫోన్ & సురక్షిత ఇంటర్నెట్",
+          ta: "ஸ்மார்ட்போன் & பாதுகாப்பான இணையம்",
+          gu: "સ્માર્ટફોન અને સુરક્ષિત ઇન્ટરનેટ",
+          kn: "ಸ್ಮಾರ್ಟ್‌ಫೋನ್ ಮತ್ತು ಸುರಕ್ಷಿತ ಇಂಟರ್ನೆಟ್",
+          pa: "ਸਮਾਰਟਫੋਨ ਅਤੇ ਸੁਰੱਖਿਅਤ ਇੰਟਰਨੈੱਟ",
+          od: "ସ୍ମାର୍ଟଫୋନ୍ ଏବଂ ସୁରକ୍ଷିତ ଇଣ୍ଟରନେଟ୍"
+        },
+        topicKey: "Cyber Safety",
+        sizeKB: 20,
+        isDownloaded: false,
+        summary: {
+          en: "Crucial digital skills: safe QR code scanning, never sharing bank OTP, creating strong passwords, and avoiding cyber fraud.",
+          hi: "जरूरी डिजिटल ज्ञान: सुरक्षित QR कोड स्कैनिंग, बैंक OTP कभी साझा न करना, मजबूत पासवर्ड और साइबर फ्रॉड से बचाव।",
+          mr: "सुरक्षित इंटरनेट, ओटीपी सुरक्षा आणि सायबर फसवणुकीपासून बचाव शिका.",
+          bn: "নিরাপদ কিউআর কোড স্ক্যানিং ও ওটিপি সুরক্ষার নিয়ম জানুন।",
+          te: "సురక్షితమైన ఇంటర్నెట్ మరియు సైబర్ భద్రతా పద్ధతులను తెలుసుకోండి.",
+          ta: "பாதுகாப்பான இணையப் பயன்பாடு மற்றும் சைபர் பாதுகாப்பு விதிகள்.",
+          gu: "ઓનલાઇન છેતરપિંડીથી બચવા માટે ડિજિટલ જાગૃતિ.",
+          kn: "ಸೈಬರ್ ಸುರಕ್ಷತೆ ಮತ್ತು ಆನ್‌ಲೈನ್ ವಂಚನೆಗಳಿಂದ ರಕ್ಷಣೆ.",
+          pa: "ਸਾਈਬਰ ਧੋਖਾਧੜੀ ਤੋਂ ਬਚਣ ਦੇ ਤਰੀਕੇ ਸਿੱਖੋ।",
+          od: "ସାଇବର ନିରାପତ୍ତା ଏବଂ ସୁରକ୍ଷିତ ଇଣ୍ଟରନେଟ୍ ବ୍ୟବହାର।"
+        },
+        lowDataContent: {
+          en: `### 1. Digital India: What is a QR Code?
+A **QR (Quick Response) Code** is a matrix barcode that can be scanned using a smartphone camera.
+- Scanning a merchant QR lets you make payments via UPI without cash.
+- **Golden Rule:** To *RECEIVE* money, you NEVER need to enter your UPI PIN or scan a QR code!
+
+### 2. OTP Security (One-Time Password)
+- Never share OTP or PIN with anyone, even if someone claims to be a bank manager or school officer on the phone.
+- Banks NEVER ask for OTP or passwords over phone calls.
+
+### 3. Cyber Safety Rules
+1. Never click on unknown lottery or free recharge links received on WhatsApp or SMS.
+2. Use strong passwords combining letters, numbers, and symbols.`,
+          hi: `### 1. क्यूआर कोड (QR Code) क्या है?
+**QR कोड** एक विशेष चौकोर कोड होता है जिसे फोन के कैमरे से स्कैन किया जाता है।
+- **सुनहरा नियम (Golden Rule):** किसी से पैसे *प्राप्त करने (Receive)* के लिए कभी भी UPI PIN दर्ज नहीं करना पड़ता! PIN केवल पैसे भेजने (Send) के समय डाला जाता है।
+
+### 2. ओटीपी (OTP) सुरक्षा
+- फोन पर बैंक कर्मचारी या सरकारी अधिकारी बनकर कॉल करने वाले किसी भी व्यक्ति को OTP या पिन कभी न बताएं।
+- कोई भी बैंक फोन पर OTP नहीं मांगता।
+
+### 3. साइबर सुरक्षा के जरूरी नियम
+1. WhatsApp या SMS पर आए "मुफ्त रिचार्ज" या "लॉटरी" वाले अज्ञात लिंक पर कभी क्लिक न करें।
+2. अपना फोन पासवर्ड या फिंगरप्रिंट लॉक हमेशा सक्रिय रखें।`
+        },
+        audioScript: {
+          en: "Welcome to Digital Literacy. Always remember the golden rule of cyber safety: Never share your OTP with anyone, and never enter your UPI PIN to receive money. Stay alert against fraud messages.",
+          hi: "डिजिटल साक्षरता में आपका स्वागत है। हमेशा याद रखें: पैसे प्राप्त करने के लिए कभी UPI PIN न डालें, और फोन पर किसी को भी अपना बैंक OTP न बताएं। साइबर धोखाधड़ी से सावधान रहें।"
+        },
+        quiz: [
+          {
+            id: "q-comp-1",
+            question: {
+              en: "Do you need to enter your UPI PIN to RECEIVE money in your bank account?",
+              hi: "क्या अपने बैंक खाते में पैसे प्राप्त करने के लिए UPI PIN दर्ज करने की आवश्यकता होती है?",
+              mr: "खात्यात पैसे मिळवण्यासाठी यूपीआय पिन टाकण्याची गरज असते का?",
+              bn: "ব্যাংক একাউন্টে টাকা পেতে কি ইউপিআই পিন দিতে হয়?",
+              te: "బ్యాంకులో డబ్బులు పొందడానికి UPI పిన్ ఎంటర్ చేయాలా?",
+              ta: "பணம் பெற UPI PIN உள்ளிட வேண்டுமா?",
+              gu: "પૈસા મેળવવા માટે UPI PIN નાખવાની જરૂર છે?",
+              kn: "ಹಣ ಪಡೆಯಲು UPI ಪಿನ್ ನಮೂದಿಸಬೇಕೆ?",
+              pa: "ਕੀ ਪੈਸੇ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ UPI PIN ਦਰਜ ਕਰਨ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ?",
+              od: "ଟଙ୍କା ପାଇବା ପାଇଁ UPI PIN ଦେବା ଆବଶ୍ୟକ କି?"
+            },
+            options: [
+              "No, NEVER enter PIN to receive money",
+              "Yes, always enter PIN",
+              "Only on Sundays",
+              "Only for large amounts"
+            ],
+            correct: 0,
+            explanation: {
+              en: "UPI PIN is ONLY entered when SENDING money or deducting from your account.",
+              hi: "पिन केवल पैसे भेजने या कटौती के समय डाला जाता है, पैसे आने पर कभी नहीं।"
+            }
+          }
+        ]
+      }
+    ]
   }
 ];
 

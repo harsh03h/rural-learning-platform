@@ -202,7 +202,7 @@ export function StudentView({
         <div className="space-y-5 animate-fadeIn">
           {/* Subject Filter Bar */}
           <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
-            <div className="flex items-center gap-1.5 text-xs">
+            <div className="flex flex-wrap items-center gap-1.5 text-xs">
               <button
                 onClick={() => setSelectedSubject('all')}
                 className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'all' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
@@ -220,6 +220,30 @@ export function StudentView({
                 className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'science' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
               >
                 🔬 Science
+              </button>
+              <button
+                onClick={() => setSelectedSubject('english')}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'english' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+              >
+                📖 English
+              </button>
+              <button
+                onClick={() => setSelectedSubject('social')}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'social' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+              >
+                🌍 Social Science
+              </button>
+              <button
+                onClick={() => setSelectedSubject('hindi')}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'hindi' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+              >
+                🇮🇳 Hindi
+              </button>
+              <button
+                onClick={() => setSelectedSubject('computer')}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'computer' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+              >
+                💻 Digital Literacy
               </button>
             </div>
 
@@ -427,10 +451,10 @@ export function StudentView({
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
               <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">Mathematics</span>
+                <span className="text-slate-900">📐 Mathematics</span>
                 <span className="text-upnavy-800 font-black">{studentStats.subjectProgress.math}%</span>
               </div>
               <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
@@ -441,7 +465,7 @@ export function StudentView({
 
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
               <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">Science</span>
+                <span className="text-slate-900">🔬 Science</span>
                 <span className="text-upsaffron-700 font-black">{studentStats.subjectProgress.science}%</span>
               </div>
               <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
@@ -452,13 +476,46 @@ export function StudentView({
 
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
               <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-900">English</span>
+                <span className="text-slate-900">📖 English</span>
                 <span className="text-sky-700 font-black">{studentStats.subjectProgress.english}%</span>
               </div>
               <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
                 <div className="bg-sky-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${studentStats.subjectProgress.english}%` }} />
               </div>
               <div className="text-[11px] text-slate-400">Basic Grammar: In progress</div>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+              <div className="flex justify-between items-center text-xs font-bold">
+                <span className="text-slate-900">🌍 Social Science</span>
+                <span className="text-emerald-700 font-black">78%</span>
+              </div>
+              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                <div className="bg-emerald-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `78%` }} />
+              </div>
+              <div className="text-[11px] text-slate-400">Panchayati Raj: Completed</div>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+              <div className="flex justify-between items-center text-xs font-bold">
+                <span className="text-slate-900">🇮🇳 Hindi Literature</span>
+                <span className="text-rose-700 font-black">85%</span>
+              </div>
+              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                <div className="bg-rose-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `85%` }} />
+              </div>
+              <div className="text-[11px] text-slate-400">Vasant Part 2: Poetry Completed</div>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+              <div className="flex justify-between items-center text-xs font-bold">
+                <span className="text-slate-900">💻 Digital Literacy</span>
+                <span className="text-indigo-700 font-black">90%</span>
+              </div>
+              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                <div className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `90%` }} />
+              </div>
+              <div className="text-[11px] text-slate-400">Cyber Safety & Safe UPI: Mastered</div>
             </div>
           </div>
         </div>
