@@ -10,8 +10,8 @@ export function DownloadsModal({ isOpen, onClose, lang, downloadedIds, onRemoveD
   const totalKB = downloadedChapters.reduce((acc, curr) => acc + curr.sizeKB, 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[85vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border border-slate-100 max-h-[88vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-4">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-upnavy-100 text-upnavy-800 border border-upnavy-200 flex items-center justify-center font-bold">

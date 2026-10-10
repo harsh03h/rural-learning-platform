@@ -5,8 +5,8 @@ export function SystemArchitectureModal({ isOpen, onClose, lang }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-2xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-3xl w-full p-4 sm:p-7 shadow-2xl border border-slate-100 max-h-[92vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-6">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-upnavy-100 text-upnavy-800 border border-upnavy-200 flex items-center justify-center font-bold">

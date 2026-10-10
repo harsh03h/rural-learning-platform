@@ -64,7 +64,7 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col h-[520px] animate-slideUp">
+    <div className="fixed inset-x-0 bottom-0 sm:inset-x-auto sm:right-6 sm:bottom-6 z-50 w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col h-[85vh] sm:h-[520px] max-h-[600px] animate-slideUp">
       {/* Header */}
       <div className="bg-upnavy-900 text-white p-4 px-5 flex items-center justify-between shadow-xs border-b border-upnavy-800">
         <div className="flex items-center gap-3">

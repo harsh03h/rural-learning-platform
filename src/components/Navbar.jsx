@@ -59,26 +59,26 @@ export function Navbar({
       {/* UP Portal Government Aesthetic Accent Line */}
       <div className="h-1 w-full bg-gradient-to-r from-upsaffron-600 via-amber-400 to-upnavy-800" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
         
         {/* Left: Brand + Role Navigation Pills */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           {/* Logo */}
-          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => setRole('student')}>
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-upnavy-900 via-upnavy-800 to-upnavy-700 flex items-center justify-center text-upsaffron-400 shadow-sm shadow-upnavy-900/30 border border-upnavy-700/40">
-              <BookOpen className="w-5 h-5 stroke-[2.2]" />
+          <div className="flex items-center gap-2 sm:gap-2.5 cursor-pointer shrink-0" onClick={() => setRole('student')}>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-upnavy-900 via-upnavy-800 to-upnavy-700 flex items-center justify-center text-upsaffron-400 shadow-sm shadow-upnavy-900/30 border border-upnavy-700/40">
+              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
             </div>
             <div>
-              <span className="text-lg font-black tracking-tight text-upnavy-950 font-sans leading-none">
+              <span className="text-base sm:text-lg font-black tracking-tight text-upnavy-950 font-sans leading-none block">
                 Gyan<span className="text-upsaffron-600">Setu</span>
               </span>
-              <span className="block text-[10px] text-slate-500 font-semibold tracking-tight">
+              <span className="hidden sm:block text-[10px] text-slate-500 font-semibold tracking-tight">
                 Rural EdTech Portal
               </span>
             </div>
           </div>
 
-          {/* Segmented Role Navigation */}
+          {/* Segmented Role Navigation (Desktop & Tablet) */}
           <nav className="hidden md:flex items-center bg-slate-100/90 p-1 rounded-full border border-slate-200/70 text-xs">
             <button
               onClick={() => setRole('student')}
@@ -124,7 +124,7 @@ export function Navbar({
         </div>
 
         {/* Right: Modern Compact Utilities */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* Offline Sync Alert Pill (Only shown if pending syncs) */}
           {pendingSyncCount > 0 && (
             <button
@@ -133,46 +133,46 @@ export function Navbar({
               title="Click to push offline quiz results to school database"
             >
               <RefreshCw className="w-3 h-3 text-amber-700" />
-              <span>{pendingSyncCount} Sync Pending</span>
+              <span>{pendingSyncCount} Sync</span>
             </button>
           )}
 
           {/* Network Simulator Indicator Button */}
           <button
             onClick={() => setIsOffline(!isOffline)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-medium border transition-all ${
               isOffline
                 ? 'bg-rose-50 text-rose-800 border-rose-200 hover:bg-rose-100 shadow-xs'
                 : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200/80'
             }`}
             title="Click to toggle simulated offline mode"
           >
-            <span className={`w-2 h-2 rounded-full ${isOffline ? 'bg-rose-500 ring-2 ring-rose-200' : 'bg-emerald-500 ring-2 ring-emerald-200'}`} />
-            <span className="hidden sm:inline font-semibold">{isOffline ? 'Offline' : 'Online'}</span>
+            <span className={`w-2 h-2 rounded-full shrink-0 ${isOffline ? 'bg-rose-500 ring-2 ring-rose-200' : 'bg-emerald-500 ring-2 ring-emerald-200'}`} />
+            <span className="hidden md:inline font-semibold">{isOffline ? 'Offline' : 'Online'}</span>
           </button>
 
           {/* Minimalist Low Data Toggle Pill */}
           <button
             onClick={() => setIsLowData(!isLowData)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold border transition-all ${
               isLowData
                 ? 'bg-amber-50 text-amber-900 border-amber-300/80 shadow-xs'
                 : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200/80'
             }`}
             title="Low Data Mode: saves 98% bandwidth with audio & text only"
           >
-            <Zap className={`w-3.5 h-3.5 ${isLowData ? 'text-amber-600 fill-amber-500' : 'text-slate-400'}`} />
-            <span className="hidden sm:inline">{isLowData ? 'Low Data' : 'Standard'}</span>
+            <Zap className={`w-3.5 h-3.5 shrink-0 ${isLowData ? 'text-amber-600 fill-amber-500' : 'text-slate-400'}`} />
+            <span className="hidden md:inline">{isLowData ? 'Low Data' : 'Standard'}</span>
           </button>
 
           {/* Minimal Language Select */}
           <div className="relative inline-flex items-center">
-            <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-medium bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80 transition cursor-pointer">
+            <div className="flex items-center gap-1 px-2 py-1.5 sm:px-2.5 rounded-full text-xs font-medium bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80 transition cursor-pointer">
               <Globe className="w-3.5 h-3.5 text-slate-500 shrink-0" />
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value)}
-                className="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer pr-1"
+                className="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer pr-0 sm:pr-1"
                 aria-label="Select Language"
               >
                 {supportedLanguages.map((l) => (
@@ -187,11 +187,11 @@ export function Navbar({
           {/* Help & Support Desk Pill Button */}
           <button
             onClick={onOpenHelp}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 border border-upsaffron-300/80 transition-all shadow-2xs group cursor-pointer"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 border border-upsaffron-300/80 transition-all shadow-2xs group cursor-pointer"
             title="GyanSetu Help & Support Desk (Toll-Free: 1800-180-5321)"
           >
-            <HelpCircle className="w-3.5 h-3.5 text-upsaffron-600 group-hover:scale-110 transition-transform" />
-            <span className="hidden lg:inline">Help & Support</span>
+            <HelpCircle className="w-3.5 h-3.5 text-upsaffron-600 group-hover:scale-110 transition-transform shrink-0" />
+            <span className="hidden lg:inline">Help</span>
           </button>
 
           {/* User Profile / Menu Dropdown */}
@@ -199,21 +199,21 @@ export function Navbar({
             {currentUser ? (
               <button
                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="flex items-center gap-2 p-1 pl-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-full transition text-xs text-upnavy-900 font-semibold"
+                className="flex items-center gap-1.5 p-1 sm:pl-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-full transition text-xs text-upnavy-900 font-semibold"
               >
                 <span className="hidden md:inline font-bold">{currentUser.name.split(' ')[0]}</span>
-                <div className="w-7 h-7 rounded-full bg-upnavy-100 text-upnavy-900 flex items-center justify-center font-bold text-xs shadow-2xs border border-upnavy-200">
+                <div className="w-7 h-7 rounded-full bg-upnavy-100 text-upnavy-900 flex items-center justify-center font-bold text-xs shadow-2xs border border-upnavy-200 shrink-0">
                   {currentUser.avatar}
                 </div>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400 mr-1" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 mr-0.5 hidden sm:inline" />
               </button>
             ) : (
               <button
                 onClick={onOpenAuthModal}
-                className="px-4 py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1.5"
+                className="px-3 sm:px-4 py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1 sm:gap-1.5 shrink-0"
               >
                 <LogIn className="w-3.5 h-3.5" />
-                <span>Sign In</span>
+                <span className="hidden xs:inline sm:inline">Sign In</span>
               </button>
             )}
 
@@ -364,36 +364,39 @@ export function Navbar({
       </div>
 
       {/* Mobile Role Switcher (Shown only on small screens) */}
-      <div className="md:hidden border-t border-slate-100 px-4 py-2 bg-slate-50 flex items-center justify-between text-xs overflow-x-auto gap-2">
-        <button
-          onClick={() => setRole('student')}
-          className={`px-3 py-1 rounded-full font-semibold shrink-0 ${role === 'student' ? 'bg-upnavy-800 text-white' : 'text-slate-600'}`}
-        >
-          Student
-        </button>
-        <button
-          onClick={() => setRole('teacher')}
-          className={`px-3 py-1 rounded-full font-semibold shrink-0 ${role === 'teacher' ? 'bg-upnavy-800 text-white' : 'text-slate-600'}`}
-        >
-          Teacher
-        </button>
-        <button
-          onClick={() => setRole('parent')}
-          className={`px-3 py-1 rounded-full font-semibold shrink-0 ${role === 'parent' ? 'bg-upnavy-800 text-white' : 'text-slate-600'}`}
-        >
-          Parent
-        </button>
-        <button
-          onClick={() => setRole('admin')}
-          className={`px-3 py-1 rounded-full font-semibold shrink-0 ${role === 'admin' ? 'bg-upnavy-800 text-white' : 'text-slate-600'}`}
-        >
-          Admin
-        </button>
+      <div className="md:hidden border-t border-slate-200/80 px-3 py-2 bg-slate-50/95 backdrop-blur-md flex items-center justify-between text-xs gap-1.5 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            onClick={() => setRole('student')}
+            className={`px-3 py-1 rounded-full font-semibold text-xs transition ${role === 'student' ? 'bg-upnavy-800 text-white shadow-xs font-bold' : 'text-slate-600 bg-white border border-slate-200/70'}`}
+          >
+            Student
+          </button>
+          <button
+            onClick={() => setRole('teacher')}
+            className={`px-3 py-1 rounded-full font-semibold text-xs transition ${role === 'teacher' ? 'bg-upnavy-800 text-white shadow-xs font-bold' : 'text-slate-600 bg-white border border-slate-200/70'}`}
+          >
+            Teacher
+          </button>
+          <button
+            onClick={() => setRole('parent')}
+            className={`px-3 py-1 rounded-full font-semibold text-xs transition ${role === 'parent' ? 'bg-upnavy-800 text-white shadow-xs font-bold' : 'text-slate-600 bg-white border border-slate-200/70'}`}
+          >
+            Parent
+          </button>
+          <button
+            onClick={() => setRole('admin')}
+            className={`px-3 py-1 rounded-full font-semibold text-xs transition ${role === 'admin' ? 'bg-upnavy-800 text-white shadow-xs font-bold' : 'text-slate-600 bg-white border border-slate-200/70'}`}
+          >
+            Admin
+          </button>
+        </div>
         <button
           onClick={onOpenHelp}
-          className="px-2.5 py-1 rounded-full font-bold text-upsaffron-700 bg-upsaffron-100 border border-upsaffron-200 shrink-0 flex items-center gap-1 ml-auto"
+          className="px-2.5 py-1 rounded-full font-bold text-upsaffron-700 bg-upsaffron-100 hover:bg-upsaffron-200 border border-upsaffron-300 shrink-0 flex items-center gap-1 text-xs ml-1"
+          title="Help & Support Desk"
         >
-          <HelpCircle className="w-3 h-3" />
+          <HelpCircle className="w-3 h-3 text-upsaffron-600" />
           <span>Help</span>
         </button>
       </div>

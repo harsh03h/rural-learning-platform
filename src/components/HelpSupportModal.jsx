@@ -260,28 +260,28 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-4xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200/90 max-h-[92vh] overflow-y-auto relative flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-white rounded-3xl max-w-4xl w-full p-4 sm:p-7 shadow-2xl border border-slate-200/90 max-h-[92vh] overflow-y-auto relative flex flex-col">
         
         {/* Header */}
-        <div className="flex items-start justify-between pb-5 border-b border-slate-100 gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-upnavy-950 text-white flex items-center justify-center font-bold text-xl shadow-xs shrink-0">
-              <LifeBuoy className="w-6 h-6 text-upsaffron-400 stroke-[2.2]" />
+        <div className="flex items-start justify-between pb-4 border-b border-slate-100 gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-upnavy-950 text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-xs shrink-0">
+              <LifeBuoy className="w-5 h-5 sm:w-6 sm:h-6 text-upsaffron-400 stroke-[2.2]" />
             </div>
             <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-upsaffron-700 bg-upsaffron-50 px-2.5 py-0.5 rounded-full border border-upsaffron-200">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-upsaffron-700 bg-upsaffron-50 px-2 py-0.5 rounded-full border border-upsaffron-200">
                   National EdTech Help Desk
                 </span>
                 <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
                   24x7 Rural Support
                 </span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-upnavy-950 tracking-tight mt-0.5">
+              <h2 className="text-lg sm:text-2xl font-black text-upnavy-950 tracking-tight mt-0.5">
                 GyanSetu Help & Support Desk (सहायता केंद्र)
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-[11px] sm:text-xs text-slate-500">
                 Samagra Shiksha • Department of Basic Education, Govt. of Uttar Pradesh
               </p>
             </div>
@@ -289,60 +289,60 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
 
           <button 
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 p-2 rounded-xl hover:bg-slate-100 transition shrink-0"
+            className="text-slate-400 hover:text-slate-700 p-1.5 rounded-xl hover:bg-slate-100 transition shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Sub-nav Navigation Tabs */}
-        <div className="bg-slate-100 p-1.5 rounded-2xl flex flex-wrap gap-1 border border-slate-200/80 my-5">
+        {/* Sub-nav Navigation Tabs (Grid on mobile, flex on desktop) */}
+        <div className="bg-slate-100 p-1.5 rounded-2xl grid grid-cols-2 sm:flex sm:flex-wrap gap-1.5 border border-slate-200/80 my-4 sm:my-5">
           <button
             onClick={() => setActiveTab('helpline')}
-            className={`flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+            className={`py-2 px-2.5 sm:px-3 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
               activeTab === 'helpline'
                 ? 'bg-upnavy-950 text-white shadow-xs'
                 : 'text-slate-600 hover:text-upnavy-950 hover:bg-white/70'
             }`}
           >
-            <PhoneCall className="w-3.5 h-3.5 text-upsaffron-400" />
-            <span>Toll-Free & Helpline</span>
+            <PhoneCall className="w-3.5 h-3.5 text-upsaffron-400 shrink-0" />
+            <span className="truncate">Toll-Free Helpline</span>
           </button>
 
           <button
             onClick={() => setActiveTab('faq')}
-            className={`flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+            className={`py-2 px-2.5 sm:px-3 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
               activeTab === 'faq'
                 ? 'bg-upnavy-950 text-white shadow-xs'
                 : 'text-slate-600 hover:text-upnavy-950 hover:bg-white/70'
             }`}
           >
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>FAQs & User Guides</span>
+            <HelpCircle className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">FAQs & Guides</span>
           </button>
 
           <button
             onClick={() => setActiveTab('diagnostic')}
-            className={`flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+            className={`py-2 px-2.5 sm:px-3 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
               activeTab === 'diagnostic'
                 ? 'bg-upnavy-950 text-white shadow-xs'
                 : 'text-slate-600 hover:text-upnavy-950 hover:bg-white/70'
             }`}
           >
-            <Cpu className="w-3.5 h-3.5" />
-            <span>Self-Troubleshooter</span>
+            <Cpu className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Troubleshooter</span>
           </button>
 
           <button
             onClick={() => setActiveTab('ticket')}
-            className={`flex-1 min-w-[130px] py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+            className={`py-2 px-2.5 sm:px-3 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
               activeTab === 'ticket'
                 ? 'bg-upnavy-950 text-white shadow-xs'
                 : 'text-slate-600 hover:text-upnavy-950 hover:bg-white/70'
             }`}
           >
-            <FileText className="w-3.5 h-3.5" />
-            <span>Register Grievance</span>
+            <FileText className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Grievance Ticket</span>
           </button>
         </div>
 

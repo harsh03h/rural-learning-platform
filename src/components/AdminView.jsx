@@ -282,53 +282,53 @@ export function AdminView({ lang = 'en' }) {
       </div>
 
       {/* 3. Navigation Switcher Tabs */}
-      <div className="bg-slate-100 p-1.5 rounded-2xl flex flex-wrap gap-1.5 border border-slate-200">
+      <div className="bg-slate-100 p-1.5 rounded-2xl grid grid-cols-2 sm:flex sm:flex-wrap gap-1.5 border border-slate-200">
         <button
           onClick={() => setActiveTab('mesh')}
-          className={`flex-1 min-w-[150px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+          className={`py-2 px-2.5 sm:px-4 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
             activeTab === 'mesh'
               ? 'bg-upnavy-950 text-white shadow-xs'
               : 'text-slate-600 hover:text-upnavy-950 hover:bg-white/70'
           }`}
         >
-          <Server className="w-4 h-4" />
-          <span>Local Edge Mesh Hub</span>
+          <Server className="w-4 h-4 shrink-0" />
+          <span className="truncate">Edge Mesh Hub</span>
         </button>
 
         <button
           onClick={() => setActiveTab('fleet')}
-          className={`flex-1 min-w-[150px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+          className={`py-2 px-2.5 sm:px-4 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
             activeTab === 'fleet'
               ? 'bg-upnavy-950 text-white shadow-xs'
               : 'text-slate-600 hover:text-upnavy-950 hover:bg-white/70'
           }`}
         >
-          <HardDrive className="w-4 h-4" />
-          <span>Tablet Fleet Inventory (34)</span>
+          <HardDrive className="w-4 h-4 shrink-0" />
+          <span className="truncate">Tablet Fleet (34)</span>
         </button>
 
         <button
           onClick={() => setActiveTab('udise')}
-          className={`flex-1 min-w-[150px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+          className={`py-2 px-2.5 sm:px-4 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
             activeTab === 'udise'
               ? 'bg-upnavy-950 text-white shadow-xs'
               : 'text-slate-600 hover:text-upnavy-950 hover:bg-white/70'
           }`}
         >
-          <ShieldCheck className="w-4 h-4" />
-          <span>U-DISE+ 2026-27 Compliance</span>
+          <ShieldCheck className="w-4 h-4 shrink-0" />
+          <span className="truncate">U-DISE+ 2026-27</span>
         </button>
 
         <button
           onClick={() => setActiveTab('faculty')}
-          className={`flex-1 min-w-[150px] py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+          className={`py-2 px-2.5 sm:px-4 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
             activeTab === 'faculty'
               ? 'bg-upnavy-950 text-white shadow-xs'
               : 'text-slate-600 hover:text-upnavy-950 hover:bg-white/70'
           }`}
         >
-          <School className="w-4 h-4" />
-          <span>Faculty & Syllabus</span>
+          <School className="w-4 h-4 shrink-0" />
+          <span className="truncate">Faculty & Syllabus</span>
         </button>
       </div>
 
@@ -1050,8 +1050,8 @@ export function AdminView({ lang = 'en' }) {
 
       {/* 9. Modal: Official U-DISE+ Printable Report Card */}
       {isUdiseReportModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-6 animate-in fade-in zoom-in-95 my-8">
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-4 sm:p-8 shadow-2xl border border-slate-200 space-y-5 sm:space-y-6 animate-in fade-in zoom-in-95 my-4 sm:my-8">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div className="flex items-center gap-3">

@@ -178,27 +178,27 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
       <div className="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-200/90 max-h-[92vh] overflow-hidden flex flex-col">
         
         {/* Modern UP Aesthetic Gradient Header */}
-        <div className="bg-gradient-to-r from-upnavy-950 via-upnavy-900 to-upnavy-800 text-white p-6 relative overflow-hidden shrink-0">
+        <div className="bg-gradient-to-r from-upnavy-950 via-upnavy-900 to-upnavy-800 text-white p-4 sm:p-6 relative overflow-hidden shrink-0">
           <div className="absolute top-0 right-0 -mr-6 -mt-6 w-36 h-36 rounded-full bg-upsaffron-500/10 blur-2xl" />
           <div className="absolute bottom-0 left-1/3 w-32 h-32 rounded-full bg-amber-400/10 blur-xl" />
           
-          <div className="relative z-10 flex items-start justify-between">
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-upsaffron-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-upsaffron-600/30 border border-amber-300/30 font-bold shrink-0">
-                <BookOpen className="w-6 h-6 stroke-[2.3]" />
+          <div className="relative z-10 flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-upsaffron-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-upsaffron-600/30 border border-amber-300/30 font-bold shrink-0">
+                <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.3]" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-black tracking-tight text-white">
+                  <h2 className="text-lg sm:text-xl font-black tracking-tight text-white">
                     Gyan<span className="text-upsaffron-400">Setu</span> Portal
                   </h2>
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-upsaffron-500/20 text-upsaffron-300 border border-upsaffron-400/30">
-                    Secure Gateway
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-upsaffron-500/20 text-upsaffron-300 border border-upsaffron-400/30">
+                    Secure
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 mt-0.5">
+                <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">
                   {lang === 'hi' 
-                    ? 'ग्रामीण डिजिटल शिक्षा व भूमिका सत्यापन प्रणाली' 
+                    ? 'ग्रामीण डिजिटल शिक्षा व सत्यापन प्रणाली' 
                     : 'Rural-First Authentication & Role Gateway'}
                 </p>
               </div>
@@ -206,7 +206,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
 
             <button 
               onClick={onClose} 
-              className="text-slate-400 hover:text-white p-2 rounded-2xl hover:bg-white/10 transition"
+              className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/10 transition shrink-0"
               title="Close modal"
             >
               <X className="w-5 h-5" />
@@ -214,48 +214,48 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
           </div>
 
           {/* Segmented Mode Switcher Tab Bar */}
-          <div className="mt-5 p-1 bg-upnavy-900/90 rounded-2xl border border-upnavy-700/80 flex gap-1 relative z-10">
+          <div className="mt-4 sm:mt-5 p-1 bg-upnavy-900/90 rounded-2xl border border-upnavy-700/80 flex gap-1 relative z-10">
             <button
               onClick={() => setAuthMode('login')}
-              className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+              className={`flex-1 py-2 sm:py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
                 authMode === 'login'
                   ? 'bg-upsaffron-600 text-white shadow-md shadow-upsaffron-600/30'
                   : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              <LogIn className="w-3.5 h-3.5" />
-              <span>{lang === 'hi' ? 'लॉगिन करें (Sign In)' : 'Sign In'}</span>
+              <LogIn className="w-3.5 h-3.5 shrink-0" />
+              <span>{lang === 'hi' ? 'लॉगिन (Sign In)' : 'Sign In'}</span>
             </button>
             <button
               onClick={() => setAuthMode('register')}
-              className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 ${
+              className={`flex-1 py-2 sm:py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${
                 authMode === 'register'
                   ? 'bg-upsaffron-600 text-white shadow-md shadow-upsaffron-600/30'
                   : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              <UserPlus className="w-3.5 h-3.5" />
-              <span>{lang === 'hi' ? 'नया छात्र पंजीकरण (Register)' : 'New Student Registration'}</span>
+              <UserPlus className="w-3.5 h-3.5 shrink-0" />
+              <span>{lang === 'hi' ? 'पंजीकरण (Register)' : 'New Student'}</span>
             </button>
           </div>
         </div>
 
         {/* Scrollable Form Body */}
-        <div className="p-6 sm:p-7 overflow-y-auto space-y-6 flex-1 text-xs">
+        <div className="p-4 sm:p-6 sm:p-7 overflow-y-auto space-y-5 sm:space-y-6 flex-1 text-xs">
           
           {/* 1-Click Quick Evaluator Demo Section */}
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/40 to-amber-50/80 border border-amber-200/90 shadow-2xs">
-            <div className="flex items-center justify-between mb-3">
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/40 to-amber-50/80 border border-amber-200/90 shadow-2xs">
+            <div className="flex items-center justify-between mb-2.5">
               <span className="text-[11px] font-bold text-amber-950 uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-upsaffron-600" />
-                <span>{lang === 'hi' ? '1-क्लिक त्वरित डेमो लॉगिन' : '1-Click Quick Evaluator Demo'}</span>
+                <span>{lang === 'hi' ? 'त्वरित डेमो लॉगिन' : '1-Click Quick Evaluator Demo'}</span>
               </span>
-              <span className="text-[10px] text-amber-800 font-bold bg-white/90 px-2.5 py-0.5 rounded-full border border-amber-300/80 shadow-2xs">
+              <span className="text-[10px] text-amber-800 font-bold bg-white/90 px-2 py-0.5 rounded-full border border-amber-300/80 shadow-2xs">
                 Viva Ready ⚡
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
               {demoAccounts.map((acc, idx) => (
                 <button
                   key={idx}
