@@ -291,24 +291,6 @@ export function Navbar({
                   <button
                     onClick={() => {
                       setIsProfileMenuOpen(false);
-                      onOpenAuthModal();
-                    }}
-                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-upsaffron-50 text-slate-700 hover:text-upsaffron-800 flex items-center justify-between transition font-medium group"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-lg bg-upsaffron-50 text-upsaffron-600 flex items-center justify-center transition">
-                        <Sparkles className="w-3.5 h-3.5" />
-                      </div>
-                      <span className="font-semibold text-xs">Switch Role / Demo</span>
-                    </span>
-                    <span className="text-[10px] text-upsaffron-600 font-bold">
-                      Shortcut
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setIsProfileMenuOpen(false);
                       onOpenHelp();
                     }}
                     className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-upsaffron-50 text-slate-700 hover:text-upsaffron-800 flex items-center justify-between transition font-medium group"
