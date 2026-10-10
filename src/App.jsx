@@ -199,9 +199,9 @@ export function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f4f6f9] text-upnavy-950 font-sans">
-      {/* Toast Notification - Sleek, non-bouncing, stable notification */}
+      {/* Toast Notification - Sleek, non-bouncing, stable notification positioned below sticky header */}
       {toastMessage && (
-        <div className="fixed top-20 right-4 sm:right-6 z-50 bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700/80 text-xs flex items-center gap-2.5 animate-fadeIn transition-all">
+        <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700/80 text-xs flex items-center gap-2.5 animate-fadeIn transition-all">
           <CheckCircle className="w-4 h-4 text-upsaffron-400 shrink-0" />
           <span className="font-semibold text-slate-100">{toastMessage}</span>
         </div>

@@ -139,7 +139,7 @@ export function ParentView({ lang }) {
     <div className="space-y-6 pb-28 max-w-5xl mx-auto animate-fadeIn">
       {/* Toast Notification */}
       {feedbackToast && (
-        <div className="fixed top-20 right-4 sm:right-6 z-50 bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2 animate-fadeIn">
+        <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2 animate-fadeIn">
           <CheckCircle className="w-4 h-4 text-upsaffron-400 shrink-0" />
           <span className="font-semibold text-slate-100">{feedbackToast}</span>
         </div>

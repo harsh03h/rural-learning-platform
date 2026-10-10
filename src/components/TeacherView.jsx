@@ -321,7 +321,7 @@ export function TeacherView({ lang }) {
     <div className="space-y-6 pb-28 max-w-6xl mx-auto animate-fadeIn">
       {/* Toast Feedback */}
       {feedbackToast && (
-        <div className="fixed top-20 right-4 sm:right-6 z-50 bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2 animate-fadeIn">
+        <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2 animate-fadeIn">
           <CheckCircle className="w-4 h-4 text-upsaffron-400 shrink-0" />
           <span className="font-semibold text-slate-100">{feedbackToast}</span>
         </div>
@@ -408,10 +408,10 @@ export function TeacherView({ lang }) {
       </div>
 
       {/* 3. Segmented Navigation Tab Bar */}
-      <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl w-fit border border-slate-200/60">
+      <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl max-w-full overflow-x-auto scrollbar-none border border-slate-200/60">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
             activeTab === 'overview'
               ? 'bg-upnavy-800 text-white shadow-xs'
               : 'text-slate-600 hover:text-upnavy-950'
@@ -423,7 +423,7 @@ export function TeacherView({ lang }) {
 
         <button
           onClick={() => setActiveTab('generator')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
             activeTab === 'generator'
               ? 'bg-upnavy-800 text-white shadow-xs'
               : 'text-slate-600 hover:text-upnavy-950'
@@ -435,7 +435,7 @@ export function TeacherView({ lang }) {
 
         <button
           onClick={() => setActiveTab('analytics')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
             activeTab === 'analytics'
               ? 'bg-upnavy-800 text-white shadow-xs'
               : 'text-slate-600 hover:text-upnavy-950'
@@ -462,28 +462,28 @@ export function TeacherView({ lang }) {
               />
             </div>
 
-            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+            <div className="flex items-center gap-1.5 text-xs overflow-x-auto max-w-full pb-1 scrollbar-none">
               <button
                 onClick={() => setStatusFilter('all')}
-                className={`px-3 py-1.5 rounded-xl font-bold transition ${statusFilter === 'all' ? 'bg-upnavy-800 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 ${statusFilter === 'all' ? 'bg-upnavy-800 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
               >
                 All ({students.length})
               </button>
               <button
                 onClick={() => setStatusFilter('needs_help')}
-                className={`px-3 py-1.5 rounded-xl font-bold transition ${statusFilter === 'needs_help' ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700 hover:bg-rose-100'}`}
+                className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 ${statusFilter === 'needs_help' ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700 hover:bg-rose-100'}`}
               >
                 Needs Help (&lt;50%)
               </button>
               <button
                 onClick={() => setStatusFilter('good')}
-                className={`px-3 py-1.5 rounded-xl font-bold transition ${statusFilter === 'good' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`}
+                className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 ${statusFilter === 'good' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}`}
               >
                 Good (75%+)
               </button>
               <button
                 onClick={() => setStatusFilter('remedial')}
-                className={`px-3 py-1.5 rounded-xl font-bold transition ${statusFilter === 'remedial' ? 'bg-upsaffron-600 text-white' : 'bg-amber-50 text-amber-800 hover:bg-amber-100'}`}
+                className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 ${statusFilter === 'remedial' ? 'bg-upsaffron-600 text-white' : 'bg-amber-50 text-amber-800 hover:bg-amber-100'}`}
               >
                 Remedial Assigned
               </button>
@@ -533,8 +533,8 @@ export function TeacherView({ lang }) {
                   </div>
 
                   {/* Weak topics & score */}
-                  <div className="flex items-center gap-4 self-end sm:self-center">
-                    <div className="text-right">
+                  <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto pt-2 sm:pt-0 border-t border-slate-100 sm:border-0">
+                    <div className="text-left sm:text-right">
                       <div className={`text-sm font-black ${
                         student.overallScore < 50 ? 'text-rose-600' : student.overallScore >= 75 ? 'text-emerald-600' : 'text-amber-600'
                       }`}>

@@ -53,7 +53,7 @@ export function StudentView({
   });
 
   return (
-    <div className="space-y-7 pb-28 max-w-6xl mx-auto">
+    <div className="space-y-7 pb-36 sm:pb-28 max-w-6xl mx-auto">
       {/* 1. Modern Hero Section with Bento Stat Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Main Welcome Hero Card */}
@@ -146,10 +146,10 @@ export function StudentView({
 
       {/* 2. Modern Segmented Tab Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
-        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl w-fit">
+        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl max-w-full overflow-x-auto scrollbar-none">
           <button
             onClick={() => setActiveTab('courses')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
               activeTab === 'courses'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 hover:text-upnavy-950'
@@ -161,7 +161,7 @@ export function StudentView({
 
           <button
             onClick={() => setActiveTab('remedial')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
               activeTab === 'remedial'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 hover:text-upnavy-950'
@@ -176,7 +176,7 @@ export function StudentView({
 
           <button
             onClick={() => setActiveTab('progress')}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
               activeTab === 'progress'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 hover:text-upnavy-950'
@@ -201,47 +201,47 @@ export function StudentView({
       {activeTab === 'courses' && (
         <div className="space-y-5 animate-fadeIn">
           {/* Subject Filter Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
-            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
+            <div className="flex items-center gap-1.5 text-xs overflow-x-auto max-w-full pb-1 sm:pb-0 scrollbar-none">
               <button
                 onClick={() => setSelectedSubject('all')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'all' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'all' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
               >
                 All Subjects
               </button>
               <button
                 onClick={() => setSelectedSubject('math')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'math' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'math' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
               >
                 📐 Mathematics
               </button>
               <button
                 onClick={() => setSelectedSubject('science')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'science' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'science' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
               >
                 🔬 Science
               </button>
               <button
                 onClick={() => setSelectedSubject('english')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'english' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'english' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
               >
                 📖 English
               </button>
               <button
                 onClick={() => setSelectedSubject('social')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'social' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'social' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
               >
                 🌍 Social Science
               </button>
               <button
                 onClick={() => setSelectedSubject('hindi')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'hindi' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'hindi' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
               >
                 🇮🇳 Hindi
               </button>
               <button
                 onClick={() => setSelectedSubject('computer')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition ${selectedSubject === 'computer' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'computer' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
               >
                 💻 Digital Literacy
               </button>
@@ -249,7 +249,7 @@ export function StudentView({
 
             <button
               onClick={() => setFilterOfflineOnly(!filterOfflineOnly)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition shrink-0 self-start sm:self-auto ${
                 filterOfflineOnly
                   ? 'bg-upsaffron-100 text-upsaffron-900 border-upsaffron-300'
                   : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
@@ -523,13 +523,13 @@ export function StudentView({
 
       {/* Modern Floating AI Doubt Saathi Button */}
       {!isAiSaathiOpen && (
-        <div className="fixed bottom-6 right-6 z-30">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30">
           <button
             onClick={onOpenAiSaathi}
-            className="flex items-center gap-2.5 bg-upnavy-900 hover:bg-upsaffron-600 text-white px-5 py-3 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 border border-upnavy-700 group"
+            className="flex items-center gap-2 bg-upnavy-900 hover:bg-upsaffron-600 text-white px-4 py-2.5 sm:px-5 sm:py-3 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 border border-upnavy-700 group text-xs font-bold"
           >
-            <Sparkles className="w-4 h-4 text-upsaffron-400 group-hover:rotate-12 transition-transform duration-300" />
-            <span className="text-xs font-bold">Ask AI Saathi</span>
+            <Sparkles className="w-4 h-4 text-upsaffron-400 group-hover:rotate-12 transition-transform duration-300 shrink-0" />
+            <span>Ask AI Saathi</span>
           </button>
         </div>
       )}

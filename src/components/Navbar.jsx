@@ -137,10 +137,10 @@ export function Navbar({
             </button>
           )}
 
-          {/* Network Simulator Indicator Button */}
+          {/* Network Simulator Indicator Button (Desktop/Tablet) */}
           <button
             onClick={() => setIsOffline(!isOffline)}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-medium border transition-all ${
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-medium border transition-all ${
               isOffline
                 ? 'bg-rose-50 text-rose-800 border-rose-200 hover:bg-rose-100 shadow-xs'
                 : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200/80'
@@ -151,10 +151,10 @@ export function Navbar({
             <span className="hidden md:inline font-semibold">{isOffline ? 'Offline' : 'Online'}</span>
           </button>
 
-          {/* Minimalist Low Data Toggle Pill */}
+          {/* Minimalist Low Data Toggle Pill (Desktop/Tablet) */}
           <button
             onClick={() => setIsLowData(!isLowData)}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold border transition-all ${
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold border transition-all ${
               isLowData
                 ? 'bg-amber-50 text-amber-900 border-amber-300/80 shadow-xs'
                 : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200/80'
@@ -184,10 +184,10 @@ export function Navbar({
             </div>
           </div>
 
-          {/* Help & Support Desk Pill Button */}
+          {/* Help & Support Desk Pill Button (Desktop/Tablet - on mobile it is in the sub-bar below) */}
           <button
             onClick={onOpenHelp}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 border border-upsaffron-300/80 transition-all shadow-2xs group cursor-pointer"
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 border border-upsaffron-300/80 transition-all shadow-2xs group cursor-pointer"
             title="GyanSetu Help & Support Desk (Toll-Free: 1800-180-5321)"
           >
             <HelpCircle className="w-3.5 h-3.5 text-upsaffron-600 group-hover:scale-110 transition-transform shrink-0" />
@@ -219,7 +219,7 @@ export function Navbar({
 
             {/* Modernized Profile Dropdown Popover */}
             {isProfileMenuOpen && currentUser && (
-              <div className="absolute right-0 mt-2.5 w-72 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/90 p-3 z-50 ring-1 ring-slate-900/5 animate-fadeIn text-xs">
+              <div className="absolute right-0 mt-2.5 w-[calc(100vw-24px)] max-w-xs sm:w-72 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/90 p-3 z-50 ring-1 ring-slate-900/5 animate-fadeIn text-xs">
                 
                 {/* User Info Header with Avatar & Badge */}
                 <div className="p-3 bg-gradient-to-br from-slate-50 via-slate-50 to-upnavy-50/50 rounded-2xl border border-slate-200/80 mb-2">
@@ -342,6 +342,34 @@ export function Navbar({
                     </span>
                   </button>
 
+                  {/* Mobile Quick Toggles for Data Saver and Offline Simulation */}
+                  <div className="sm:hidden pt-2 pb-1 border-t border-slate-100 space-y-1">
+                    <button
+                      onClick={() => setIsOffline(!isOffline)}
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 flex items-center justify-between text-xs font-semibold"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className={`w-2.5 h-2.5 rounded-full ${isOffline ? 'bg-rose-500 ring-2 ring-rose-200' : 'bg-emerald-500 ring-2 ring-emerald-200'}`} />
+                        <span className="text-slate-700">Offline Simulation</span>
+                      </span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${isOffline ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'}`}>
+                        {isOffline ? 'Offline' : 'Online'}
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => setIsLowData(!isLowData)}
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 flex items-center justify-between text-xs font-semibold"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Zap className={`w-3.5 h-3.5 ${isLowData ? 'text-amber-600 fill-amber-500' : 'text-slate-400'}`} />
+                        <span className="text-slate-700">Low Data Saver</span>
+                      </span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${isLowData ? 'bg-amber-100 text-amber-900' : 'bg-slate-100 text-slate-700'}`}>
+                        {isLowData ? 'Enabled' : 'Disabled'}
+                      </span>
+                    </button>
+                  </div>
+
                   <div className="pt-1.5 mt-1 border-t border-slate-100">
                     <button
                       onClick={() => {
@@ -391,14 +419,23 @@ export function Navbar({
             Admin
           </button>
         </div>
-        <button
-          onClick={onOpenHelp}
-          className="px-2.5 py-1 rounded-full font-bold text-upsaffron-700 bg-upsaffron-100 hover:bg-upsaffron-200 border border-upsaffron-300 shrink-0 flex items-center gap-1 text-xs ml-1"
-          title="Help & Support Desk"
-        >
-          <HelpCircle className="w-3 h-3 text-upsaffron-600" />
-          <span>Help</span>
-        </button>
+        
+        <div className="flex items-center gap-1.5 shrink-0">
+          {isOffline && (
+            <span className="text-[10px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-full border border-rose-200 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+              Offline
+            </span>
+          )}
+          <button
+            onClick={onOpenHelp}
+            className="px-2.5 py-1 rounded-full font-bold text-upsaffron-700 bg-upsaffron-100 hover:bg-upsaffron-200 border border-upsaffron-300 shrink-0 flex items-center gap-1 text-xs"
+            title="Help & Support Desk"
+          >
+            <HelpCircle className="w-3 h-3 text-upsaffron-600" />
+            <span>Help</span>
+          </button>
+        </div>
       </div>
     </header>
   );

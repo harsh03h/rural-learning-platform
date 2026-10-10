@@ -184,9 +184,9 @@ export function AdminView({ lang = 'en' }) {
     <div className="space-y-6 pb-28 max-w-6xl mx-auto">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-upnavy-950 text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-upsaffron-500 flex items-center gap-3 text-xs sm:text-sm animate-bounce">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0 animate-ping" />
-          <span className="font-semibold">{toastMessage}</span>
+        <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2.5 animate-fadeIn">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0" />
+          <span className="font-semibold text-slate-100">{toastMessage}</span>
         </div>
       )}
 
