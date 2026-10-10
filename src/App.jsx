@@ -365,21 +365,6 @@ export function App() {
         lang={lang}
       />
 
-      {/* Floating Help & Support Quick Trigger */}
-      {!isAiSaathiOpen && (
-        <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-5 z-40 flex items-center">
-          <button
-            onClick={() => setIsHelpModalOpen(true)}
-            className="bg-upnavy-950/95 hover:bg-upnavy-900 text-white font-bold text-xs py-2 px-3 sm:py-2.5 sm:px-4 rounded-full shadow-2xl border border-upsaffron-500/80 flex items-center gap-1.5 sm:gap-2 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer group"
-            title="GyanSetu Help & Support Desk (Toll Free: 1800-180-5321)"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 group-hover:animate-ping shrink-0" />
-            <HelpCircle className="w-4 h-4 text-upsaffron-400 group-hover:rotate-12 transition-transform shrink-0" />
-            <span className="tracking-tight hidden sm:inline">Help & Support</span>
-          </button>
-        </div>
-      )}
-
       {/* Footer */}
       <footer className="mt-auto border-t border-slate-200/90 bg-white/90 backdrop-blur-sm py-4 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
