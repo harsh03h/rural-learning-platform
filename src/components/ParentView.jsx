@@ -1,13 +1,44 @@
-import React from 'react';
-import { Smartphone, MessageSquare, CheckCheck, AlertCircle, Signal, Battery, Radio } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  Smartphone, 
+  MessageSquare, 
+  CheckCheck, 
+  AlertCircle, 
+  Signal, 
+  Battery, 
+  Radio,
+  PhoneCall,
+  PhoneOff,
+  Volume2,
+  Share2,
+  Award,
+  Calendar,
+  CheckCircle,
+  Clock,
+  Sparkles,
+  HelpCircle,
+  Copy,
+  Check
+} from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { translations, supportedLanguages } from '../data/mockData';
 
 export function ParentView({ lang }) {
   const t = translations[lang] || translations['en'];
-  const langConfig = supportedLanguages.find(l => l.code === lang);
+  const [selectedParentLang, setSelectedParentLang] = useState(lang || 'hi');
+  const [isCalling, setIsCalling] = useState(false);
+  const [callActive, setCallActive] = useState(false);
+  const [teacherCallRequested, setTeacherCallRequested] = useState(false);
+  const [copyStatus, setCopyStatus] = useState(false);
+  const [feedbackToast, setFeedbackToast] = useState(null);
 
-  const getSms1 = () => {
-    switch (lang) {
+  const showToast = (msg) => {
+    setFeedbackToast(msg);
+    setTimeout(() => setFeedbackToast(null), 3500);
+  };
+
+  const getSms1 = (l = selectedParentLang) => {
+    switch (l) {
       case 'mr':
         return 'प्रिय पालक, तुमच्या मुलाने रोहनने आज गणितात 80% गुण मिळवले. त्याने अपूर्णांकांचा (Fractions) पाठ पूर्ण केला. अभिनंदन!';
       case 'bn':
@@ -31,10 +62,10 @@ export function ParentView({ lang }) {
     }
   };
 
-  const getSms2 = () => {
-    switch (lang) {
+  const getSms2 = (l = selectedParentLang) => {
+    switch (l) {
       case 'mr':
-        return 'नमस्ते. रोहनला टक्केवारीमध्ये (Percentages) थोडा सराव हवा आहे. शाळेने त्याच्या डिव्हाइसवर ऑफलाइन सराव चाचणी सेव्ह केली आहे.';
+        return 'नमस्ते. रोहनला टक्केवारीमध्ये (Percentages) थोडा सराव हवा आहे. शाळेने त्याच्या टॅबलेटवर ऑफलाइन सराव चाचणी सेव्ह केली आहे.';
       case 'bn':
         return 'নমস্কার। রোহনের শতকরা (Percentages) অধ্যায়ে সামান্য অতিরিক্ত অনুশীলনের প্রয়োজন। অফলাইনে অনুশীলনের জন্য কুইজ ডিভাইসে সংরক্ষিত হয়েছে।';
       case 'te':
@@ -56,92 +87,305 @@ export function ParentView({ lang }) {
     }
   };
 
+  // Text-to-Speech IVR voice call simulation
+  const handleStartIVRCall = () => {
+    setIsCalling(true);
+    setCallActive(false);
+
+    setTimeout(() => {
+      setCallActive(true);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const speechText = getSms1(selectedParentLang) + ' ' + getSms2(selectedParentLang);
+        const utterance = new SpeechSynthesisUtterance(speechText);
+        const langConfig = supportedLanguages.find(l => l.code === selectedParentLang);
+        utterance.lang = langConfig ? langConfig.tts : 'hi-IN';
+        utterance.rate = 0.88;
+        utterance.onend = () => {
+          setCallActive(false);
+          setIsCalling(false);
+        };
+        window.speechSynthesis.speak(utterance);
+      }
+    }, 1200);
+  };
+
+  const handleEndCall = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setIsCalling(false);
+    setCallActive(false);
+    showToast('IVR Voice Call completed.');
+  };
+
+  const handleRequestTeacherCall = () => {
+    setTeacherCallRequested(true);
+    try {
+      confetti({ particleCount: 50, spread: 50, origin: { y: 0.3 } });
+    } catch (e) {}
+    showToast('📞 Call request sent to Class Teacher Mr. Sharma! Expected call today at 4:30 PM.');
+  };
+
+  const handleShareWhatsApp = () => {
+    const text = `*GyanSetu Student Report Card*\nStudent: Rohan Verma (Class 7A)\nAttendance: 94%\nMath Score: 80% (Fractions Completed)\nScience Score: 88%\nTeacher Note: Good progress! Remedial quiz cached for offline study.`;
+    navigator.clipboard.writeText(text);
+    setCopyStatus(true);
+    showToast('Report card copied! Ready to paste into WhatsApp / SMS.');
+    setTimeout(() => setCopyStatus(false), 2500);
+  };
+
   return (
-    <div className="max-w-xl mx-auto space-y-6 pb-28">
-      {/* Overview Card */}
-      <div className="bg-white p-7 rounded-3xl border border-slate-200/80 shadow-xs space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-upsaffron-50 text-upsaffron-700 border border-upsaffron-200 flex items-center justify-center font-bold">
-            <Smartphone className="w-5 h-5 text-upsaffron-600" />
-          </div>
-          <div>
-            <h2 className="text-lg font-black text-upnavy-950">
-              Low-Tech Vernacular SMS & IVR Portal
-            </h2>
-            <p className="text-xs text-slate-500">
-              Bridging the digital divide for rural parents using basic 2G feature phones
-            </p>
-          </div>
+    <div className="space-y-6 pb-28 max-w-5xl mx-auto animate-fadeIn">
+      {/* Toast Notification */}
+      {feedbackToast && (
+        <div className="fixed top-20 right-4 sm:right-6 z-50 bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2 animate-fadeIn">
+          <CheckCircle className="w-4 h-4 text-upsaffron-400 shrink-0" />
+          <span className="font-semibold text-slate-100">{feedbackToast}</span>
         </div>
-        <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200/60">
-          💡 <strong>Rural Innovation:</strong> In villages where parents own simple keypad phones without internet data packs, GyanSetu automatically broadcasts weekly SMS alerts and automated voice calls (IVR) in their mother tongue.
-        </p>
+      )}
+
+      {/* 1. Top Header Card */}
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div className="space-y-1.5">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-bold text-upnavy-900 bg-upnavy-100/90 px-3 py-1 rounded-full border border-upnavy-200">
+              Parent & Guardian Portal
+            </span>
+            <span className="text-xs text-slate-500 font-medium">Low-Tech 2G SMS & Automated IVR</span>
+            <span className="text-[10px] font-bold bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full border border-amber-200">
+              Zero Internet Needed
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-upnavy-950 tracking-tight">
+            Kailash Verma (Rohan's Guardian)
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500">
+            Linked Student: Rohan Verma • Class 7A • Govt Upper Primary School Rampur
+          </p>
+        </div>
+
+        {/* Action Controls */}
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button
+            onClick={handleStartIVRCall}
+            disabled={isCalling}
+            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs rounded-2xl transition active:scale-95 flex items-center gap-2 shadow-sm shadow-emerald-600/30"
+          >
+            <PhoneCall className="w-4 h-4" />
+            <span>{isCalling ? 'Call In Progress...' : 'Listen via Voice Call (IVR)'}</span>
+          </button>
+
+          <button
+            onClick={handleShareWhatsApp}
+            className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-2xl transition active:scale-95 flex items-center gap-1.5 border border-slate-200"
+          >
+            <Share2 className="w-4 h-4 text-emerald-600" />
+            <span>{copyStatus ? 'Copied!' : 'Share on WhatsApp'}</span>
+          </button>
+        </div>
       </div>
 
-      {/* Modern Feature Phone Device Mockup */}
-      <div className="bg-slate-900 text-white rounded-[40px] p-6 shadow-2xl border-4 border-slate-700 max-w-sm mx-auto space-y-4">
-        {/* Phone Earpiece */}
-        <div className="flex justify-center items-center gap-2 mb-1">
-          <div className="w-12 h-1.5 bg-slate-800 rounded-full" />
-          <div className="w-2 h-2 bg-slate-800 rounded-full" />
-        </div>
-
-        {/* Feature Phone Screen */}
-        <div className="bg-slate-950 rounded-2xl p-4 border border-slate-800 space-y-3 shadow-inner">
-          <div className="flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/80 pb-2">
-            <span className="flex items-center gap-1 font-bold">
-              <Radio className="w-3 h-3 text-emerald-400" />
-              <span>BSNL 2G</span>
-            </span>
-            <span>10:30 AM</span>
-          </div>
-
-          <div className="space-y-3 py-1">
-            {/* SMS Message 1 */}
-            <div className="bg-slate-900 p-3.5 rounded-2xl border border-slate-800 space-y-1.5">
-              <div className="flex items-center justify-between text-[11px] text-emerald-400 font-bold">
-                <span className="flex items-center gap-1">
-                  <MessageSquare className="w-3 h-3" />
-                  <span>GyanSetu-School</span>
-                </span>
-                <span className="text-slate-500 text-[10px]">Today</span>
-              </div>
-              <p className="text-xs text-slate-200 leading-relaxed">
-                {getSms1()}
-              </p>
-              <div className="flex justify-end text-[10px] text-slate-400 items-center gap-1 pt-0.5">
-                <CheckCheck className="w-3 h-3 text-emerald-400" />
-                <span>Delivered</span>
-              </div>
+      {/* Incoming IVR Voice Call Simulator Modal */}
+      {isCalling && (
+        <div className="p-5 bg-gradient-to-r from-emerald-900 via-upnavy-950 to-emerald-950 text-white rounded-3xl border border-emerald-500/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-fadeIn">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400">
+              <PhoneCall className="w-6 h-6 animate-pulse" />
             </div>
-
-            {/* SMS Message 2 */}
-            <div className="bg-slate-900 p-3.5 rounded-2xl border border-slate-800 space-y-1.5">
-              <div className="flex items-center justify-between text-[11px] text-amber-400 font-bold">
-                <span className="flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" />
-                  <span>Sharma Ji (Teacher)</span>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-sm">GyanSetu School Automated Voice Call</h3>
+                <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-400/30">
+                  IVR Active
                 </span>
-                <span className="text-slate-500 text-[10px]">Yesterday</span>
               </div>
-              <p className="text-xs text-slate-200 leading-relaxed">
-                {getSms2()}
+              <p className="text-xs text-slate-300 mt-0.5">
+                {callActive ? 'Speaking Rohan\'s academic progress in your chosen mother tongue...' : 'Connecting to village cell tower...'}
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Keypad Buttons Simulation */}
-        <div className="pt-2 px-3 space-y-2">
-          <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-bold text-slate-400">
-            <div className="bg-slate-800 py-1.5 rounded-lg border border-slate-700">1</div>
-            <div className="bg-slate-800 py-1.5 rounded-lg border border-slate-700">2 <span className="text-[8px] block opacity-50">ABC</span></div>
-            <div className="bg-slate-800 py-1.5 rounded-lg border border-slate-700">3 <span className="text-[8px] block opacity-50">DEF</span></div>
-            <div className="bg-slate-800 py-1.5 rounded-lg border border-slate-700">4 <span className="text-[8px] block opacity-50">GHI</span></div>
-            <div className="bg-slate-800 py-1.5 rounded-lg border border-slate-700">5 <span className="text-[8px] block opacity-50">JKL</span></div>
-            <div className="bg-slate-800 py-1.5 rounded-lg border border-slate-700">6 <span className="text-[8px] block opacity-50">MNO</span></div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleEndCall}
+              className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-2xl transition flex items-center gap-1.5 shadow-md shadow-rose-600/30 active:scale-95"
+            >
+              <PhoneOff className="w-4 h-4" />
+              <span>End Call</span>
+            </button>
           </div>
         </div>
+      )}
+
+      {/* 2. Grid: Academic Progress Card + Feature Phone Simulator */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Left Column: Student Academic Progress Report */}
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-6 flex flex-col justify-between">
+          <div className="space-y-5">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-2xl bg-upsaffron-50 text-upsaffron-700 border border-upsaffron-200 flex items-center justify-center font-bold">
+                  <Award className="w-5 h-5 text-upsaffron-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-base text-upnavy-950">Weekly Performance Report</h3>
+                  <p className="text-xs text-slate-500">Class 7A • Govt Upper Primary School</p>
+                </div>
+              </div>
+              <span className="text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-full">
+                Active Student
+              </span>
+            </div>
+
+            {/* Attendance & Stats Highlights */}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-center space-y-0.5">
+                <div className="text-lg font-black text-emerald-600">94%</div>
+                <div className="text-[11px] text-slate-500 font-medium">Attendance</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-center space-y-0.5">
+                <div className="text-lg font-black text-upnavy-950">80%</div>
+                <div className="text-[11px] text-slate-500 font-medium">Math Score</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-center space-y-0.5">
+                <div className="text-lg font-black text-upsaffron-600">88%</div>
+                <div className="text-[11px] text-slate-500 font-medium">Science Score</div>
+              </div>
+            </div>
+
+            {/* Teacher Notes */}
+            <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/90 space-y-2 text-xs">
+              <div className="flex items-center justify-between text-amber-950 font-bold">
+                <span className="flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-upsaffron-600" />
+                  <span>Teacher's Note (श्री आर.के. शर्मा):</span>
+                </span>
+                <span className="text-[10px] text-amber-700 font-medium">Yesterday</span>
+              </div>
+              <p className="text-slate-700 leading-relaxed text-[11px]">
+                "रोहन पढ़ाई में बहुत ध्यान दे रहे हैं। गणित में भिन्न (Fractions) बहुत अच्छा किया है। प्रतिशत (Percentages) में थोड़ी मदद चाहिए, जिसके लिए स्कूल टैबलेट में ऑफ़लाइन अभ्यास सुरक्षित कर दिया गया है।"
+              </p>
+            </div>
+
+            {/* Language Selector for Parents */}
+            <div>
+              <label className="block font-bold text-slate-700 mb-2 text-xs">
+                {lang === 'hi' ? 'अपनी भाषा चुनें (Test SMS / Voice in Mother Tongue):' : 'Select Guardian Regional Language:'}
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {supportedLanguages.map(l => (
+                  <button
+                    key={l.code}
+                    onClick={() => setSelectedParentLang(l.code)}
+                    className={`px-3 py-1 rounded-xl text-xs font-semibold transition ${
+                      selectedParentLang === l.code
+                        ? 'bg-upnavy-800 text-white font-bold shadow-2xs'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    {l.flag} {l.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Direct Teacher Helpline */}
+          <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+            <div className="text-xs text-slate-500">
+              Have doubts about Rohan's progress?
+            </div>
+            <button
+              onClick={handleRequestTeacherCall}
+              disabled={teacherCallRequested}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                teacherCallRequested
+                  ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'bg-upnavy-800 hover:bg-upsaffron-600 text-white shadow-2xs active:scale-95'
+              }`}
+            >
+              <PhoneCall className="w-3.5 h-3.5" />
+              <span>{teacherCallRequested ? 'Call Requested ✓' : 'Request Teacher Call'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Right Column: 2G Feature Phone Simulator */}
+        <div className="bg-slate-900 text-white rounded-[40px] p-6 sm:p-7 shadow-2xl border-4 border-slate-700 flex flex-col justify-between max-w-sm mx-auto w-full">
+          {/* Phone Earpiece */}
+          <div>
+            <div className="flex justify-center items-center gap-2 mb-3">
+              <div className="w-14 h-1.5 bg-slate-800 rounded-full" />
+              <div className="w-2.5 h-2.5 bg-slate-800 rounded-full" />
+            </div>
+
+            {/* Feature Phone Screen */}
+            <div className="bg-slate-950 rounded-2xl p-4 border border-slate-800 space-y-3.5 shadow-inner">
+              <div className="flex justify-between items-center text-[10px] text-slate-400 border-b border-slate-800/80 pb-2">
+                <span className="flex items-center gap-1.5 font-bold text-emerald-400">
+                  <Radio className="w-3.5 h-3.5" />
+                  <span>BSNL 2G (Village Hub)</span>
+                </span>
+                <span className="font-mono">10:30 AM</span>
+              </div>
+
+              <div className="space-y-3 py-1">
+                {/* SMS Message 1 */}
+                <div className="bg-slate-900 p-3.5 rounded-2xl border border-slate-800 space-y-1.5">
+                  <div className="flex items-center justify-between text-[11px] text-emerald-400 font-bold">
+                    <span className="flex items-center gap-1">
+                      <MessageSquare className="w-3 h-3" />
+                      <span>GyanSetu-School</span>
+                    </span>
+                    <span className="text-slate-500 text-[10px]">Today</span>
+                  </div>
+                  <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                    {getSms1()}
+                  </p>
+                  <div className="flex justify-end text-[10px] text-slate-400 items-center gap-1 pt-0.5">
+                    <CheckCheck className="w-3 h-3 text-emerald-400" />
+                    <span>Delivered (Free Govt SMS)</span>
+                  </div>
+                </div>
+
+                {/* SMS Message 2 */}
+                <div className="bg-slate-900 p-3.5 rounded-2xl border border-slate-800 space-y-1.5">
+                  <div className="flex items-center justify-between text-[11px] text-amber-400 font-bold">
+                    <span className="flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      <span>Teacher Sharma Ji</span>
+                    </span>
+                    <span className="text-slate-500 text-[10px]">Yesterday</span>
+                  </div>
+                  <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                    {getSms2()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Keypad Simulation */}
+          <div className="pt-4 px-2 space-y-2">
+            <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-bold text-slate-400">
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">1</div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">2 <span className="text-[8px] block opacity-50">ABC</span></div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">3 <span className="text-[8px] block opacity-50">DEF</span></div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">4 <span className="text-[8px] block opacity-50">GHI</span></div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">5 <span className="text-[8px] block opacity-50">JKL</span></div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">6 <span className="text-[8px] block opacity-50">MNO</span></div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">7 <span className="text-[8px] block opacity-50">PQRS</span></div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">8 <span className="text-[8px] block opacity-50">TUV</span></div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">9 <span className="text-[8px] block opacity-50">WXYZ</span></div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">*</div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">0</div>
+              <div className="bg-slate-800 py-1.5 rounded-xl border border-slate-700">#</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
