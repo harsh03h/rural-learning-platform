@@ -33,7 +33,8 @@ export function StudentView({
   onToggleDownload,
   onOpenAiSaathi,
   studentStats,
-  currentUser
+  currentUser,
+  isAiSaathiOpen
 }) {
   const t = translations[lang] || translations['en'];
   const [activeTab, setActiveTab] = useState('courses'); // 'courses' | 'remedial' | 'progress'
@@ -107,8 +108,8 @@ export function StudentView({
           {/* Day Streak & XP Card */}
           <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-500">
-                <Flame className="w-6 h-6 fill-amber-500 animate-bounce" />
+              <div className="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-500 shadow-2xs">
+                <Flame className="w-6 h-6 fill-amber-500 text-amber-500" />
               </div>
               <div>
                 <div className="text-lg font-black text-upnavy-950 leading-tight">{studentStats.streakDays} Days</div>
@@ -125,7 +126,7 @@ export function StudentView({
           {/* Rural Data Saver & Offline Card */}
           <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-upnavy-50 border border-upnavy-200 flex items-center justify-center text-upnavy-700">
+              <div className="w-11 h-11 rounded-2xl bg-upnavy-50 border border-upnavy-200 flex items-center justify-center text-upnavy-700 shadow-2xs">
                 <HardDrive className="w-5 h-5 text-upnavy-700" />
               </div>
               <div>
@@ -169,7 +170,7 @@ export function StudentView({
             <Brain className="w-3.5 h-3.5" />
             <span>AI Diagnostic Path</span>
             {diagnosticData.weakTopics.length > 0 && (
-              <span className="w-2 h-2 rounded-full bg-upsaffron-500 animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-upsaffron-500 ring-2 ring-upsaffron-200" />
             )}
           </button>
 
@@ -236,67 +237,98 @@ export function StudentView({
           </div>
 
           {/* Course Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {filteredCourses.map(course => (
-              <React.Fragment key={course.id}>
-                {course.chapters
-                  .filter(ch => !filterOfflineOnly || downloadedIds.includes(ch.id))
-                  .map(chapter => {
-                    const isDownloaded = downloadedIds.includes(chapter.id);
-                    return (
-                      <div 
-                        key={chapter.id}
-                        className="modern-card rounded-3xl p-6 flex flex-col justify-between group relative overflow-hidden"
-                      >
-                        {/* Concept Visual Illustration Banner */}
-                        <div className="mb-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="text-[11px] font-bold uppercase tracking-wider text-upnavy-800 bg-upnavy-50 px-3 py-1 rounded-full border border-upnavy-200/60">
-                              {getLocalized(course.title, lang)}
-                            </span>
-                            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-200/60">
-                              <Zap className="w-3 h-3 text-upsaffron-500 fill-upsaffron-500" />
-                              <span>{chapter.sizeKB} KB</span>
+          {(() => {
+            const allVisibleChapters = filteredCourses.flatMap(course => 
+              course.chapters.filter(ch => !filterOfflineOnly || downloadedIds.includes(ch.id))
+            );
+
+            if (allVisibleChapters.length === 0) {
+              return (
+                <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/80 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto border border-amber-200">
+                    <Download className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-sm font-bold text-upnavy-950">No Offline Chapters Found</h4>
+                  <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                    You currently have no chapters cached for this filter. Save any chapter for offline use to study without internet.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setFilterOfflineOnly(false);
+                      setSelectedSubject('all');
+                    }}
+                    className="px-4 py-2 bg-upnavy-800 hover:bg-upsaffron-600 text-white rounded-xl text-xs font-bold transition"
+                  >
+                    View All Available Chapters
+                  </button>
+                </div>
+              );
+            }
+
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {filteredCourses.map(course => (
+                  <React.Fragment key={course.id}>
+                    {course.chapters
+                      .filter(ch => !filterOfflineOnly || downloadedIds.includes(ch.id))
+                      .map(chapter => {
+                        const isDownloaded = downloadedIds.includes(chapter.id);
+                        return (
+                          <div 
+                            key={chapter.id}
+                            className="modern-card rounded-3xl p-6 flex flex-col justify-between group relative overflow-hidden"
+                          >
+                            {/* Concept Visual Illustration Banner */}
+                            <div className="mb-4">
+                              <div className="flex items-center justify-between mb-3">
+                                <span className="text-[11px] font-bold uppercase tracking-wider text-upnavy-800 bg-upnavy-50 px-3 py-1 rounded-full border border-upnavy-200/60">
+                                  {getLocalized(course.title, lang)}
+                                </span>
+                                <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-200/60">
+                                  <Zap className="w-3 h-3 text-upsaffron-500 fill-upsaffron-500" />
+                                  <span>{chapter.sizeKB} KB</span>
+                                </div>
+                              </div>
+
+                              <h3 className="text-lg font-bold text-upnavy-950 mb-1.5 group-hover:text-upsaffron-600 transition">
+                                {getLocalized(chapter.title, lang)}
+                              </h3>
+                              <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                                {getLocalized(chapter.summary, lang)}
+                              </p>
+                            </div>
+
+                            {/* Interactive Footer Actions */}
+                            <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                              <button
+                                onClick={() => onToggleDownload(chapter.id)}
+                                className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition ${
+                                  isDownloaded
+                                    ? 'bg-upnavy-50 text-upnavy-800 border-upnavy-200'
+                                    : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
+                                }`}
+                                title={isDownloaded ? 'Saved in device memory' : 'Download for offline use'}
+                              >
+                                <Download className="w-3.5 h-3.5" />
+                                <span>{isDownloaded ? 'Downloaded ✓' : 'Save Offline'}</span>
+                              </button>
+
+                              <button
+                                onClick={() => onOpenLesson(chapter)}
+                                className="px-5 py-2 rounded-xl bg-upnavy-800 hover:bg-upsaffron-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm active:scale-95 transition"
+                              >
+                                <span>Study & Quiz</span>
+                                <ChevronRight className="w-3.5 h-3.5" />
+                              </button>
                             </div>
                           </div>
-
-                          <h3 className="text-lg font-bold text-upnavy-950 mb-1.5 group-hover:text-upsaffron-600 transition">
-                            {getLocalized(chapter.title, lang)}
-                          </h3>
-                          <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                            {getLocalized(chapter.summary, lang)}
-                          </p>
-                        </div>
-
-                        {/* Interactive Footer Actions */}
-                        <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                          <button
-                            onClick={() => onToggleDownload(chapter.id)}
-                            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition ${
-                              isDownloaded
-                                ? 'bg-upnavy-50 text-upnavy-800 border-upnavy-200'
-                                : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
-                            }`}
-                            title={isDownloaded ? 'Saved in device memory' : 'Download for offline use'}
-                          >
-                            <Download className="w-3.5 h-3.5" />
-                            <span>{isDownloaded ? 'Downloaded ✓' : 'Save Offline'}</span>
-                          </button>
-
-                          <button
-                            onClick={() => onOpenLesson(chapter)}
-                            className="px-5 py-2 rounded-xl bg-upnavy-800 hover:bg-upsaffron-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm active:scale-95 transition"
-                          >
-                            <span>Study & Quiz</span>
-                            <ChevronRight className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </React.Fragment>
-            ))}
-          </div>
+                        );
+                      })}
+                  </React.Fragment>
+                ))}
+              </div>
+            );
+          })()}
         </div>
       )}
 
@@ -433,15 +465,17 @@ export function StudentView({
       )}
 
       {/* Modern Floating AI Doubt Saathi Button */}
-      <div className="fixed bottom-6 right-6 z-30">
-        <button
-          onClick={onOpenAiSaathi}
-          className="flex items-center gap-2.5 bg-upnavy-900 hover:bg-upsaffron-600 text-white px-5 py-3 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 border border-upnavy-700"
-        >
-          <Sparkles className="w-4 h-4 text-upsaffron-400 animate-spin" />
-          <span className="text-xs font-bold">Ask AI Saathi</span>
-        </button>
-      </div>
+      {!isAiSaathiOpen && (
+        <div className="fixed bottom-6 right-6 z-30">
+          <button
+            onClick={onOpenAiSaathi}
+            className="flex items-center gap-2.5 bg-upnavy-900 hover:bg-upsaffron-600 text-white px-5 py-3 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 border border-upnavy-700 group"
+          >
+            <Sparkles className="w-4 h-4 text-upsaffron-400 group-hover:rotate-12 transition-transform duration-300" />
+            <span className="text-xs font-bold">Ask AI Saathi</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

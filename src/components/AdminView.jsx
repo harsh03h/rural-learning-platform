@@ -46,8 +46,8 @@ export function AdminView({ lang }) {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 bg-upnavy-50 border border-upnavy-200 px-3.5 py-1.5 rounded-2xl text-xs font-bold text-upnavy-900 self-start sm:self-auto">
-          <span className="w-2 h-2 rounded-full bg-upsaffron-500 animate-ping" />
+        <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3.5 py-1.5 rounded-2xl text-xs font-bold text-emerald-900 self-start sm:self-auto">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-200" />
           <span>Local Edge Hub Online</span>
         </div>
       </div>

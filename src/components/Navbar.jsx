@@ -126,10 +126,10 @@ export function Navbar({
           {pendingSyncCount > 0 && (
             <button
               onClick={onSyncNow}
-              className="hidden sm:flex items-center gap-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-900 border border-amber-300/80 px-2.5 py-1.5 rounded-full text-[11px] font-bold transition active:scale-95 animate-pulse"
+              className="hidden sm:flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 px-3 py-1.5 rounded-full text-[11px] font-bold transition active:scale-95 shadow-2xs"
               title="Click to push offline quiz results to school database"
             >
-              <RefreshCw className="w-3 h-3 text-amber-700 animate-spin" />
+              <RefreshCw className="w-3 h-3 text-amber-700" />
               <span>{pendingSyncCount} Sync Pending</span>
             </button>
           )}
@@ -144,7 +144,7 @@ export function Navbar({
             }`}
             title="Click to toggle simulated offline mode"
           >
-            <span className={`w-2 h-2 rounded-full ${isOffline ? 'bg-rose-500 animate-ping' : 'bg-emerald-500'}`} />
+            <span className={`w-2 h-2 rounded-full ${isOffline ? 'bg-rose-500 ring-2 ring-rose-200' : 'bg-emerald-500 ring-2 ring-emerald-200'}`} />
             <span className="hidden sm:inline font-semibold">{isOffline ? 'Offline' : 'Online'}</span>
           </button>
 

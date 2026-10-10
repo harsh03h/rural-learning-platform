@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, HardDrive, Trash2, ArrowRight, BookOpen } from 'lucide-react';
-import { sampleCourses } from '../data/mockData';
+import { sampleCourses, getLocalized } from '../data/mockData';
 
 export function DownloadsModal({ isOpen, onClose, lang, downloadedIds, onRemoveDownload, onOpenLesson }) {
   if (!isOpen) return null;
@@ -40,7 +40,7 @@ export function DownloadsModal({ isOpen, onClose, lang, downloadedIds, onRemoveD
             {downloadedChapters.map(ch => (
               <div key={ch.id} className="p-3 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between gap-3 text-xs">
                 <div>
-                  <div className="font-bold text-slate-800">{ch.title[lang]}</div>
+                  <div className="font-bold text-slate-800">{getLocalized(ch.title, lang)}</div>
                   <div className="text-[11px] text-slate-500">{ch.topicKey} • {ch.sizeKB} KB</div>
                 </div>
                 <div className="flex items-center gap-2">

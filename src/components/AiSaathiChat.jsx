@@ -128,8 +128,12 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
         ))}
 
         {isTyping && (
-          <div className="flex items-center gap-2 text-slate-400 text-xs italic pl-9">
-            <span className="w-2 h-2 rounded-full bg-upsaffron-500 animate-ping" />
+          <div className="flex items-center gap-2 text-slate-500 text-xs italic pl-9">
+            <span className="inline-flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-upsaffron-500 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-upsaffron-500 animate-pulse delay-75" />
+              <span className="w-1.5 h-1.5 rounded-full bg-upsaffron-500 animate-pulse delay-150" />
+            </span>
             <span>Saathi is thinking...</span>
           </div>
         )}

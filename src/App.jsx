@@ -178,13 +178,29 @@ export function App() {
     }
   };
 
+  const handleToggleOffline = (val) => {
+    const nextVal = typeof val === 'boolean' ? val : !isOffline;
+    setIsOffline(nextVal);
+    showToast(nextVal 
+      ? (lang === 'hi' ? '📡 ऑफ़लाइन मोड: डिवाइस स्टोरेज से सुरक्षित पाठ चलेंगे' : '📡 Offline Mode active: study using device cached lessons')
+      : (lang === 'hi' ? '🌐 ऑनलाइन मोड: स्कूल नेटवर्क से जुड़ा' : '🌐 Online Mode restored: connected to platform network'));
+  };
+
+  const handleToggleLowData = (val) => {
+    const nextVal = typeof val === 'boolean' ? val : !isLowData;
+    setIsLowData(nextVal);
+    showToast(nextVal 
+      ? (lang === 'hi' ? '⚡ कम डेटा मोड सक्रिय: 98% बैंडविड्थ बचत (<40KB)' : '⚡ Low-Data Mode: saving 98% bandwidth (<40KB audio/text)')
+      : (lang === 'hi' ? '🎨 मानक मोड सक्रिय: समृद्ध चित्र एवं चित्रकला चालू' : '🎨 Standard Mode: rich visuals enabled'));
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#f4f6f9] text-upnavy-950 font-sans">
-      {/* Toast Notification */}
+      {/* Toast Notification - Sleek, non-bouncing, stable notification */}
       {toastMessage && (
-        <div className="fixed top-16 right-4 z-50 bg-upnavy-950 text-white px-4 py-2.5 rounded-xl shadow-xl border border-upnavy-800 text-xs flex items-center gap-2 animate-bounce">
+        <div className="fixed top-20 right-4 sm:right-6 z-50 bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700/80 text-xs flex items-center gap-2.5 animate-fadeIn transition-all">
           <CheckCircle className="w-4 h-4 text-upsaffron-400 shrink-0" />
-          <span>{toastMessage}</span>
+          <span className="font-semibold text-slate-100">{toastMessage}</span>
         </div>
       )}
 
@@ -208,9 +224,9 @@ export function App() {
         lang={lang}
         setLang={setLang}
         isOffline={isOffline}
-        setIsOffline={setIsOffline}
+        setIsOffline={handleToggleOffline}
         isLowData={isLowData}
-        setIsLowData={setIsLowData}
+        setIsLowData={handleToggleLowData}
         pendingSyncCount={pendingSyncCount}
         onSyncNow={handleSyncNow}
         downloadedCount={downloadedIds.length}
@@ -254,6 +270,7 @@ export function App() {
             downloadedIds={downloadedIds}
             onToggleDownload={handleToggleDownload}
             onOpenAiSaathi={() => setIsAiSaathiOpen(true)}
+            isAiSaathiOpen={isAiSaathiOpen}
             studentStats={studentStats}
           />
         )}

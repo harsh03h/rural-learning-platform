@@ -192,7 +192,7 @@ export function LessonModal({
                   onClick={handlePlayAudio}
                   className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold shadow-sm transition active:scale-95 ${
                     isPlayingAudio
-                      ? 'bg-rose-600 text-white animate-pulse'
+                      ? 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/30'
                       : 'bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-upsaffron-600/30'
                   }`}
                   title="Listen with native text-to-speech"
