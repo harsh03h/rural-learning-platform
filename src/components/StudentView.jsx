@@ -32,12 +32,19 @@ export function StudentView({
   downloadedIds,
   onToggleDownload,
   onOpenAiSaathi,
-  studentStats
+  studentStats,
+  currentUser
 }) {
   const t = translations[lang] || translations['en'];
   const [activeTab, setActiveTab] = useState('courses'); // 'courses' | 'remedial' | 'progress'
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [filterOfflineOnly, setFilterOfflineOnly] = useState(false);
+
+  const studentFirstName = currentUser?.name ? currentUser.name.split(' ')[0] : (lang === 'hi' ? 'रोहन' : 'Rohan');
+  const studentGrade = currentUser?.grade || 'Class 7A';
+  const studentRoll = currentUser?.rollNo || '24';
+  const studentSchool = currentUser?.school || 'Govt Upper Primary School Rampur';
+  const studentAvatar = currentUser?.avatar || '🎓';
 
   const filteredCourses = sampleCourses.filter(c => {
     if (selectedSubject !== 'all' && c.subject !== selectedSubject) return false;
@@ -53,13 +60,16 @@ export function StudentView({
           <div className="space-y-3 relative z-10">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-bold text-upnavy-900 bg-upnavy-100/80 px-3 py-1 rounded-full border border-upnavy-200">
-                Class 7A • Roll 24
+                {studentGrade} • Roll {studentRoll}
               </span>
-              <span className="text-xs text-slate-500 font-medium">Govt Upper Primary School Rampur</span>
+              <span className="text-xs text-slate-500 font-medium truncate max-w-xs sm:max-w-md">
+                {studentSchool}
+              </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black text-upnavy-950 tracking-tight leading-snug">
-              {lang === 'hi' ? 'नमस्ते, रोहन! 👋' : 'Welcome back, Rohan! 👋'}
+            <h1 className="text-2xl sm:text-3xl font-black text-upnavy-950 tracking-tight leading-snug flex items-center gap-2.5">
+              <span className="text-3xl">{studentAvatar}</span>
+              <span>{lang === 'hi' ? `नमस्ते, ${studentFirstName}! 👋` : `Welcome back, ${studentFirstName}! 👋`}</span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 max-w-lg leading-relaxed">
               {lang === 'hi' 

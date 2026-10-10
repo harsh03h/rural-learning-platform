@@ -11,13 +11,16 @@ import {
   LogIn, 
   LogOut, 
   ChevronDown,
-  HardDrive
+  ChevronRight,
+  HardDrive,
+  UserCog
 } from 'lucide-react';
 import { translations, supportedLanguages } from '../data/mockData';
 
 export function Navbar({ 
   currentUser,
   onOpenAuthModal,
+  onOpenProfileEdit,
   onLogout,
   role, 
   setRole, 
@@ -201,27 +204,73 @@ export function Navbar({
               </button>
             )}
 
-            {/* Profile Dropdown Popover */}
+            {/* Modernized Profile Dropdown Popover */}
             {isProfileMenuOpen && currentUser && (
-              <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50 animate-fadeIn text-xs">
-                <div className="p-3 border-b border-slate-100 mb-1">
-                  <div className="font-bold text-upnavy-950 text-sm">{currentUser.name}</div>
-                  <div className="text-[11px] text-upsaffron-700 font-bold capitalize">{currentUser.role} Account</div>
-                  {currentUser.school && (
-                    <div className="text-[10px] text-slate-400 truncate mt-0.5">{currentUser.school}</div>
-                  )}
+              <div className="absolute right-0 mt-2.5 w-72 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/90 p-3 z-50 ring-1 ring-slate-900/5 animate-fadeIn text-xs">
+                
+                {/* User Info Header with Avatar & Badge */}
+                <div className="p-3 bg-gradient-to-br from-slate-50 via-slate-50 to-upnavy-50/50 rounded-2xl border border-slate-200/80 mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="relative shrink-0">
+                      <div className="w-11 h-11 rounded-2xl bg-upnavy-100 border border-upnavy-200 text-xl flex items-center justify-center font-bold shadow-2xs">
+                        {currentUser.avatar}
+                      </div>
+                      <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white" title="Active Account" />
+                    </div>
+                    <div className="overflow-hidden space-y-0.5">
+                      <div className="font-black text-upnavy-950 text-sm truncate leading-snug">
+                        {currentUser.name}
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-upsaffron-100 text-upsaffron-800 border border-upsaffron-200 uppercase">
+                          {currentUser.role}
+                        </span>
+                        {currentUser.grade && (
+                          <span className="text-[10px] text-slate-500 font-medium truncate">
+                            {currentUser.grade}
+                          </span>
+                        )}
+                      </div>
+                      {currentUser.school && (
+                        <div className="text-[10px] text-slate-400 truncate mt-0.5">
+                          {currentUser.school}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Profile Edit Option Button */}
+                  <button
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
+                      onOpenProfileEdit();
+                    }}
+                    className="w-full mt-3 py-2 px-3 rounded-xl bg-white hover:bg-upsaffron-50 text-upnavy-900 hover:text-upsaffron-800 font-bold border border-slate-200 hover:border-upsaffron-300 text-xs flex items-center justify-between transition-all shadow-2xs group"
+                  >
+                    <span className="flex items-center gap-2">
+                      <UserCog className="w-4 h-4 text-upsaffron-600" />
+                      <span>Edit Profile Details</span>
+                    </span>
+                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 group-hover:text-upsaffron-600 transition" />
+                  </button>
                 </div>
 
-                <div className="space-y-0.5">
+                {/* Quick Menu Options */}
+                <div className="space-y-1">
                   <button
                     onClick={() => {
                       setIsProfileMenuOpen(false);
                       onOpenDownloads();
                     }}
-                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 flex items-center justify-between"
+                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-upnavy-950 flex items-center justify-between transition font-medium group"
                   >
-                    <span>Offline Storage</span>
-                    <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-600 font-semibold">
+                    <span className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-upnavy-100 text-slate-600 group-hover:text-upnavy-800 flex items-center justify-center transition">
+                        <HardDrive className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="font-semibold text-xs">Offline Storage</span>
+                    </span>
+                    <span className="text-[10px] bg-slate-100 group-hover:bg-upnavy-100 px-2 py-0.5 rounded-full text-slate-600 group-hover:text-upnavy-900 font-bold transition">
                       {downloadedCount} cached
                     </span>
                   </button>
@@ -231,10 +280,17 @@ export function Navbar({
                       setIsProfileMenuOpen(false);
                       onOpenArchitecture();
                     }}
-                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-upnavy-950 flex items-center justify-between transition font-medium group"
                   >
-                    <Layers className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Viva Architecture Deck</span>
+                    <span className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-upnavy-100 text-slate-600 group-hover:text-upnavy-800 flex items-center justify-center transition">
+                        <Layers className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="font-semibold text-xs">Viva Technical Deck</span>
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-medium">
+                      Architecture
+                    </span>
                   </button>
 
                   <button
@@ -242,21 +298,30 @@ export function Navbar({
                       setIsProfileMenuOpen(false);
                       onOpenAuthModal();
                     }}
-                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-upsaffron-50 text-upsaffron-700 font-semibold flex items-center gap-2"
+                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-upsaffron-50 text-slate-700 hover:text-upsaffron-800 flex items-center justify-between transition font-medium group"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-upsaffron-600" />
-                    <span>Switch Role / Demo</span>
+                    <span className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-upsaffron-50 text-upsaffron-600 flex items-center justify-center transition">
+                        <Sparkles className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="font-semibold text-xs">Switch Role / Demo</span>
+                    </span>
+                    <span className="text-[10px] text-upsaffron-600 font-bold">
+                      Shortcut
+                    </span>
                   </button>
 
-                  <div className="pt-1 border-t border-slate-100">
+                  <div className="pt-1.5 mt-1 border-t border-slate-100">
                     <button
                       onClick={() => {
                         setIsProfileMenuOpen(false);
                         onLogout();
                       }}
-                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-rose-50 text-rose-600 font-semibold flex items-center gap-2"
+                      className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-rose-50 text-rose-600 font-bold flex items-center gap-2.5 transition"
                     >
-                      <LogOut className="w-3.5 h-3.5" />
+                      <div className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+                        <LogOut className="w-3.5 h-3.5" />
+                      </div>
                       <span>Log Out</span>
                     </button>
                   </div>

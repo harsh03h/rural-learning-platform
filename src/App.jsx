@@ -10,19 +10,26 @@ import { LessonModal } from './components/LessonModal';
 import { AiSaathiChat } from './components/AiSaathiChat';
 import { SystemArchitectureModal } from './components/SystemArchitectureModal';
 import { DownloadsModal } from './components/DownloadsModal';
+import { ProfileEditModal } from './components/ProfileEditModal';
 import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
 
 export function App() {
-  const [currentUser, setCurrentUser] = useState({
-    id: 'stu-4',
-    name: 'Rohan Verma',
-    role: 'student',
-    grade: 'Class 7A',
-    rollNo: '24',
-    school: 'Govt Upper Primary School Rampur',
-    avatar: '🎓'
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_user');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return {
+      id: 'stu-4',
+      name: 'Rohan Verma',
+      role: 'student',
+      grade: 'Class 7A',
+      rollNo: '24',
+      school: 'Govt Upper Primary School Rampur',
+      avatar: '🎓'
+    };
   });
 
   const [role, setRole] = useState('student'); // 'student' | 'teacher' | 'parent' | 'admin'
@@ -53,6 +60,7 @@ export function App() {
 
   // Modals
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   const [isDiagnosticOpen, setIsDiagnosticOpen] = useState(false);
   const [isAiSaathiOpen, setIsAiSaathiOpen] = useState(false);
   const [isArchitectureOpen, setIsArchitectureOpen] = useState(false);
@@ -62,6 +70,17 @@ export function App() {
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const handleSaveProfile = (updatedUser) => {
+    setCurrentUser(updatedUser);
+    try {
+      localStorage.setItem('gyansetu_user', JSON.stringify(updatedUser));
+    } catch (e) {}
+    if (updatedUser.language && updatedUser.language !== lang) {
+      setLang(updatedUser.language);
+    }
+    showToast(lang === 'hi' ? '✨ प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट हो गया!' : '✨ Profile details updated successfully!');
   };
 
   const handleLoginSuccess = (userData) => {
@@ -173,6 +192,7 @@ export function App() {
       <Navbar
         currentUser={currentUser}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
+        onOpenProfileEdit={() => setIsProfileEditOpen(true)}
         onLogout={handleLogout}
         role={role}
         setRole={(r) => {
@@ -224,6 +244,7 @@ export function App() {
 
         {role === 'student' && (
           <StudentView
+            currentUser={currentUser}
             lang={lang}
             isLowData={isLowData}
             isOffline={isOffline}
@@ -256,6 +277,14 @@ export function App() {
         onClose={() => setIsAuthModalOpen(false)}
         lang={lang}
         onLoginSuccess={handleLoginSuccess}
+      />
+
+      <ProfileEditModal
+        isOpen={isProfileEditOpen}
+        onClose={() => setIsProfileEditOpen(false)}
+        currentUser={currentUser}
+        onSaveProfile={handleSaveProfile}
+        lang={lang}
       />
 
       <DiagnosticModal
