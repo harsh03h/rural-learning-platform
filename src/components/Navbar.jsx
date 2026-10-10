@@ -15,12 +15,14 @@ import {
   HardDrive,
   UserCog,
   HelpCircle,
-  LifeBuoy
+  LifeBuoy,
+  Flame
 } from 'lucide-react';
 import { translations, supportedLanguages } from '../data/mockData';
 
 export function Navbar({ 
   currentUser,
+  studentStats,
   onOpenAuthModal,
   onOpenProfileEdit,
   onLogout,
@@ -219,7 +221,7 @@ export function Navbar({
 
             {/* Modernized Profile Dropdown Popover */}
             {isProfileMenuOpen && currentUser && (
-              <div className="absolute right-0 mt-2.5 w-[calc(100vw-24px)] max-w-xs sm:w-72 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/90 p-3 z-50 ring-1 ring-slate-900/5 animate-fadeIn text-xs">
+              <div className="absolute right-0 mt-2.5 w-[calc(100vw-24px)] max-w-xs sm:w-80 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/90 p-3 z-50 ring-1 ring-slate-900/5 animate-fadeIn text-xs">
                 
                 {/* User Info Header with Avatar & Badge */}
                 <div className="p-3 bg-gradient-to-br from-slate-50 via-slate-50 to-upnavy-50/50 rounded-2xl border border-slate-200/80 mb-2">
@@ -239,7 +241,7 @@ export function Navbar({
                           {currentUser.role}
                         </span>
                         {currentUser.grade && (
-                          <span className="text-[10px] text-slate-500 font-medium truncate">
+                          <span className="text-[10px] font-bold text-upnavy-900 bg-upnavy-50 border border-upnavy-200 px-2 py-0.5 rounded-full truncate">
                             {currentUser.grade}
                           </span>
                         )}
@@ -252,13 +254,27 @@ export function Navbar({
                     </div>
                   </div>
 
+                  {/* Student Streak & XP Highlight */}
+                  {currentUser.role === 'student' && studentStats && (
+                    <div className="mt-2.5 pt-2 border-t border-slate-200/70 grid grid-cols-2 gap-2 text-[11px]">
+                      <div className="flex items-center gap-1.5 font-bold text-amber-700 bg-amber-50/80 px-2.5 py-1 rounded-xl border border-amber-200/60">
+                        <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
+                        <span className="truncate">{studentStats.streakDays || 4}d Streak</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 font-bold text-upsaffron-700 bg-upsaffron-50/80 px-2.5 py-1 rounded-xl border border-upsaffron-200/60">
+                        <Sparkles className="w-3.5 h-3.5 text-upsaffron-500 shrink-0" />
+                        <span className="truncate">{studentStats.pointsXP || 350} XP</span>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Profile Edit Option Button */}
                   <button
                     onClick={() => {
                       setIsProfileMenuOpen(false);
                       onOpenProfileEdit();
                     }}
-                    className="w-full mt-3 py-2 px-3 rounded-xl bg-white hover:bg-upsaffron-50 text-upnavy-900 hover:text-upsaffron-800 font-bold border border-slate-200 hover:border-upsaffron-300 text-xs flex items-center justify-between transition-all shadow-2xs group"
+                    className="w-full mt-3 py-2 px-3 rounded-xl bg-white hover:bg-upsaffron-50 text-upnavy-900 hover:text-upsaffron-800 font-bold border border-slate-200 hover:border-upsaffron-300 text-xs flex items-center justify-between transition-all shadow-2xs group cursor-pointer"
                   >
                     <span className="flex items-center gap-2">
                       <UserCog className="w-4 h-4 text-upsaffron-600" />

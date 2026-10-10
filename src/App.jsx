@@ -210,6 +210,7 @@ export function App() {
       {/* Main Navbar */}
       <Navbar
         currentUser={currentUser}
+        studentStats={studentStats}
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
         onOpenProfileEdit={() => setIsProfileEditOpen(true)}
         onLogout={handleLogout}
@@ -316,6 +317,7 @@ export function App() {
         currentUser={currentUser}
         onSaveProfile={handleSaveProfile}
         lang={lang}
+        studentStats={studentStats}
       />
 
       <DiagnosticModal
