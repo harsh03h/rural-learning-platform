@@ -161,7 +161,7 @@ export function ParentView({ lang }) {
             Kailash Verma (Rohan's Guardian)
           </h1>
           <p className="text-xs sm:text-sm text-slate-500">
-            Linked Student: Rohan Verma • Class 7A • Govt Upper Primary School Rampur
+            Linked Student: Rohan Verma • Class 7A • Model Senior Secondary School Rampur
           </p>
         </div>
 
@@ -231,7 +231,7 @@ export function ParentView({ lang }) {
                 </div>
                 <div>
                   <h3 className="font-bold text-base text-upnavy-950">Weekly Performance Report</h3>
-                  <p className="text-xs text-slate-500">Class 7A • Govt Upper Primary School</p>
+                  <p className="text-xs text-slate-500">Class 7A • Model Senior Secondary School</p>
                 </div>
               </div>
               <span className="text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-full">
@@ -346,7 +346,7 @@ export function ParentView({ lang }) {
                   </p>
                   <div className="flex justify-end text-[10px] text-slate-400 items-center gap-1 pt-0.5">
                     <CheckCheck className="w-3 h-3 text-emerald-400" />
-                    <span>Delivered (Free Govt SMS)</span>
+                    <span>Delivered (Free School SMS Gateway)</span>
                   </div>
                 </div>
 
