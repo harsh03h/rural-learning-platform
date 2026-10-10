@@ -59,7 +59,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
     category: 'sync',
     name: '',
     phone: '',
-    school: 'Govt Model Senior Secondary School Rampur',
+    school: 'Model Senior Secondary School Rampur',
     description: ''
   });
   const [submittedTicket, setSubmittedTicket] = useState(null);
@@ -216,13 +216,13 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
       category: 'tech'
     },
     {
-      q: 'How do teachers mark attendance and push offline quiz grades to the government portal?',
-      a: 'In the Teacher Dashboard, tap the P/A button next to each student to mark attendance. When near the school edge server or when an internet link is detected, tap "Sync All with Portal". All student attendance records and offline quiz scores are securely reconciled with the district database.',
+      q: 'How do teachers mark attendance and push offline quiz grades to the school cloud portal?',
+      a: 'In the Teacher Dashboard, tap the P/A button next to each student to mark attendance. When near the school edge server or when an internet link is detected, tap "Sync All with Portal". All student attendance records and offline quiz scores are securely reconciled with the centralized school portal database.',
       category: 'teacher'
     },
     {
       q: 'I am a parent with a basic button feature phone. How do I get school updates?',
-      a: 'GyanSetu integrates a 2G SMS and automated IVR voice calling service. When your child completes a weekly milestone or unit test, our automated BSNL gateway sends a free SMS in your chosen regional language. You can also receive an automated telephone call that reads out your child\'s grades.',
+      a: 'GyanSetu integrates a 2G SMS and automated IVR voice calling service. When your child completes a weekly milestone or unit test, our automated SMS gateway sends a free SMS in your chosen regional language. You can also receive an automated telephone call that reads out your child\'s grades.',
       category: 'parent'
     },
     {
@@ -241,8 +241,8 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
       category: 'tech'
     },
     {
-      q: 'What is the U-DISE+ compliance certificate in the Admin Dashboard?',
-      a: 'U-DISE+ is the official Unified District Information System for Education mandated by the Ministry of Education, Govt. of India. The Admin dashboard automatically calculates gender parity, socio-demographic ratios, Mid-Day Meal distribution, and attendance, allowing the Headmistress to generate an attested PDF for the District Education Officer (DEO).',
+      q: 'What is the institutional compliance report in the Admin Dashboard?',
+      a: 'The Admin dashboard automatically calculates gender parity, attendance rates, learning milestones, and program metrics, allowing school leadership to generate an attested compliance PDF for institutional auditing.',
       category: 'teacher'
     },
     {
@@ -272,17 +272,17 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
             <div>
               <div className="flex flex-wrap items-center gap-1.5">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-upsaffron-700 bg-upsaffron-50 px-2 py-0.5 rounded-full border border-upsaffron-200">
-                  National EdTech Help Desk
+                  Private EdTech Help Desk
                 </span>
                 <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
-                  24x7 Rural Support
+                  24x7 Platform Support
                 </span>
               </div>
               <h2 className="text-lg sm:text-2xl font-black text-upnavy-950 tracking-tight mt-0.5">
                 GyanSetu Help & Support Desk (सहायता केंद्र)
               </h2>
               <p className="text-[11px] sm:text-xs text-slate-500">
-                Samagra Shiksha • Department of Basic Education, Govt. of Uttar Pradesh
+                GyanSetu Learning Technologies • Private EdTech Technical Support
               </p>
             </div>
           </div>
@@ -342,7 +342,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
             }`}
           >
             <FileText className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Grievance Ticket</span>
+            <span className="truncate">Support Ticket</span>
           </button>
         </div>
 
@@ -378,13 +378,13 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
               <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-upnavy-400 transition space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">
-                    Free Call • No Mobile Balance Needed
+                    Free Call • 24x7 Available
                   </span>
                   <Phone className="w-4 h-4 text-emerald-600" />
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-bold text-upnavy-950">Samagra Shiksha Central Toll-Free</h4>
+                  <h4 className="text-sm font-bold text-upnavy-950">GyanSetu Central Toll-Free Helpline</h4>
                   <div className="text-xl font-black font-mono text-upnavy-950 mt-1">
                     1800-180-5321
                   </div>
@@ -416,13 +416,13 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
               <div className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-upsaffron-400 transition space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold text-upsaffron-800 bg-upsaffron-100 px-2.5 py-0.5 rounded-full border border-upsaffron-300">
-                    BSNL 2G SMS / WhatsApp
+                    Offline SMS & WhatsApp Help
                   </span>
                   <MessageSquare className="w-4 h-4 text-upsaffron-600" />
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-bold text-upnavy-950">Offline SMS & WhatsApp Help Desk</h4>
+                  <h4 className="text-sm font-bold text-upnavy-950">Direct WhatsApp & SMS Support Desk</h4>
                   <div className="text-xl font-black font-mono text-upnavy-950 mt-1">
                     +91 94120 54321
                   </div>
@@ -434,7 +434,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
                 <div className="pt-2 border-t border-slate-100 flex items-center gap-2">
                   <button
                     onClick={() => {
-                      alert('Redirecting to WhatsApp chat with GyanSetu Rural Nodal Desk (+91 94120 54321)...');
+                      alert('Redirecting to WhatsApp chat with GyanSetu Technical Support (+91 94120 54321)...');
                     }}
                     className="flex-1 py-2 bg-upsaffron-600 hover:bg-upsaffron-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition active:scale-95"
                   >
@@ -453,24 +453,24 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
               </div>
             </div>
 
-            {/* Local District & Block Contacts */}
+            {/* Local Campus & Regional Support Contacts */}
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
               <h4 className="font-bold text-upnavy-950 text-xs flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-upnavy-800" />
-                <span>Cluster & Village Level Nodal Officers (Rampur District)</span>
+                <span>Regional Support Team & Campus Technical Coordinators</span>
               </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
                   <div className="font-bold text-upnavy-950">Shri Ramakant Tiwari</div>
-                  <div className="text-[11px] text-slate-500">Block Resource Coordinator (BRC Bilaspur)</div>
-                  <div className="text-[11px] font-mono text-slate-700">📞 +91 98371 29401 • Room 14, Block Office</div>
+                  <div className="text-[11px] text-slate-500">Technical Support Lead (North Zone)</div>
+                  <div className="text-[11px] font-mono text-slate-700">📞 +91 98371 29401 • Technical Operations Desk</div>
                 </div>
 
                 <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
                   <div className="font-bold text-upnavy-950">Dr. Anita Deshmukh</div>
-                  <div className="text-[11px] text-slate-500">School Headmistress & Digital Nodal</div>
-                  <div className="text-[11px] font-mono text-slate-700">🏛️ Govt Model Sr Sec School Rampur • Room 101</div>
+                  <div className="text-[11px] text-slate-500">Campus Academic & Digital Coordinator</div>
+                  <div className="text-[11px] font-mono text-slate-700">🏫 Model Sr Sec School Rampur • Campus Lab 101</div>
                 </div>
               </div>
             </div>
@@ -671,7 +671,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
                     Ticket Reference ID: <span className="font-mono text-upsaffron-700">{submittedTicket.id}</span>
                   </h4>
                   <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
-                    Your request has been dispatched to the Block Resource Coordinator (BRC Bilaspur) and school technical nodal officer.
+                    Your request has been dispatched to the GyanSetu technical support desk and campus coordinator.
                   </p>
                 </div>
 
@@ -698,7 +698,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
                       category: 'sync',
                       name: '',
                       phone: '',
-                      school: 'Govt Model Senior Secondary School Rampur',
+                      school: 'Model Senior Secondary School Rampur',
                       description: ''
                     });
                   }}
@@ -822,8 +822,8 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
 
         {/* Footer info line */}
         <div className="mt-auto pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400">
-          <span>Official Helpline: <strong>1800-180-5321</strong> (Toll Free)</span>
-          <span>Dept. of Basic Education, Government of Uttar Pradesh</span>
+          <span>Platform Helpline: <strong>1800-180-5321</strong> (Toll Free)</span>
+          <span>GyanSetu Learning Technologies • Private EdTech Platform</span>
         </div>
       </div>
     </div>

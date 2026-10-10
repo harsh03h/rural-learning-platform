@@ -376,7 +376,7 @@ export function App() {
             </div>
             <span className="hidden sm:inline text-slate-300">|</span>
             <div className="flex items-center gap-1.5 text-[11px] text-slate-600">
-              <span>National Toll-Free:</span>
+              <span>Platform Toll-Free:</span>
               <a href="tel:18001805321" className="font-mono font-bold text-upnavy-950 hover:text-upsaffron-600 transition">
                 1800-180-5321
               </a>

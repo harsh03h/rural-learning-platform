@@ -291,24 +291,6 @@ export function Navbar({
                   <button
                     onClick={() => {
                       setIsProfileMenuOpen(false);
-                      onOpenArchitecture();
-                    }}
-                    className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-upnavy-950 flex items-center justify-between transition font-medium group"
-                  >
-                    <span className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-upnavy-100 text-slate-600 group-hover:text-upnavy-800 flex items-center justify-center transition">
-                        <Layers className="w-3.5 h-3.5" />
-                      </div>
-                      <span className="font-semibold text-xs">Viva Technical Deck</span>
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-medium">
-                      Architecture
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setIsProfileMenuOpen(false);
                       onOpenAuthModal();
                     }}
                     className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-upsaffron-50 text-slate-700 hover:text-upsaffron-800 flex items-center justify-between transition font-medium group"
@@ -374,14 +356,14 @@ export function Navbar({
                     <button
                       onClick={() => {
                         setIsProfileMenuOpen(false);
-                        onLogout();
+                        onOpenAuthModal();
                       }}
-                      className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-rose-50 text-rose-600 font-bold flex items-center gap-2.5 transition"
+                      className="w-full text-left px-3 py-2.5 rounded-xl hover:bg-upsaffron-50 text-upnavy-950 hover:text-upsaffron-700 font-bold flex items-center gap-2.5 transition"
                     >
-                      <div className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
-                        <LogOut className="w-3.5 h-3.5" />
+                      <div className="w-7 h-7 rounded-lg bg-upsaffron-100 text-upsaffron-700 flex items-center justify-center">
+                        <LogIn className="w-3.5 h-3.5" />
                       </div>
-                      <span>Log Out</span>
+                      <span>Login</span>
                     </button>
                   </div>
                 </div>
