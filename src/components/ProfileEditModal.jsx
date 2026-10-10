@@ -615,7 +615,7 @@ export function ProfileEditModal({
                         className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white font-semibold text-slate-900 outline-none focus:ring-2 focus:ring-upsaffron-500"
                       >
                         <option value="School Mesh Tablet">Dedicated School Tablet (Wi-Fi Mesh Connected)</option>
-                        <option value="Family 2G/3G Smartphone">Family Smartphone (2G/3G Low-Data Saver)</option>
+                        <option value="Family Smartphone">Family Smartphone (Low-Data Saver)</option>
                         <option value="Computer Lab PC">Desktop Computer in Campus ICT Lab</option>
                       </select>
                     </div>
