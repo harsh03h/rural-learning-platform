@@ -392,7 +392,7 @@ export function App() {
             
             <span>•</span>
             <button onClick={() => setIsArchitectureOpen(true)} className="hover:underline text-upnavy-800 hover:text-upsaffron-600 font-bold transition">
-              Technical Architecture & Viva
+              Architecture & Why this platform
             </button>
           </div>
         </div>
