@@ -21,7 +21,9 @@ import {
   Target,
   GraduationCap,
   School,
-  CheckCheck
+  CheckCheck,
+  Trophy,
+  Gift
 } from 'lucide-react';
 import { translations, sampleCourses, getLocalized } from '../data/mockData';
 
@@ -37,7 +39,8 @@ export function StudentView({
   onOpenAiSaathi,
   studentStats,
   currentUser,
-  isAiSaathiOpen
+  isAiSaathiOpen,
+  onOpenXpRewards
 }) {
   const t = translations[lang] || translations['en'];
   const [activeTab, setActiveTab] = useState('courses'); // 'courses' | 'remedial' | 'progress'
@@ -114,21 +117,30 @@ export function StudentView({
 
         {/* Bento Stats Column */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3.5">
-          {/* Day Streak & XP Card */}
-          <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex items-center justify-between">
+          {/* Day Streak & XP Card (Interactive Rewards Hub Button) */}
+          <div 
+            onClick={onOpenXpRewards}
+            className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-upsaffron-400 hover:shadow-md transition active:scale-[0.99] cursor-pointer group"
+            title="Click to view XP Level, Rewards & Uses"
+          >
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-500 shadow-2xs">
+              <div className="w-11 h-11 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-500 shadow-2xs group-hover:scale-105 transition-transform">
                 <Flame className="w-6 h-6 fill-amber-500 text-amber-500" />
               </div>
               <div>
-                <div className="text-lg font-black text-upnavy-950 leading-tight">{studentStats.streakDays} Days</div>
-                <div className="text-[11px] text-slate-500 font-medium">Learning Streak 🔥</div>
+                <div className="text-lg font-black text-upnavy-950 leading-tight flex items-center gap-1.5">
+                  <span>{studentStats.streakDays} Days</span>
+                  <span className="text-[10px] font-bold text-upsaffron-700 bg-upsaffron-50 px-2 py-0.5 rounded-full border border-upsaffron-200">
+                    Rewards 🎁
+                  </span>
+                </div>
+                <div className="text-[11px] text-slate-500 font-medium">Learning Streak • Tap to view perks</div>
               </div>
             </div>
 
             <div className="text-right">
               <div className="text-base font-black text-upsaffron-600 leading-tight">+{studentStats.pointsXP}</div>
-              <div className="text-[10px] text-slate-400 font-medium">XP Points</div>
+              <div className="text-[10px] text-slate-400 font-bold group-hover:text-upsaffron-600 transition">XP Points & Uses →</div>
             </div>
           </div>
 
@@ -542,6 +554,30 @@ export function StudentView({
       {/* TAB 3: SUBJECT PROGRESS & GRADE PROGRESSION RADAR */}
       {activeTab === 'progress' && (
         <div className="space-y-6 animate-fadeIn">
+          {/* XP Effort Rewards & Scholarships Banner */}
+          <div className="bg-gradient-to-r from-amber-500 via-upsaffron-600 to-amber-600 rounded-3xl p-5 sm:p-6 text-white shadow-lg shadow-upsaffron-600/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative overflow-hidden">
+            <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-white/10 rounded-full blur-xl pointer-events-none" />
+            <div className="space-y-1 relative z-10">
+              <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 text-white px-2.5 py-0.5 rounded-full border border-white/20">
+                Level 3 • Concept Achiever ⭐
+              </span>
+              <h3 className="text-lg sm:text-xl font-black">
+                You have earned {studentStats.pointsXP} XP Points!
+              </h3>
+              <p className="text-xs text-amber-100 max-w-xl">
+                Redeem your XP points for printable Merit Certificates, ICT Lab Priority Passes, Board Exam Formula Handbooks, and Trust Scholarship nominations.
+              </p>
+            </div>
+
+            <button
+              onClick={onOpenXpRewards}
+              className="px-5 py-2.5 rounded-2xl bg-white hover:bg-amber-50 text-upnavy-950 font-bold text-xs shadow-md transition active:scale-95 flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer relative z-10"
+            >
+              <Trophy className="w-4 h-4 text-upsaffron-600" />
+              <span>Open Rewards & Perks Hub →</span>
+            </button>
+          </div>
+
           {/* Grade Progression Radar (Classes 6 to 10) */}
           <div className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
             <div>

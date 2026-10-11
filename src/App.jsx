@@ -12,6 +12,7 @@ import { SystemArchitectureModal } from './components/SystemArchitectureModal';
 import { DownloadsModal } from './components/DownloadsModal';
 import { ProfileEditModal } from './components/ProfileEditModal';
 import { HelpSupportModal } from './components/HelpSupportModal';
+import { XpRewardsModal } from './components/XpRewardsModal';
 import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap, HelpCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
@@ -68,6 +69,7 @@ export function App() {
   const [isArchitectureOpen, setIsArchitectureOpen] = useState(false);
   const [isDownloadsOpen, setIsDownloadsOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isXpModalOpen, setIsXpModalOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState(null);
 
   const showToast = (msg) => {
@@ -237,6 +239,7 @@ export function App() {
         onOpenDownloads={() => setIsDownloadsOpen(true)}
         onOpenArchitecture={() => setIsArchitectureOpen(true)}
         onOpenHelp={() => setIsHelpModalOpen(true)}
+        onOpenXpRewards={() => setIsXpModalOpen(true)}
       />
 
       {/* Main Body Content by Active Role */}
@@ -287,6 +290,7 @@ export function App() {
             onOpenAiSaathi={() => setIsAiSaathiOpen(true)}
             isAiSaathiOpen={isAiSaathiOpen}
             studentStats={studentStats}
+            onOpenXpRewards={() => setIsXpModalOpen(true)}
           />
         )}
 
@@ -365,6 +369,17 @@ export function App() {
         isOpen={isHelpModalOpen}
         onClose={() => setIsHelpModalOpen(false)}
         lang={lang}
+      />
+
+      <XpRewardsModal
+        isOpen={isXpModalOpen}
+        onClose={() => setIsXpModalOpen(false)}
+        lang={lang}
+        studentStats={studentStats}
+        currentUser={currentUser}
+        onClaimReward={(reward) => {
+          showToast(`✨ Unlocked reward: ${reward.title}!`);
+        }}
       />
 
       {/* Footer */}

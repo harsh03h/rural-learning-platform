@@ -16,7 +16,8 @@ import {
   UserCog,
   HelpCircle,
   LifeBuoy,
-  Flame
+  Flame,
+  Trophy
 } from 'lucide-react';
 import { translations, supportedLanguages } from '../data/mockData';
 
@@ -26,6 +27,7 @@ export function Navbar({
   onOpenAuthModal,
   onOpenProfileEdit,
   onLogout,
+  onOpenXpRewards,
   role, 
   setRole, 
   lang, 
@@ -254,17 +256,25 @@ export function Navbar({
                     </div>
                   </div>
 
-                  {/* Student Streak & XP Highlight */}
+                  {/* Student Streak & XP Highlight (Interactive) */}
                   {currentUser.role === 'student' && studentStats && (
                     <div className="mt-2.5 pt-2 border-t border-slate-200/70 grid grid-cols-2 gap-2 text-[11px]">
                       <div className="flex items-center gap-1.5 font-bold text-amber-700 bg-amber-50/80 px-2.5 py-1 rounded-xl border border-amber-200/60">
                         <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
                         <span className="truncate">{studentStats.streakDays || 4}d Streak</span>
                       </div>
-                      <div className="flex items-center gap-1.5 font-bold text-upsaffron-700 bg-upsaffron-50/80 px-2.5 py-1 rounded-xl border border-upsaffron-200/60">
-                        <Sparkles className="w-3.5 h-3.5 text-upsaffron-500 shrink-0" />
-                        <span className="truncate">{studentStats.pointsXP || 350} XP</span>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsProfileMenuOpen(false);
+                          if (onOpenXpRewards) onOpenXpRewards();
+                        }}
+                        className="flex items-center gap-1.5 font-bold text-upsaffron-700 bg-upsaffron-50 hover:bg-upsaffron-100 px-2.5 py-1 rounded-xl border border-upsaffron-300 transition cursor-pointer active:scale-95 group text-left"
+                        title="View XP Level, Rewards & Uses"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-upsaffron-500 group-hover:rotate-12 transition-transform shrink-0" />
+                        <span className="truncate">{studentStats.pointsXP || 350} XP 🎁</span>
+                      </button>
                     </div>
                   )}
 
@@ -286,6 +296,25 @@ export function Navbar({
 
                 {/* Quick Menu Options */}
                 <div className="space-y-1">
+                  {currentUser.role === 'student' && (
+                    <button
+                      onClick={() => {
+                        setIsProfileMenuOpen(false);
+                        if (onOpenXpRewards) onOpenXpRewards();
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-amber-50/80 text-amber-950 flex items-center justify-between transition font-medium group"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center transition">
+                          <Trophy className="w-3.5 h-3.5" />
+                        </div>
+                        <span className="font-bold text-xs text-amber-900">XP Rewards & Scholarships</span>
+                      </span>
+                      <span className="text-[10px] bg-amber-100 px-2 py-0.5 rounded-full text-amber-900 font-bold">
+                        Level 3 ⭐
+                      </span>
+                    </button>
+                  )}
                   <button
                     onClick={() => {
                       setIsProfileMenuOpen(false);
