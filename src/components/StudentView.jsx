@@ -11,25 +11,241 @@ import {
   BookOpen, 
   Check, 
   Zap, 
-  Filter,
-  BarChart3,
-  Compass,
-  ChevronRight,
-  ChevronDown,
-  ChevronUp,
-  Layers,
-  Eye,
-  TrendingUp,
-  Volume2,
-  HardDrive,
-  Target,
-  GraduationCap,
-  School,
-  CheckCheck,
-  Trophy,
-  Gift
+  Filter, 
+  BarChart3, 
+  Compass, 
+  ChevronRight, 
+  ChevronDown, 
+  ChevronUp, 
+  Layers, 
+  Eye, 
+  TrendingUp, 
+  Volume2, 
+  HardDrive, 
+  Target, 
+  GraduationCap, 
+  School, 
+  CheckCheck, 
+  Trophy, 
+  Gift,
+  Calendar,
+  Clock,
+  Lightbulb,
+  FolderDown
 } from 'lucide-react';
 import { translations, sampleCourses, getLocalized } from '../data/mockData';
+import { ClassTimetableModal } from './ClassTimetableModal';
+
+export const CLASS_METADATA = {
+  'Class 6': {
+    label: 'Class 6',
+    stage: 'Middle School',
+    badge: 'Foundation',
+    color: 'from-purple-900 to-indigo-950',
+    accentBadge: 'bg-purple-100 text-purple-900 border-purple-200',
+    ring: 'ring-purple-500/80',
+    sub: 'Middle School Foundation',
+    desc: 'NCERT Mathematics, Science, English, Social Science, Hindi, and Digital Literacy foundation.'
+  },
+  'Class 7': {
+    label: 'Class 7',
+    stage: 'Middle School',
+    badge: 'Core',
+    color: 'from-upnavy-900 to-upnavy-950',
+    accentBadge: 'bg-amber-100 text-amber-900 border-amber-200',
+    ring: 'ring-upsaffron-500/80',
+    sub: 'Core Middle School',
+    desc: 'NCERT Integers & Fractions, Science Nutrition, English Grammar, Hindi Stories, Medieval History, and Digital Skills.'
+  },
+  'Class 8': {
+    label: 'Class 8',
+    stage: 'Upper Primary',
+    badge: 'Advanced',
+    color: 'from-emerald-900 to-teal-950',
+    accentBadge: 'bg-emerald-100 text-emerald-900 border-emerald-200',
+    ring: 'ring-emerald-500/80',
+    sub: 'Upper Primary Advanced',
+    desc: 'NCERT Rational Numbers & Linear Equations, Science Microorganisms, Modern History & Civics, and Cyber Safety.'
+  },
+  'Class 9': {
+    label: 'Class 9',
+    stage: 'Secondary',
+    badge: 'Concepts',
+    color: 'from-rose-900 to-slate-950',
+    accentBadge: 'bg-rose-100 text-rose-900 border-rose-200',
+    ring: 'ring-rose-500/80',
+    sub: 'Secondary Board Prep',
+    desc: 'NCERT Number Systems & Polynomials, Motion & Cell Biology, Democratic Politics, Hindi Literature, and Computer Science.'
+  },
+  'Class 10': {
+    label: 'Class 10',
+    stage: 'Secondary',
+    badge: 'Board Prep',
+    color: 'from-amber-900 to-stone-950',
+    accentBadge: 'bg-indigo-100 text-indigo-900 border-indigo-200',
+    ring: 'ring-indigo-500/80',
+    sub: 'High School Board Exam',
+    desc: 'NCERT Real Numbers & Trigonometry, Chemical Reactions, Nationalism in India, English Board Writing, and Mock Board Prep.'
+  }
+};
+
+export const REMEDIAL_ROADMAP_BY_GRADE = {
+  'Class 6': [
+    {
+      title: "Whole Numbers & Number Line (Class 6)",
+      status: "Mastered (95%) ✓",
+      statusColor: "bg-emerald-100 text-emerald-800",
+      desc: "Strong conceptual foundation in Indian place value system, estimation, and number line jumps.",
+      type: "mastered"
+    },
+    {
+      title: "Fractions as Parts of a Whole (Class 6)",
+      status: "Priority Focus (45%)",
+      statusColor: "bg-rose-200/80 text-rose-900",
+      desc: "Struggling with visual division of objects (e.g. roti division). Practice basic unit fractions.",
+      type: "weak",
+      action: "Start Class 6 Foundation Lesson"
+    },
+    {
+      title: "Integers & Negative Numbers (Class 7 Prerequisite)",
+      status: "Prerequisite Locked",
+      statusColor: "bg-amber-200/80 text-amber-900",
+      desc: "Unlocks after completing Class 6 Fractions Chapter 1 with 70%+ score to prevent sign confusion.",
+      type: "locked"
+    },
+    {
+      title: "Basic Geometric Shapes (Class 6)",
+      status: "In Progress (60%)",
+      statusColor: "bg-blue-100 text-blue-800",
+      desc: "Point, line segment, ray, and angles with everyday village boundary examples.",
+      type: "progress"
+    }
+  ],
+  'Class 7': [
+    {
+      title: "Fractions & Decimals Operations (Class 7)",
+      status: "Priority Weak (40%)",
+      statusColor: "bg-rose-200/80 text-rose-900",
+      desc: "Difficulty identified in adding unequal denominators. Reviewing the roti division model is recommended.",
+      type: "weak",
+      action: "Start Remedial Lesson"
+    },
+    {
+      title: "Linear Equations (Class 8 Prerequisite)",
+      status: "Prerequisite Locked",
+      statusColor: "bg-amber-200/80 text-amber-900",
+      desc: "Locked until Class 7 Fractions & Integers is completed with 70%+ score to prevent algebraic confusion.",
+      type: "locked"
+    },
+    {
+      title: "Whole Numbers & Place Value (Class 6 Prerequisite)",
+      status: "Mastered (95%) ✓",
+      statusColor: "bg-emerald-100 text-emerald-800",
+      desc: "Strong conceptual foundation in Indian place value system and basic arithmetic operations.",
+      type: "mastered"
+    },
+    {
+      title: "Nutrition in Plants & Animals (Class 7 Science)",
+      status: "On Track (75%)",
+      statusColor: "bg-blue-100 text-blue-800",
+      desc: "Photosynthesis mechanisms and digestive enzymes verified via interactive chapter quiz.",
+      type: "progress"
+    }
+  ],
+  'Class 8': [
+    {
+      title: "Linear Equations in One Variable (Class 8)",
+      status: "Priority Weak (42%)",
+      statusColor: "bg-rose-200/80 text-rose-900",
+      desc: "Difficulty in transposing terms with variables across the equals sign. Practice balance scale method.",
+      type: "weak",
+      action: "Start Algebra Bridge Lesson"
+    },
+    {
+      title: "Rational Numbers & Operations (Class 8)",
+      status: "Mastered (92%) ✓",
+      statusColor: "bg-emerald-100 text-emerald-800",
+      desc: "Excellent understanding of closure, commutativity, and representation on number line.",
+      type: "mastered"
+    },
+    {
+      title: "Polynomials & Identities (Class 9 Prerequisite)",
+      status: "Prerequisite Locked",
+      statusColor: "bg-amber-200/80 text-amber-900",
+      desc: "Unlocks once Linear Equations Chapter is completed with 75%+ score.",
+      type: "locked"
+    },
+    {
+      title: "Microorganisms: Friend and Foe (Class 8 Science)",
+      status: "On Track (80%)",
+      statusColor: "bg-blue-100 text-blue-800",
+      desc: "Bacteria fermentation in curd and soil nitrogen fixation concepts mastered.",
+      type: "progress"
+    }
+  ],
+  'Class 9': [
+    {
+      title: "Coordinate Geometry & Graphing (Class 9)",
+      status: "Priority Weak (44%)",
+      statusColor: "bg-rose-200/80 text-rose-900",
+      desc: "Cartesian plane quadrant identification and plotting negative coordinates require reinforcement.",
+      type: "weak",
+      action: "Start Geometry Visual Practice"
+    },
+    {
+      title: "Real Numbers & Laws of Exponents (Class 9)",
+      status: "Mastered (88%) ✓",
+      statusColor: "bg-emerald-100 text-emerald-800",
+      desc: "Irrational numbers on number line and rationalization of denominators mastered.",
+      type: "mastered"
+    },
+    {
+      title: "Quadratic Equations (Class 10 Board Prerequisite)",
+      status: "Prerequisite Locked",
+      statusColor: "bg-amber-200/80 text-amber-900",
+      desc: "High school board prerequisite. Unlocks after Class 9 Polynomial Factorization is cleared.",
+      type: "locked"
+    },
+    {
+      title: "Motion & Laws of Force (Class 9 Physics)",
+      status: "On Track (78%)",
+      statusColor: "bg-blue-100 text-blue-800",
+      desc: "Newton's second law and velocity-time graphs thoroughly evaluated via interactive problems.",
+      type: "progress"
+    }
+  ],
+  'Class 10': [
+    {
+      title: "Trigonometric Ratios & Applications (Class 10 Board Exam)",
+      status: "High Weightage Focus (45%)",
+      statusColor: "bg-rose-200/80 text-rose-900",
+      desc: "Height & distances problems and identity transformations require step-by-step NCERT practice.",
+      type: "weak",
+      action: "Start Board Prep Drill"
+    },
+    {
+      title: "Real Numbers & Euclid's Division Lemma (Class 10)",
+      status: "Mastered (94%) ✓",
+      statusColor: "bg-emerald-100 text-emerald-800",
+      desc: "Fundamental Theorem of Arithmetic and proof of irrationality (√2, √3) mastered.",
+      type: "mastered"
+    },
+    {
+      title: "Board Exam Mock Paper 1 (Full Syllabus)",
+      status: "Pre-Board Target",
+      statusColor: "bg-amber-200/80 text-amber-900",
+      desc: "Standard 80-mark mock paper aligned with latest CBSE / State Board question paper pattern.",
+      type: "locked"
+    },
+    {
+      title: "Light: Reflection & Refraction (Class 10 Science)",
+      status: "On Track (82%)",
+      statusColor: "bg-blue-100 text-blue-800",
+      desc: "Ray diagrams for concave/convex mirrors and lens formula numericals mastered.",
+      type: "progress"
+    }
+  ]
+};
 
 export function StudentView({ 
   lang, 
@@ -44,14 +260,31 @@ export function StudentView({
   studentStats,
   currentUser,
   isAiSaathiOpen,
-  onOpenXpRewards
+  onOpenXpRewards,
+  selectedGrade: propSelectedGrade,
+  onSelectGrade: propOnSelectGrade,
+  onDownloadBatch
 }) {
   const t = translations[lang] || translations['en'];
   const [activeTab, setActiveTab] = useState('courses'); // 'courses' | 'remedial' | 'progress'
-  const [selectedGrade, setSelectedGrade] = useState('all'); // 'all' | 'Class 6' | 'Class 7' | 'Class 8' | 'Class 9' | 'Class 10'
+  const [internalGrade, setInternalGrade] = useState(() => {
+    return propSelectedGrade || 'Class 7';
+  });
+  
+  // Selected Grade is ALWAYS one specific class: 'Class 6' | 'Class 7' | 'Class 8' | 'Class 9' | 'Class 10'
+  const selectedGrade = propSelectedGrade || internalGrade;
+  const setSelectedGrade = (g) => {
+    if (propOnSelectGrade) {
+      propOnSelectGrade(g);
+    } else {
+      setInternalGrade(g);
+    }
+  };
+
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [filterOfflineOnly, setFilterOfflineOnly] = useState(false);
   const [visibleLimit, setVisibleLimit] = useState(6);
+  const [isTimetableOpen, setIsTimetableOpen] = useState(false);
 
   // Reset pagination limit when any filter changes to prevent page bulkiness
   useEffect(() => {
@@ -59,25 +292,44 @@ export function StudentView({
   }, [selectedGrade, selectedSubject, filterOfflineOnly]);
 
   const studentFirstName = currentUser?.name ? currentUser.name.split(' ')[0] : (lang === 'hi' ? 'रोहन' : 'Rohan');
-  const studentGrade = currentUser?.grade || 'Class 7A';
+  const studentGrade = currentUser?.grade || selectedGrade;
   const studentRoll = currentUser?.rollNo || '24';
   const studentSchool = currentUser?.school || 'Model Senior Secondary School Rampur';
   const studentAvatar = currentUser?.avatar || '🎓';
 
-  const gradeFilteredCourses = sampleCourses.filter(c => 
-    selectedGrade === 'all' || c.classGrade === selectedGrade
-  );
+  const activeClassMeta = CLASS_METADATA[selectedGrade] || CLASS_METADATA['Class 7'];
+
+  // STRICTLY filter courses for selectedGrade ONLY - rest of classes are never shown!
+  const gradeCourses = sampleCourses.filter(c => c.classGrade === selectedGrade);
 
   const getSubjectCount = (subjId) => {
-    if (subjId === 'all') return gradeFilteredCourses.length;
-    return gradeFilteredCourses.filter(c => c.subject === subjId).length;
+    if (subjId === 'all') {
+      return gradeCourses.reduce((acc, c) => acc + c.chapters.length, 0);
+    }
+    const course = gradeCourses.find(c => c.subject === subjId);
+    return course ? course.chapters.length : 0;
   };
 
-  const filteredCourses = sampleCourses.filter(c => {
-    if (selectedGrade !== 'all' && c.classGrade !== selectedGrade) return false;
+  const filteredCourses = gradeCourses.filter(c => {
     if (selectedSubject !== 'all' && c.subject !== selectedSubject) return false;
     return true;
   });
+
+  // Calculate offline download completion for the entire active class
+  const allGradeChapterIds = gradeCourses.flatMap(c => c.chapters.map(ch => ch.id));
+  const isEntireClassDownloaded = allGradeChapterIds.length > 0 && allGradeChapterIds.every(id => downloadedIds.includes(id));
+
+  const handleDownloadEntireClass = () => {
+    if (onDownloadBatch) {
+      onDownloadBatch(allGradeChapterIds, selectedGrade);
+    } else {
+      allGradeChapterIds.forEach(id => {
+        if (!downloadedIds.includes(id)) {
+          onToggleDownload(id);
+        }
+      });
+    }
+  };
 
   return (
     <div className="space-y-7 pb-36 sm:pb-28 max-w-6xl mx-auto">
@@ -266,10 +518,9 @@ export function StudentView({
               </div>
             </div>
 
-            {/* Class Selection Pills */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-1">
+            {/* Class Selection Pills - Strictly Classes 6 to 10 (Rest of classes hidden for clean UI) */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-1">
               {[
-                { id: 'all', label: 'All Classes (6–10)', sub: '30 Courses', badge: 'All' },
                 { id: 'Class 6', label: 'Class 6', sub: 'Middle School', badge: 'Foundation' },
                 { id: 'Class 7', label: 'Class 7', sub: 'Middle School', badge: 'Core' },
                 { id: 'Class 8', label: 'Class 8', sub: 'Upper Primary', badge: 'Advanced' },
@@ -281,22 +532,22 @@ export function StudentView({
                   <button
                     key={g.id}
                     onClick={() => setSelectedGrade(g.id)}
-                    className={`p-2.5 rounded-2xl text-left transition-all duration-150 border flex flex-col justify-between ${
+                    className={`p-3 rounded-2xl text-left transition-all duration-150 border flex flex-col justify-between ${
                       isSelected
-                        ? 'bg-gradient-to-br from-upnavy-900 to-upnavy-950 text-white border-upnavy-900 shadow-sm ring-2 ring-upsaffron-500/80 scale-[1.02]'
+                        ? 'bg-gradient-to-br from-upnavy-900 to-upnavy-950 text-white border-upnavy-900 shadow-md ring-2 ring-upsaffron-500 scale-[1.02]'
                         : 'bg-slate-50 hover:bg-white text-slate-700 border-slate-200 hover:border-slate-300'
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center justify-between mb-1.5">
                       <span className={`text-xs font-black ${isSelected ? 'text-white' : 'text-upnavy-950'}`}>
                         {g.label}
                       </span>
                       {isSelected ? (
-                        <span className="w-3.5 h-3.5 rounded-full bg-upsaffron-500 text-white flex items-center justify-center text-[9px] font-black">
+                        <span className="w-4 h-4 rounded-full bg-upsaffron-500 text-white flex items-center justify-center text-[10px] font-black">
                           ✓
                         </span>
                       ) : (
-                        <span className="text-[9px] font-bold bg-slate-200/80 text-slate-600 px-1.5 py-0.2 rounded-md">
+                        <span className="text-[9px] font-bold bg-slate-200/80 text-slate-600 px-1.5 py-0.5 rounded-md">
                           {g.badge}
                         </span>
                       )}
@@ -308,9 +559,79 @@ export function StudentView({
                 );
               })}
             </div>
+
+            {/* Dedicated Class Power Spotlight Banner */}
+            <div className={`rounded-2xl p-4 sm:p-5 bg-gradient-to-r ${activeClassMeta.color} text-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 mt-3`}>
+              <div className="space-y-1.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full ${activeClassMeta.accentBadge}`}>
+                    {selectedGrade} Focus
+                  </span>
+                  <span className="text-[11px] text-slate-300 font-semibold">
+                    {activeClassMeta.sub}
+                  </span>
+                  <span className="text-[10px] bg-white/10 text-emerald-300 px-2 py-0.5 rounded-full font-bold border border-white/10">
+                    Rest of classes hidden for focused view ✓
+                  </span>
+                </div>
+                <h4 className="text-base sm:text-lg font-black text-white">
+                  {selectedGrade} Curriculum & Digital Study Hub
+                </h4>
+                <p className="text-xs text-slate-300 max-w-xl leading-relaxed">
+                  {activeClassMeta.desc}
+                </p>
+
+                {/* 4 Quick Metrics */}
+                <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] text-slate-200">
+                  <span className="flex items-center gap-1 font-semibold">
+                    <BookOpen className="w-3.5 h-3.5 text-upsaffron-400" />
+                    <span>6 Subjects</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1 font-semibold">
+                    <Zap className="w-3.5 h-3.5 text-amber-400" />
+                    <span>12 Chapters</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1 font-semibold">
+                    <HardDrive className="w-3.5 h-3.5 text-sky-400" />
+                    <span>&lt; 1.4 MB Total Size</span>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1 font-semibold text-emerald-300">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>100% NCERT Aligned</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Action Buttons: Batch Offline Download + Class Timetable */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+                <button
+                  onClick={handleDownloadEntireClass}
+                  className={`px-4 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95 shadow-sm ${
+                    isEntireClassDownloaded
+                      ? 'bg-emerald-500/20 text-emerald-200 border border-emerald-400/40'
+                      : 'bg-upsaffron-600 hover:bg-upsaffron-500 text-white shadow-upsaffron-600/30'
+                  }`}
+                  title="Download all 12 chapters of this class in one click"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>{isEntireClassDownloaded ? `All ${selectedGrade} Saved ✓` : `Save All ${selectedGrade} Offline`}</span>
+                </button>
+
+                <button
+                  onClick={() => setIsTimetableOpen(true)}
+                  className="px-4 py-2.5 rounded-xl font-bold text-xs bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center justify-center gap-2 transition active:scale-95"
+                >
+                  <Calendar className="w-4 h-4 text-upsaffron-300" />
+                  <span>Study Timetable</span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* B. Subject Filter Bar with Dynamic Chapter Counts */}
+          {/* B. Subject Filter Bar for Active Class with Dynamic Chapter Counts */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
             <div className="flex items-center gap-1.5 text-xs overflow-x-auto max-w-full pb-1 sm:pb-0 scrollbar-none">
               <button
@@ -321,7 +642,7 @@ export function StudentView({
                     : 'text-slate-600 hover:bg-slate-100'
                 }`}
               >
-                <span>All Subjects</span>
+                <span>All {selectedGrade} Subjects</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
                   selectedSubject === 'all' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
                 }`}>
@@ -644,7 +965,7 @@ export function StudentView({
         </div>
       )}
 
-      {/* TAB 2: AI DIAGNOSTIC & REMEDIAL PATH */}
+      {/* TAB 2: AI DIAGNOSTIC & REMEDIAL PATH (Class Scoped) */}
       {activeTab === 'remedial' && (
         <div className="space-y-5 animate-fadeIn">
           <div className="bg-white p-7 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
@@ -652,14 +973,14 @@ export function StudentView({
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-xl font-bold text-upnavy-950">
-                    Topic Mastery & Remedial Roadmap (Classes 6–10)
+                    {selectedGrade} Topic Mastery & AI Remedial Roadmap
                   </h3>
                   <span className="text-[11px] bg-upnavy-100 text-upnavy-900 font-bold px-2 py-0.5 rounded-full">
                     Adaptive AI Engine
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Our diagnostic engine evaluates foundational prerequisites across Classes 6 to 10 before unlocking complex topics
+                  Our diagnostic engine evaluates foundational prerequisites for {selectedGrade} before unlocking complex topics
                 </p>
               </div>
               <button
@@ -671,64 +992,38 @@ export function StudentView({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-              <div className="p-5 rounded-2xl bg-rose-50/70 border border-rose-200/90 space-y-2">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm text-rose-950">Fractions & Decimals (Class 7)</span>
+              {(REMEDIAL_ROADMAP_BY_GRADE[selectedGrade] || REMEDIAL_ROADMAP_BY_GRADE['Class 7']).map((item, idx) => (
+                <div 
+                  key={idx} 
+                  className={`p-5 rounded-2xl border space-y-2 ${
+                    item.type === 'weak' ? 'bg-rose-50/70 border-rose-200/90' :
+                    item.type === 'locked' ? 'bg-amber-50/70 border-amber-200/90' :
+                    item.type === 'mastered' ? 'bg-emerald-50/70 border-emerald-200/90' :
+                    'bg-blue-50/70 border-blue-200/90'
+                  }`}
+                >
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="font-bold text-sm text-upnavy-950">{item.title}</span>
+                    <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full shrink-0 ${item.statusColor}`}>
+                      {item.status}
+                    </span>
                   </div>
-                  <span className="text-[10px] font-bold bg-rose-200/80 text-rose-900 px-2.5 py-0.5 rounded-full">
-                    Priority Weak (40%)
-                  </span>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {item.desc}
+                  </p>
+                  {item.action && gradeCourses.length > 0 && (
+                    <div className="pt-2">
+                      <button
+                        onClick={() => onOpenLesson(gradeCourses[0].chapters[0])}
+                        className="text-xs font-bold text-upsaffron-700 hover:underline flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>{item.action}</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Difficulty identified in adding unequal denominators. Reviewing the roti division model is recommended.
-                </p>
-                <div className="pt-2">
-                  <button
-                    onClick={() => onOpenLesson(sampleCourses[0].chapters[0])}
-                    className="text-xs font-bold text-upsaffron-700 hover:underline flex items-center gap-1"
-                  >
-                    <span>Start Remedial Lesson</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/90 space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-sm text-amber-950">Linear Equations (Class 8 Prerequisite)</span>
-                  <span className="text-[10px] font-bold bg-amber-200/80 text-amber-900 px-2.5 py-0.5 rounded-full">
-                    Prerequisite Locked
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Locked until Fractions Chapter 1 is completed with 70%+ score to prevent learning confusion.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-upnavy-50/70 border border-upnavy-200/90 space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-sm text-upnavy-950">Whole Numbers & Place Value (Class 6)</span>
-                  <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">
-                    Mastered (95%) ✓
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Strong conceptual foundation in Indian place value system and arithmetic operations.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200/90 space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-sm text-indigo-950">Real Numbers & Euclid Lemma (Class 10 Prep)</span>
-                  <span className="text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full font-bold">
-                    Upcoming Milestone
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Unlocks automatically as soon as Class 8 & 9 rational numbers and factoring are completed.
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -775,26 +1070,43 @@ export function StudentView({
 
             <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
               {[
-                { grade: 'Class 6', status: 'Mastered', pct: 95, color: 'bg-emerald-500', tag: 'Foundation ✓' },
-                { grade: 'Class 7', status: 'Current Grade', pct: 76, color: 'bg-upsaffron-500', tag: 'Active 🎯' },
-                { grade: 'Class 8', status: 'In Progress', pct: 45, color: 'bg-sky-500', tag: 'Upper Primary' },
-                { grade: 'Class 9', status: 'Unlocked', pct: 20, color: 'bg-purple-500', tag: 'Secondary Core' },
-                { grade: 'Class 10', status: 'Board Target', pct: 10, color: 'bg-indigo-500', tag: 'Board Exam 🏆' }
-              ].map((ladder, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-black text-xs text-upnavy-950">{ladder.grade}</span>
-                    <span className="text-[10px] font-bold text-slate-500">{ladder.tag}</span>
-                  </div>
-                  <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-                    <div className={`${ladder.color} h-2 rounded-full`} style={{ width: `${ladder.pct}%` }} />
-                  </div>
-                  <div className="flex justify-between text-[11px]">
-                    <span className="text-slate-400">{ladder.status}</span>
-                    <span className="font-bold text-upnavy-900">{ladder.pct}%</span>
-                  </div>
-                </div>
-              ))}
+                { grade: 'Class 6', status: selectedGrade === 'Class 6' ? 'Active Focus 🎯' : 'Mastered', pct: 95, color: 'bg-emerald-500', tag: 'Foundation ✓' },
+                { grade: 'Class 7', status: selectedGrade === 'Class 7' ? 'Active Focus 🎯' : 'Core Middle', pct: 76, color: 'bg-upsaffron-500', tag: 'Middle Core' },
+                { grade: 'Class 8', status: selectedGrade === 'Class 8' ? 'Active Focus 🎯' : 'Upper Primary', pct: 45, color: 'bg-sky-500', tag: 'Advanced' },
+                { grade: 'Class 9', status: selectedGrade === 'Class 9' ? 'Active Focus 🎯' : 'Secondary Core', pct: 20, color: 'bg-purple-500', tag: 'Secondary' },
+                { grade: 'Class 10', status: selectedGrade === 'Class 10' ? 'Active Focus 🎯' : 'Board Target', pct: 10, color: 'bg-indigo-500', tag: 'Board Exam 🏆' }
+              ].map((ladder, idx) => {
+                const isCurrent = ladder.grade === selectedGrade;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setSelectedGrade(ladder.grade);
+                      const el = document.getElementById('curriculum-section');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className={`p-4 rounded-2xl border text-left transition-all ${
+                      isCurrent
+                        ? 'bg-upnavy-50/90 border-upsaffron-400 ring-2 ring-upsaffron-400/50 shadow-sm scale-[1.02]'
+                        : 'bg-slate-50 hover:bg-white border-slate-200/80 hover:border-slate-300 cursor-pointer'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className={`font-black text-xs ${isCurrent ? 'text-upnavy-950 font-black' : 'text-slate-800'}`}>{ladder.grade}</span>
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${isCurrent ? 'bg-upsaffron-500 text-white' : 'bg-slate-200 text-slate-600'}`}>
+                        {isCurrent ? 'Active 🎯' : ladder.tag}
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-1.5">
+                      <div className={`${ladder.color} h-2 rounded-full`} style={{ width: `${ladder.pct}%` }} />
+                    </div>
+                    <div className="flex justify-between text-[11px]">
+                      <span className="text-slate-400 font-medium">{ladder.status}</span>
+                      <span className="font-bold text-upnavy-900">{ladder.pct}%</span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -892,6 +1204,14 @@ export function StudentView({
           </button>
         </div>
       )}
+
+      {/* Interactive Class Study Timetable Modal */}
+      <ClassTimetableModal
+        isOpen={isTimetableOpen}
+        onClose={() => setIsTimetableOpen(false)}
+        selectedGrade={selectedGrade}
+        lang={lang}
+      />
     </div>
   );
 }

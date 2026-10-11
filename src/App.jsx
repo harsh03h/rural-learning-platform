@@ -62,6 +62,24 @@ export function App() {
     }
   });
 
+  // Selected Class Grade (Classes 6 to 10) - Strictly filters curriculum across platform
+  const [selectedGrade, setSelectedGrade] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_selected_grade');
+      if (saved && ['Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10'].includes(saved)) {
+        return saved;
+      }
+    } catch (e) {}
+    return 'Class 7'; // Default to student's registered class
+  });
+
+  const handleSelectGrade = (grade) => {
+    setSelectedGrade(grade);
+    try {
+      localStorage.setItem('gyansetu_selected_grade', grade);
+    } catch (e) {}
+  };
+
   // Modals
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
@@ -113,6 +131,17 @@ export function App() {
       setDownloadedIds([...downloadedIds, chapterId]);
       showToast(lang === 'hi' ? 'अध्याय ऑफ़लाइन पढ़ने के लिए सहेजा गया (24 KB)' : 'Chapter cached for offline study (24 KB)');
     }
+  };
+
+  // Batch download entire class chapters for offline study
+  const handleDownloadBatch = (chapterIds, className) => {
+    setDownloadedIds(prev => Array.from(new Set([...prev, ...chapterIds])));
+    try {
+      confetti({ particleCount: 70, spread: 70, origin: { y: 0.3 } });
+    } catch (e) {}
+    showToast(lang === 'hi' 
+      ? `✅ ${className} के सभी अध्याय ऑफ़लाइन पढ़ने के लिए सहेजे गए!`
+      : `✅ Complete ${className} offline bundle saved to device cache!`);
   };
 
   // Sync Offline Queue
@@ -255,6 +284,8 @@ export function App() {
         onOpenArchitecture={() => setIsArchitectureOpen(true)}
         onOpenHelp={() => setIsHelpModalOpen(true)}
         onOpenXpRewards={() => setIsXpModalOpen(true)}
+        selectedGrade={selectedGrade}
+        onSelectGrade={handleSelectGrade}
       />
 
       {/* Main Body Content by Active Role */}
@@ -306,6 +337,9 @@ export function App() {
             isAiSaathiOpen={isAiSaathiOpen}
             studentStats={studentStats}
             onOpenXpRewards={() => setIsXpModalOpen(true)}
+            selectedGrade={selectedGrade}
+            onSelectGrade={handleSelectGrade}
+            onDownloadBatch={handleDownloadBatch}
           />
         )}
 
