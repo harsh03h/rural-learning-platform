@@ -378,14 +378,7 @@ export function App() {
             </div>
             <span className="hidden sm:inline text-slate-300">|</span>
             <div className="flex items-center gap-1.5 text-[11px] text-slate-600">
-              <span>Platform Toll-Free:</span>
-              <a href="tel:18001805321" className="font-mono font-bold text-upnavy-950 hover:text-upsaffron-600 transition">
-                1800-180-5321
-              </a>
             </div>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px]">
             <button
               onClick={() => setIsHelpModalOpen(true)}
               className="text-upsaffron-700 hover:text-upsaffron-800 font-bold hover:underline flex items-center gap-1 transition"
@@ -393,6 +386,10 @@ export function App() {
               <HelpCircle className="w-3.5 h-3.5" />
               <span>Help & Support Desk</span>
             </button>
+          </div>
+
+          <div className="flex items-center gap-4 text-[11px]">
+            
             <span>•</span>
             <button onClick={() => setIsArchitectureOpen(true)} className="hover:underline text-upnavy-800 hover:text-upsaffron-600 font-bold transition">
               Technical Architecture & Viva
