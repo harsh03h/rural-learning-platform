@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { translations } from '../data/mockData';
+import { generateTeacherQuestions } from '../services/api';
 
 export const ASSIGNED_CLASSES = [
   {
@@ -733,9 +734,30 @@ export function TeacherView({ lang }) {
     showToast(`✅ Weekly progress SMS broadcasted to all ${activeClassInfo.studentCount} guardian feature phones of ${selectedClass}!`);
   };
 
-  const handleGenerateQuestions = (e) => {
+  const handleGenerateQuestions = async (e) => {
     e.preventDefault();
     setIsGenerating(true);
+
+    try {
+      const apiResult = await generateTeacherQuestions({
+        topic: topic || 'Fractions',
+        grade: grade || 'Class 6',
+        count: parseInt(qCount) || 3,
+        difficulty
+      });
+
+      if (apiResult && apiResult.questions && apiResult.questions.length > 0) {
+        setGeneratedQuestions(apiResult.questions);
+        setIsGenerating(false);
+        try {
+          confetti({ particleCount: 50, spread: 50, origin: { y: 0.4 } });
+        } catch (e) {}
+        showToast(`AI generated ${apiResult.questions.length} questions via backend AI service for ${topic} (${grade})!`);
+        return;
+      }
+    } catch (err) {
+      console.warn("Backend question generation error, falling back to local questions", err);
+    }
 
     setTimeout(() => {
       if (subject === 'Mathematics') {

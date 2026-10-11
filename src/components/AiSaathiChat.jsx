@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Sparkles, Send, Bot, User, X, MessageSquare, Volume2, Lightbulb } from 'lucide-react';
 import { prebuiltAiDoubtAnswers, getLocalized, translations, supportedLanguages } from '../data/mockData';
+import { askAiDoubt } from '../services/api';
 
 export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
   const t = translations[lang] || translations['en'];
@@ -32,7 +33,7 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
     "Why do we need Percentages?"
   ];
 
-  const handleSend = (textToSend) => {
+  const handleSend = async (textToSend) => {
     const query = textToSend || inputVal;
     if (!query.trim()) return;
 
@@ -41,6 +42,19 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
     setInputVal('');
     setIsTyping(true);
 
+    try {
+      // 1. Try real AI pipeline (Node Gateway -> Python FastAPI / AI service)
+      const aiResponse = await askAiDoubt({ query, language: lang, grade: 'Class 7' });
+      if (aiResponse && aiResponse.reply) {
+        setMessages(prev => [...prev, { sender: 'bot', text: aiResponse.reply }]);
+        setIsTyping(false);
+        return;
+      }
+    } catch (e) {
+      console.warn("AI service fetch error, falling back to local KB", e);
+    }
+
+    // 2. Offline fallback from local knowledge base
     setTimeout(() => {
       const qLower = query.toLowerCase();
       let matched = prebuiltAiDoubtAnswers.find(item => 
@@ -58,7 +72,7 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
 
       setMessages(prev => [...prev, { sender: 'bot', text: reply }]);
       setIsTyping(false);
-    }, 600);
+    }, 500);
   };
 
   if (!isOpen) return null;

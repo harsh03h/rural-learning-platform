@@ -59,21 +59,36 @@ Most mainstream e-learning platforms (BYJU'S, Unacademy, Khan Academy, Coursera)
 
 ### Prerequisites
 - Node.js (v18+)
+- Python (v3.9+)
 - npm (v9+)
 
-### Installation & Launch
+### Option A: 1-Click Launch (All 3 Tiers)
+Simply double-click or run:
+```cmd
+start-platform.bat
+```
+This automatically launches:
+1. Python AI Microservice on `http://127.0.0.1:8000`
+2. Node.js Express Backend Gateway on `http://127.0.0.1:5000`
+3. React + Vite Frontend on `http://127.0.0.1:5173`
+
+### Option B: Manual Step-by-Step Launch
 ```bash
-# Navigate to the project directory
+# Terminal 1: Python AI Microservice
 cd rural-learning-platform
+python ai-service/server.py
 
-# Install dependencies
-npm run install (or npm.cmd install)
+# Terminal 2: Node.js Express Backend Gateway
+cd rural-learning-platform/server
+npm install (or npm.cmd install)
+node server.js
 
-# Start development server
-npm run dev
+# Terminal 3: React + Vite Frontend
+cd rural-learning-platform
+npm.cmd run dev -- --host 127.0.0.1 --port 5173
 ```
 
-The web application will be live at: `http://localhost:5173/`
+The web application is live at: **`http://localhost:5173/`**
 
 ---
 

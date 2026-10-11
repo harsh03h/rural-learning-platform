@@ -17,6 +17,7 @@ import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap, He
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
 import bannerImg from './assets/gyansetu-banner.png';
+import { submitQuiz, syncOfflineBatch, submitDiagnostic } from './services/api';
 
 export function App() {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -115,7 +116,7 @@ export function App() {
   };
 
   // Sync Offline Queue
-  const handleSyncNow = () => {
+  const handleSyncNow = async () => {
     if (isOffline) {
       alert(lang === 'hi' 
         ? "सिंक करने के लिए इंटरनेट चालू करें (ऊपर दिए गए 'Offline' बटन पर क्लिक करके ऑनलाइन मोड चुनें)।"
@@ -124,6 +125,14 @@ export function App() {
     }
 
     setToastMessage(lang === 'hi' ? 'स्कूल सर्वर के साथ डेटा सिंक हो रहा है...' : 'Syncing local progress with school database...');
+    
+    // Call batch sync endpoint on backend
+    try {
+      await syncOfflineBatch([{ syncTime: new Date().toISOString(), count: pendingSyncCount }]);
+    } catch (e) {
+      console.warn("Backend batch sync failed, completing local sync", e);
+    }
+
     setTimeout(() => {
       setPendingSyncCount(0);
       try {
@@ -135,11 +144,11 @@ export function App() {
       } catch (e) {}
       setToastMessage(lang === 'hi' ? '✅ सभी ऑफ़लाइन क्विज़ सफलतापूर्वक सर्वर में सिंक हो गए!' : '✅ All offline records synced with school server successfully!');
       setTimeout(() => setToastMessage(null), 3500);
-    }, 1000);
+    }, 800);
   };
 
   // Record Quiz Result
-  const handleRecordQuizResult = ({ chapterId, topicKey, score, total, isOffline: wasOffline }) => {
+  const handleRecordQuizResult = async ({ chapterId, topicKey, score, total, isOffline: wasOffline }) => {
     const earnedXP = score * 20;
     setStudentStats(prev => ({
       ...prev,
@@ -156,6 +165,9 @@ export function App() {
         ? `क्विज़ सहेजा गया! इंटरनेट बंद होने के कारण यह सिंक कतार (Sync Queue) में सुरक्षित है।`
         : `Quiz recorded offline! Added to background sync queue.`);
     } else {
+      try {
+        await submitQuiz({ chapterId, topicKey, score, total });
+      } catch (e) {}
       showToast(lang === 'hi'
         ? `क्विज़ पूरा हुआ! +${earnedXP} XP अर्जित किए।`
         : `Quiz completed! Earned +${earnedXP} XP.`);
@@ -163,11 +175,14 @@ export function App() {
   };
 
   // Save Diagnostic
-  const handleSaveDiagnostic = ({ weakTopics }) => {
+  const handleSaveDiagnostic = async ({ weakTopics }) => {
     setDiagnosticData({
       completed: true,
       weakTopics: weakTopics.length ? weakTopics : ['None (All Mastered)']
     });
+    try {
+      await submitDiagnostic({ weakTopics });
+    } catch (e) {}
     showToast(lang === 'hi' ? 'दक्षता स्तर जांच परिणाम अपडेट हो गए!' : 'Diagnostic assessment results recorded!');
   };
 

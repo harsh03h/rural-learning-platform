@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Sparkles, 
   Brain, 
@@ -15,6 +15,10 @@ import {
   BarChart3,
   Compass,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  Layers,
+  Eye,
   TrendingUp,
   Volume2,
   HardDrive,
@@ -47,12 +51,27 @@ export function StudentView({
   const [selectedGrade, setSelectedGrade] = useState('all'); // 'all' | 'Class 6' | 'Class 7' | 'Class 8' | 'Class 9' | 'Class 10'
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [filterOfflineOnly, setFilterOfflineOnly] = useState(false);
+  const [visibleLimit, setVisibleLimit] = useState(6);
+
+  // Reset pagination limit when any filter changes to prevent page bulkiness
+  useEffect(() => {
+    setVisibleLimit(6);
+  }, [selectedGrade, selectedSubject, filterOfflineOnly]);
 
   const studentFirstName = currentUser?.name ? currentUser.name.split(' ')[0] : (lang === 'hi' ? 'रोहन' : 'Rohan');
   const studentGrade = currentUser?.grade || 'Class 7A';
   const studentRoll = currentUser?.rollNo || '24';
   const studentSchool = currentUser?.school || 'Model Senior Secondary School Rampur';
   const studentAvatar = currentUser?.avatar || '🎓';
+
+  const gradeFilteredCourses = sampleCourses.filter(c => 
+    selectedGrade === 'all' || c.classGrade === selectedGrade
+  );
+
+  const getSubjectCount = (subjId) => {
+    if (subjId === 'all') return gradeFilteredCourses.length;
+    return gradeFilteredCourses.filter(c => c.subject === subjId).length;
+  };
 
   const filteredCourses = sampleCourses.filter(c => {
     if (selectedGrade !== 'all' && c.classGrade !== selectedGrade) return false;
@@ -220,7 +239,7 @@ export function StudentView({
 
       {/* TAB 1: COURSES & MODULES */}
       {activeTab === 'courses' && (
-        <div className="space-y-4 animate-fadeIn">
+        <div id="curriculum-section" className="space-y-4 animate-fadeIn scroll-mt-24">
           {/* A. DEDICATED CLASS SWITCHER BAR (CLASSES 6 TO 10) */}
           <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200/80 shadow-xs space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -291,50 +310,119 @@ export function StudentView({
             </div>
           </div>
 
-          {/* B. Subject Filter Bar */}
+          {/* B. Subject Filter Bar with Dynamic Chapter Counts */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
             <div className="flex items-center gap-1.5 text-xs overflow-x-auto max-w-full pb-1 sm:pb-0 scrollbar-none">
               <button
                 onClick={() => setSelectedSubject('all')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'all' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                  selectedSubject === 'all' 
+                    ? 'bg-upnavy-800 text-white shadow-xs' 
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                All Subjects
+                <span>All Subjects</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  selectedSubject === 'all' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {getSubjectCount('all')}
+                </span>
               </button>
+
               <button
                 onClick={() => setSelectedSubject('math')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'math' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                  selectedSubject === 'math' 
+                    ? 'bg-upnavy-800 text-white shadow-xs' 
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                📐 Mathematics
+                <span>📐 Mathematics</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  selectedSubject === 'math' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {getSubjectCount('math')}
+                </span>
               </button>
+
               <button
                 onClick={() => setSelectedSubject('science')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'science' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                  selectedSubject === 'science' 
+                    ? 'bg-upnavy-800 text-white shadow-xs' 
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                🔬 Science
+                <span>🔬 Science</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  selectedSubject === 'science' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {getSubjectCount('science')}
+                </span>
               </button>
+
               <button
                 onClick={() => setSelectedSubject('english')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'english' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                  selectedSubject === 'english' 
+                    ? 'bg-upnavy-800 text-white shadow-xs' 
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                📖 English
+                <span>📖 English</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  selectedSubject === 'english' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {getSubjectCount('english')}
+                </span>
               </button>
+
               <button
                 onClick={() => setSelectedSubject('social')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'social' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                  selectedSubject === 'social' 
+                    ? 'bg-upnavy-800 text-white shadow-xs' 
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                🌍 Social Science
+                <span>🌍 Social Science</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  selectedSubject === 'social' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {getSubjectCount('social')}
+                </span>
               </button>
+
               <button
                 onClick={() => setSelectedSubject('hindi')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'hindi' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                  selectedSubject === 'hindi' 
+                    ? 'bg-upnavy-800 text-white shadow-xs' 
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                🇮🇳 Hindi
+                <span>🇮🇳 Hindi</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  selectedSubject === 'hindi' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {getSubjectCount('hindi')}
+                </span>
               </button>
+
               <button
                 onClick={() => setSelectedSubject('computer')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 ${selectedSubject === 'computer' ? 'bg-upnavy-800 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                  selectedSubject === 'computer' 
+                    ? 'bg-upnavy-800 text-white shadow-xs' 
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                💻 Digital Literacy
+                <span>💻 Digital Literacy</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                  selectedSubject === 'computer' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                }`}>
+                  {getSubjectCount('computer')}
+                </span>
               </button>
             </div>
 
@@ -351,10 +439,17 @@ export function StudentView({
             </button>
           </div>
 
-          {/* C. Course Cards Grid */}
+          {/* C. Course Cards Grid with Progressive Reveal (View More) */}
           {(() => {
             const allVisibleChapters = filteredCourses.flatMap(course => 
-              course.chapters.filter(ch => !filterOfflineOnly || downloadedIds.includes(ch.id))
+              course.chapters
+                .filter(ch => !filterOfflineOnly || downloadedIds.includes(ch.id))
+                .map(chapter => ({
+                  ...chapter,
+                  courseGrade: course.classGrade,
+                  courseTitle: course.title,
+                  courseSubject: course.subject
+                }))
             );
 
             if (allVisibleChapters.length === 0) {
@@ -381,80 +476,168 @@ export function StudentView({
               );
             }
 
+            const displayedChapters = allVisibleChapters.slice(0, visibleLimit);
+            const remainingCount = allVisibleChapters.length - visibleLimit;
+            const hasMore = remainingCount > 0;
+            const isExpanded = visibleLimit > 6;
+
             return (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {filteredCourses.map(course => (
-                  <React.Fragment key={course.id}>
-                    {course.chapters
-                      .filter(ch => !filterOfflineOnly || downloadedIds.includes(ch.id))
-                      .map(chapter => {
-                        const isDownloaded = downloadedIds.includes(chapter.id);
-                        return (
-                          <div 
-                            key={chapter.id}
-                            className="modern-card rounded-3xl p-6 flex flex-col justify-between group relative overflow-hidden"
-                          >
-                            {/* Concept Visual Illustration Banner */}
-                            <div className="mb-4">
-                              <div className="flex items-center justify-between mb-3 gap-2">
-                                <div className="flex items-center gap-1.5 flex-wrap">
-                                  {/* Prominent Class Badge */}
-                                  <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full border ${
-                                    course.classGrade === 'Class 6' ? 'bg-purple-100 text-purple-900 border-purple-200' :
-                                    course.classGrade === 'Class 7' ? 'bg-amber-100 text-amber-900 border-amber-200' :
-                                    course.classGrade === 'Class 8' ? 'bg-emerald-100 text-emerald-900 border-emerald-200' :
-                                    course.classGrade === 'Class 9' ? 'bg-rose-100 text-rose-900 border-rose-200' :
-                                    'bg-indigo-100 text-indigo-900 border-indigo-200'
-                                  }`}>
-                                    {course.classGrade}
-                                  </span>
-                                  <span className="text-[11px] font-bold text-upnavy-800 bg-upnavy-50 px-2.5 py-0.5 rounded-full border border-upnavy-200/60 truncate max-w-[200px]">
-                                    {getLocalized(course.title, lang)}
-                                  </span>
-                                </div>
+              <div className="space-y-4">
+                {/* Header Summary & Display Counter */}
+                <div className="flex flex-wrap items-center justify-between gap-2 px-1 text-xs text-slate-600">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-upnavy-950">
+                      Showing {displayedChapters.length} of {allVisibleChapters.length} Chapters
+                    </span>
+                    {hasMore && (
+                      <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                        Compact Mode
+                      </span>
+                    )}
+                  </div>
 
-                                <div className="flex items-center gap-1 text-xs font-semibold text-slate-400 bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-200/60 shrink-0">
-                                  <Zap className="w-3 h-3 text-upsaffron-500 fill-upsaffron-500" />
-                                  <span>{chapter.sizeKB} KB</span>
-                                </div>
-                              </div>
+                  <div className="flex items-center gap-2 text-[11px] text-slate-400">
+                    <span>Filter:</span>
+                    <strong className="text-upnavy-800">
+                      {selectedGrade === 'all' ? 'All Classes (6–10)' : selectedGrade}
+                    </strong>
+                    {selectedSubject !== 'all' && (
+                      <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md font-semibold capitalize">
+                        {selectedSubject}
+                      </span>
+                    )}
+                  </div>
+                </div>
 
-                              <h3 className="text-lg font-bold text-upnavy-950 mb-1.5 group-hover:text-upsaffron-600 transition">
-                                {getLocalized(chapter.title, lang)}
-                              </h3>
-                              <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                                {getLocalized(chapter.summary, lang)}
-                              </p>
+                {/* Grid of Chapter Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {displayedChapters.map(chapter => {
+                    const isDownloaded = downloadedIds.includes(chapter.id);
+                    return (
+                      <div 
+                        key={chapter.id}
+                        className="modern-card rounded-3xl p-6 flex flex-col justify-between group relative overflow-hidden"
+                      >
+                        {/* Concept Visual Illustration Banner */}
+                        <div className="mb-4">
+                          <div className="flex items-center justify-between mb-3 gap-2">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              {/* Prominent Class Badge */}
+                              <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full border ${
+                                chapter.courseGrade === 'Class 6' ? 'bg-purple-100 text-purple-900 border-purple-200' :
+                                chapter.courseGrade === 'Class 7' ? 'bg-amber-100 text-amber-900 border-amber-200' :
+                                chapter.courseGrade === 'Class 8' ? 'bg-emerald-100 text-emerald-900 border-emerald-200' :
+                                chapter.courseGrade === 'Class 9' ? 'bg-rose-100 text-rose-900 border-rose-200' :
+                                'bg-indigo-100 text-indigo-900 border-indigo-200'
+                              }`}>
+                                {chapter.courseGrade}
+                              </span>
+                              <span className="text-[11px] font-bold text-upnavy-800 bg-upnavy-50 px-2.5 py-0.5 rounded-full border border-upnavy-200/60 truncate max-w-[200px]">
+                                {getLocalized(chapter.courseTitle, lang)}
+                              </span>
                             </div>
 
-                            {/* Interactive Footer Actions */}
-                            <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                              <button
-                                onClick={() => onToggleDownload(chapter.id)}
-                                className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition ${
-                                  isDownloaded
-                                    ? 'bg-upnavy-50 text-upnavy-800 border-upnavy-200'
-                                    : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
-                                }`}
-                                title={isDownloaded ? 'Saved in device memory' : 'Download for offline use'}
-                              >
-                                <Download className="w-3.5 h-3.5" />
-                                <span>{isDownloaded ? 'Downloaded ✓' : 'Save Offline'}</span>
-                              </button>
-
-                              <button
-                                onClick={() => onOpenLesson(chapter)}
-                                className="px-5 py-2 rounded-xl bg-upnavy-800 hover:bg-upsaffron-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm active:scale-95 transition"
-                              >
-                                <span>Study & Quiz</span>
-                                <ChevronRight className="w-3.5 h-3.5" />
-                              </button>
+                            <div className="flex items-center gap-1 text-xs font-semibold text-slate-400 bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-200/60 shrink-0">
+                              <Zap className="w-3 h-3 text-upsaffron-500 fill-upsaffron-500" />
+                              <span>{chapter.sizeKB} KB</span>
                             </div>
                           </div>
-                        );
-                      })}
-                  </React.Fragment>
-                ))}
+
+                          <h3 className="text-lg font-bold text-upnavy-950 mb-1.5 group-hover:text-upsaffron-600 transition">
+                            {getLocalized(chapter.title, lang)}
+                          </h3>
+                          <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                            {getLocalized(chapter.summary, lang)}
+                          </p>
+                        </div>
+
+                        {/* Interactive Footer Actions */}
+                        <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                          <button
+                            onClick={() => onToggleDownload(chapter.id)}
+                            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition ${
+                              isDownloaded
+                                ? 'bg-upnavy-50 text-upnavy-800 border-upnavy-200'
+                                : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200'
+                            }`}
+                            title={isDownloaded ? 'Saved in device memory' : 'Download for offline use'}
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            <span>{isDownloaded ? 'Downloaded ✓' : 'Save Offline'}</span>
+                          </button>
+
+                          <button
+                            onClick={() => onOpenLesson(chapter)}
+                            className="px-5 py-2 rounded-xl bg-upnavy-800 hover:bg-upsaffron-600 text-white font-bold text-xs flex items-center gap-2 shadow-sm active:scale-95 transition"
+                          >
+                            <span>Study & Quiz</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Interactive View More / Show Less Controls Bar */}
+                {allVisibleChapters.length > 6 && (
+                  <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+                    <div className="flex items-center gap-3 text-center sm:text-left">
+                      <div className="w-10 h-10 rounded-2xl bg-upsaffron-50 text-upsaffron-600 flex items-center justify-center shrink-0 border border-upsaffron-200">
+                        <Layers className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-upnavy-950">
+                          {hasMore 
+                            ? `${remainingCount} More Chapters Available in This View` 
+                            : 'All Available Chapters are Displayed'}
+                        </div>
+                        <div className="text-[11px] text-slate-500">
+                          {hasMore 
+                            ? 'Page kept clean and lightweight. Click below to progressively reveal more.'
+                            : `Displaying all ${allVisibleChapters.length} chapters across selected subjects.`}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                      {hasMore && (
+                        <>
+                          <button
+                            onClick={() => setVisibleLimit(prev => Math.min(prev + 6, allVisibleChapters.length))}
+                            className="flex-1 sm:flex-initial px-4 py-2.5 bg-upnavy-800 hover:bg-upsaffron-600 text-white rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm active:scale-95"
+                          >
+                            <span>View More (+{Math.min(6, remainingCount)})</span>
+                            <ChevronDown className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => setVisibleLimit(allVisibleChapters.length)}
+                            className="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5"
+                            title="Show all chapters at once"
+                          >
+                            <Eye className="w-3.5 h-3.5" />
+                            <span>Show All ({allVisibleChapters.length})</span>
+                          </button>
+                        </>
+                      )}
+
+                      {isExpanded && (
+                        <button
+                          onClick={() => {
+                            setVisibleLimit(6);
+                            const el = document.getElementById('curriculum-section');
+                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                          }}
+                          className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-2"
+                        >
+                          <ChevronUp className="w-4 h-4" />
+                          <span>Show Less (Collapse)</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })()}
