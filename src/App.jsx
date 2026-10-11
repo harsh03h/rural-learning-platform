@@ -388,7 +388,7 @@ export function App() {
             </button>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px]">
+          <div className="flex items-center gap-3 text-[11px]">
             
             <span>•</span>
             <button onClick={() => setIsArchitectureOpen(true)} className="hover:underline text-upnavy-800 hover:text-upsaffron-600 font-bold transition">
