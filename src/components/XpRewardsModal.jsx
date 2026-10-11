@@ -44,9 +44,12 @@ export function XpRewardsModal({
 
   const currentXp = studentStats.pointsXP || 350;
   const currentStreak = studentStats.streakDays || 4;
-  const studentName = currentUser?.name || 'Rohan Verma';
-  const studentGrade = currentUser?.grade || 'Class 7A';
-  const studentSchool = currentUser?.school || 'Model Senior Secondary School Rampur';
+  const isGuest = !currentUser;
+  const studentName = currentUser?.name || (lang === 'hi' ? 'अतिथि शिक्षार्थी' : 'Guest Learner');
+  const studentGrade = currentUser?.grade || 'Class 7';
+  const studentSchool = currentUser?.school || (isGuest 
+    ? (lang === 'hi' ? 'स्थानीय डिवाइस मोड (प्रगति सुरक्षित)' : 'Saved on Device (Guest Mode)') 
+    : 'Model Senior Secondary School Rampur');
 
   // Determine Current Level
   const currentLevelObj = XP_LEVELS.find(lvl => currentXp >= lvl.minXp && currentXp <= lvl.maxXp) || XP_LEVELS[2];

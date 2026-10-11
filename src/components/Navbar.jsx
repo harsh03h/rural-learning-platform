@@ -270,13 +270,19 @@ export function Navbar({
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400 mr-0.5 hidden sm:inline" />
               </button>
             ) : (
-              <button
-                onClick={onOpenAuthModal}
-                className="px-3 sm:px-4 py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1 sm:gap-1.5 shrink-0"
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                <span className="hidden xs:inline sm:inline">Sign In</span>
-              </button>
+              <div className="flex items-center gap-1.5">
+                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 shadow-2xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Guest</span>
+                </span>
+                <button
+                  onClick={onOpenAuthModal}
+                  className="px-3 sm:px-4 py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1 sm:gap-1.5 shrink-0"
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span className="hidden xs:inline sm:inline">Sign In</span>
+                </button>
+              </div>
             )}
 
             {/* Modernized Profile Dropdown Popover */}

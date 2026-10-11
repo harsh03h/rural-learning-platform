@@ -291,11 +291,16 @@ export function StudentView({
     setVisibleLimit(6);
   }, [selectedGrade, selectedSubject, filterOfflineOnly]);
 
-  const studentFirstName = currentUser?.name ? currentUser.name.split(' ')[0] : (lang === 'hi' ? 'रोहन' : 'Rohan');
+  const isGuest = !currentUser;
+  const studentFirstName = currentUser?.name 
+    ? currentUser.name.split(' ')[0] 
+    : (lang === 'hi' ? 'अतिथि शिक्षार्थी' : 'Guest Learner');
   const studentGrade = currentUser?.grade || selectedGrade;
-  const studentRoll = currentUser?.rollNo || '24';
-  const studentSchool = currentUser?.school || 'Model Senior Secondary School Rampur';
-  const studentAvatar = currentUser?.avatar || '🎓';
+  const studentRoll = currentUser?.rollNo || (isGuest ? 'Local-User' : '24');
+  const studentSchool = currentUser?.school || (isGuest 
+    ? (lang === 'hi' ? 'डिवाइस स्टोरेज में सहेजा गया (अतिथि मोड)' : 'Offline Local Storage (Saved on Device)')
+    : 'Model Senior Secondary School Rampur');
+  const studentAvatar = currentUser?.avatar || (isGuest ? '👤' : '🎓');
 
   const activeClassMeta = CLASS_METADATA[selectedGrade] || CLASS_METADATA['Class 7'];
 
@@ -341,19 +346,30 @@ export function StudentView({
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-bold text-upnavy-900 bg-upnavy-100/90 px-3 py-1 rounded-full border border-upnavy-200 flex items-center gap-1.5">
                 <GraduationCap className="w-3.5 h-3.5 text-upnavy-700" />
-                <span>{studentGrade} • Roll {studentRoll}</span>
+                <span>{studentGrade} • {isGuest ? (lang === 'hi' ? 'अतिथि मोड' : 'Guest Learner') : `Roll ${studentRoll}`}</span>
               </span>
               <span className="text-[10px] font-black bg-upsaffron-100 text-upsaffron-900 px-3 py-1 rounded-full border border-upsaffron-300">
                 Classes 6 to 10 Platform
               </span>
-              <span className="text-xs text-slate-500 font-medium truncate max-w-xs sm:max-w-md">
-                {studentSchool}
-              </span>
+              {isGuest ? (
+                <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-300 flex items-center gap-1">
+                  <span>💾</span>
+                  <span>{lang === 'hi' ? 'प्रगति डिवाइस पर सुरक्षित' : 'Progress Saved on Device'}</span>
+                </span>
+              ) : (
+                <span className="text-xs text-slate-500 font-medium truncate max-w-xs sm:max-w-md">
+                  {studentSchool}
+                </span>
+              )}
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-black text-upnavy-950 tracking-tight leading-snug flex items-center gap-2.5">
               <span className="text-3xl">{studentAvatar}</span>
-              <span>{lang === 'hi' ? `नमस्ते, ${studentFirstName}! 👋` : `Welcome back, ${studentFirstName}! 👋`}</span>
+              <span>
+                {lang === 'hi' 
+                  ? (isGuest ? 'ज्ञानसेतु में आपका स्वागत है! 👋' : `नमस्ते, ${studentFirstName}! 👋`) 
+                  : (isGuest ? 'Welcome to GyanSetu! 👋' : `Welcome back, ${studentFirstName}! 👋`)}
+              </span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-600 max-w-lg leading-relaxed">
               {lang === 'hi' 

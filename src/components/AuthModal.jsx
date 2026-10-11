@@ -60,7 +60,7 @@ const CLASS_OPTIONS = [
   'Class 10A', 'Class 10B'
 ];
 
-export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
+export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsGuest }) {
   if (!isOpen) return null;
 
   const [authMode, setAuthMode] = useState('login'); // 'login' | 'register'
@@ -657,6 +657,29 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
                   Create an Account
                 </button>
               </div>
+
+              {/* Or Continue as Guest Learner */}
+              <div className="pt-2 border-t border-slate-100 space-y-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onContinueAsGuest) {
+                      onContinueAsGuest();
+                    } else {
+                      onClose();
+                    }
+                  }}
+                  className="w-full py-2.5 px-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-upnavy-950 font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer"
+                >
+                  <span>👤 {lang === 'hi' ? 'अतिथि शिक्षार्थी के रूप में जारी रखें' : 'Continue as Guest Learner'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+                </button>
+                <p className="text-[10px] text-center text-slate-400">
+                  {lang === 'hi' 
+                    ? 'बिना पासवर्ड लॉगिन करें • आपकी सभी प्रगति इस डिवाइस पर हमेशा सुरक्षित रहेगी।' 
+                    : 'No account needed • All your quiz scores & downloads persist on this browser.'}
+                </p>
+              </div>
             </form>
           )}
 
@@ -1002,6 +1025,24 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess }) {
                   className="font-bold text-upsaffron-700 hover:text-upsaffron-800 hover:underline"
                 >
                   Sign In
+                </button>
+              </div>
+
+              {/* Or Continue as Guest Learner */}
+              <div className="pt-2 border-t border-slate-100 text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onContinueAsGuest) {
+                      onContinueAsGuest();
+                    } else {
+                      onClose();
+                    }
+                  }}
+                  className="w-full py-2.5 px-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 hover:text-upnavy-950 font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer"
+                >
+                  <span>👤 {lang === 'hi' ? 'अतिथि शिक्षार्थी के रूप में जारी रखें' : 'Continue as Guest Learner'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
                 </button>
               </div>
             </form>

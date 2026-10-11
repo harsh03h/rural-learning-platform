@@ -22,6 +22,8 @@ import { submitQuiz, syncOfflineBatch, submitDiagnostic } from './services/api';
 export function App() {
   const [currentUser, setCurrentUser] = useState(() => {
     try {
+      const isGuest = localStorage.getItem('gyansetu_is_guest');
+      if (isGuest === 'true') return null; // Retain Guest Mode across refreshes!
       const saved = localStorage.getItem('gyansetu_user');
       if (saved) return JSON.parse(saved);
     } catch (e) {}
@@ -36,30 +38,84 @@ export function App() {
     };
   });
 
-  const [role, setRole] = useState('student'); // 'student' | 'teacher' | 'parent' | 'admin'
-  const [lang, setLang] = useState('en'); // default language is English
-  const [isOffline, setIsOffline] = useState(false);
-  const [isLowData, setIsLowData] = useState(true); // default to low-data mode
-  const [pendingSyncCount, setPendingSyncCount] = useState(1);
-  const [downloadedIds, setDownloadedIds] = useState(['math-c7-ch1', 'sci-c7-ch1']);
-  const [toastMessage, setToastMessage] = useState(null);
-
-  // Diagnostic State
-  const [diagnosticData, setDiagnosticData] = useState({
-    completed: true,
-    weakTopics: ['Fractions (भिन्न)', 'Percentages (प्रतिशत)'],
-    masteredTopics: ['Decimals (दशमलव)', 'Geometry']
+  const [role, setRole] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_role');
+      if (saved) return saved;
+    } catch (e) {}
+    return 'student';
   });
 
-  // Student Gamification & Mastery State
-  const [studentStats, setStudentStats] = useState({
-    streakDays: 4,
-    pointsXP: 350,
-    subjectProgress: {
-      math: 72,
-      science: 81,
-      english: 64
-    }
+  const [lang, setLang] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_lang');
+      if (saved) return saved;
+    } catch (e) {}
+    return 'en';
+  });
+
+  const [isOffline, setIsOffline] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_offline');
+      if (saved !== null) return saved === 'true';
+    } catch (e) {}
+    return false;
+  });
+
+  const [isLowData, setIsLowData] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_low_data');
+      if (saved !== null) return saved === 'true';
+    } catch (e) {}
+    return true;
+  });
+
+  const [pendingSyncCount, setPendingSyncCount] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_pending_sync');
+      if (saved !== null) return parseInt(saved, 10);
+    } catch (e) {}
+    return 1;
+  });
+
+  const [downloadedIds, setDownloadedIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_downloaded_ids');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return ['math-c7-ch1', 'sci-c7-ch1'];
+  });
+
+  const [toastMessage, setToastMessage] = useState(null);
+
+  // Diagnostic State - Persisted across reloads
+  const [diagnosticData, setDiagnosticData] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_diagnostic_data');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return {
+      completed: true,
+      weakTopics: ['Fractions (भिन्न)', 'Percentages (प्रतिशत)'],
+      masteredTopics: ['Decimals (दशमलव)', 'Geometry']
+    };
+  });
+
+  // Student Gamification & Mastery State - Persisted across reloads
+  const [studentStats, setStudentStats] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_student_stats');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return {
+      streakDays: 4,
+      pointsXP: 350,
+      subjectProgress: {
+        math: 72,
+        science: 81,
+        english: 64
+      }
+    };
   });
 
   // Selected Class Grade (Classes 6 to 10) - Strictly filters curriculum across platform
@@ -79,6 +135,73 @@ export function App() {
       localStorage.setItem('gyansetu_selected_grade', grade);
     } catch (e) {}
   };
+
+  // Synchronize all platform states to localStorage so nothing resets on browser refresh (guest or logged-in)
+  useEffect(() => {
+    try {
+      if (currentUser) {
+        localStorage.setItem('gyansetu_user', JSON.stringify(currentUser));
+        localStorage.removeItem('gyansetu_is_guest');
+      } else {
+        localStorage.removeItem('gyansetu_user');
+        localStorage.setItem('gyansetu_is_guest', 'true');
+      }
+    } catch (e) {}
+  }, [currentUser]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_role', role);
+    } catch (e) {}
+  }, [role]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_lang', lang);
+    } catch (e) {}
+  }, [lang]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_offline', isOffline.toString());
+    } catch (e) {}
+  }, [isOffline]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_low_data', isLowData.toString());
+    } catch (e) {}
+  }, [isLowData]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_pending_sync', pendingSyncCount.toString());
+    } catch (e) {}
+  }, [pendingSyncCount]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_downloaded_ids', JSON.stringify(downloadedIds));
+    } catch (e) {}
+  }, [downloadedIds]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_diagnostic_data', JSON.stringify(diagnosticData));
+    } catch (e) {}
+  }, [diagnosticData]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_student_stats', JSON.stringify(studentStats));
+    } catch (e) {}
+  }, [studentStats]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_selected_grade', selectedGrade);
+    } catch (e) {}
+  }, [selectedGrade]);
 
   // Modals
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -108,6 +231,10 @@ export function App() {
   };
 
   const handleLoginSuccess = (userData) => {
+    try {
+      localStorage.removeItem('gyansetu_is_guest');
+      localStorage.setItem('gyansetu_user', JSON.stringify(userData));
+    } catch (e) {}
     setCurrentUser(userData);
     setRole(userData.role);
     if (userData.language) {
@@ -118,8 +245,24 @@ export function App() {
 
   const handleLogout = () => {
     setCurrentUser(null);
-    setIsAuthModalOpen(true);
-    showToast(lang === 'hi' ? 'सफलतापूर्वक लॉगआउट हुए।' : 'Logged out successfully.');
+    setRole('student');
+    try {
+      localStorage.removeItem('gyansetu_user');
+      localStorage.setItem('gyansetu_is_guest', 'true');
+    } catch (e) {}
+    setIsAuthModalOpen(false);
+    showToast(lang === 'hi' ? 'सफलतापूर्वक लॉगआउट हुए (अतिथि मोड सक्रिय)।' : 'Logged out successfully (Guest Mode active).');
+  };
+
+  const handleContinueAsGuest = () => {
+    setCurrentUser(null);
+    setRole('student');
+    try {
+      localStorage.removeItem('gyansetu_user');
+      localStorage.setItem('gyansetu_is_guest', 'true');
+    } catch (e) {}
+    setIsAuthModalOpen(false);
+    showToast(lang === 'hi' ? 'अतिथि मोड में स्वागत है! आपकी प्रगति इस डिवाइस पर सुरक्षित रहेगी।' : 'Browsing as Guest Learner! Progress saved on device.');
   };
 
   // Toggle download in IndexedDB / local state
@@ -362,6 +505,7 @@ export function App() {
         onClose={() => setIsAuthModalOpen(false)}
         lang={lang}
         onLoginSuccess={handleLoginSuccess}
+        onContinueAsGuest={handleContinueAsGuest}
       />
 
       <ProfileEditModal
