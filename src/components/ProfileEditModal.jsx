@@ -27,7 +27,8 @@ import {
   Smartphone,
   Mail,
   Zap,
-  HeartHandshake
+  HeartHandshake,
+  LogOut
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from '../data/mockData';
@@ -111,7 +112,8 @@ export function ProfileEditModal({
   currentUser, 
   onSaveProfile, 
   lang,
-  studentStats = { streakDays: 4, pointsXP: 350 }
+  studentStats = { streakDays: 4, pointsXP: 350 },
+  onLogout
 }) {
   if (!isOpen || !currentUser) return null;
 
@@ -843,23 +845,39 @@ export function ProfileEditModal({
         </div>
 
         {/* Modal Sticky Bottom Action Footer */}
-        <div className="pt-3.5 border-t border-slate-100 mt-3 flex items-center justify-between gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition active:scale-95"
-          >
-            Cancel
-          </button>
+        <div className="pt-3.5 border-t border-slate-100 mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+          {onLogout ? (
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                onLogout();
+              }}
+              className="px-4 py-2.5 rounded-xl text-xs font-bold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-2xs"
+            >
+              <LogOut className="w-3.5 h-3.5 text-rose-600" />
+              <span>{lang === 'hi' ? 'खाते से लॉगआउट करें' : 'Sign Out / Logout'}</span>
+            </button>
+          ) : <div />}
 
-          <button
-            type="submit"
-            form="profile-form"
-            className="px-6 py-2.5 rounded-xl bg-upsaffron-600 hover:bg-upsaffron-700 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-upsaffron-600/30 transition active:scale-95 cursor-pointer"
-          >
-            <Save className="w-3.5 h-3.5" />
-            <span>{lang === 'hi' ? 'परिवर्तन सहेजें' : 'Save Profile Changes'}</span>
-          </button>
+          <div className="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition active:scale-95"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              form="profile-form"
+              className="px-6 py-2.5 rounded-xl bg-upsaffron-600 hover:bg-upsaffron-700 text-white font-bold text-xs flex items-center gap-2 shadow-md shadow-upsaffron-600/30 transition active:scale-95 cursor-pointer"
+            >
+              <Save className="w-3.5 h-3.5" />
+              <span>{lang === 'hi' ? 'परिवर्तन सहेजें' : 'Save Profile Changes'}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

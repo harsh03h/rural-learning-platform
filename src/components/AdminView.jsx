@@ -45,12 +45,13 @@ import {
   ChevronRight,
   Phone,
   Mail,
-  MapPin
+  MapPin,
+  LogOut
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { translations } from '../data/mockData';
 
-export function AdminView({ lang = 'en' }) {
+export function AdminView({ lang = 'en', onLogout }) {
   const t = translations[lang] || translations['en'];
 
   // Global Toast
@@ -608,7 +609,7 @@ export function AdminView({ lang = 'en' }) {
           </p>
         </div>
 
-        {/* Live System Pills */}
+        {/* Live System Pills & Actions */}
         <div className="flex flex-wrap items-center gap-2.5 z-10">
           <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3.5 py-2 rounded-2xl text-xs font-bold text-emerald-900">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -618,6 +619,16 @@ export function AdminView({ lang = 'en' }) {
             <Radio className="w-3.5 h-3.5 text-upnavy-700" />
             <span>Wi-Fi Mesh Active (0 KB cellular)</span>
           </div>
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-2xl transition active:scale-95 flex items-center gap-1.5 border border-rose-200 cursor-pointer shadow-2xs"
+              title={lang === 'hi' ? 'लॉगआउट करें' : 'Sign Out / Logout'}
+            >
+              <LogOut className="w-3.5 h-3.5 text-rose-600" />
+              <span>{lang === 'hi' ? 'लॉगआउट' : 'Logout'}</span>
+            </button>
+          )}
         </div>
       </div>
 

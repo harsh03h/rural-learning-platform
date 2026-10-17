@@ -25,7 +25,8 @@ import {
   GraduationCap,
   School,
   CheckCheck,
-  Compass
+  Compass,
+  LogOut
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { translations } from '../data/mockData';
@@ -627,7 +628,7 @@ const CLASS_ANALYTICS = {
   ]
 };
 
-export function TeacherView({ lang }) {
+export function TeacherView({ lang, onLogout }) {
   const t = translations[lang] || translations['en'];
   const [selectedClass, setSelectedClass] = useState('Class 7A');
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'generator' | 'analytics'
@@ -978,6 +979,16 @@ export function TeacherView({ lang }) {
             <Send className="w-3.5 h-3.5" />
             <span>Broadcast SMS to Parents</span>
           </button>
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="px-3.5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-2xl transition active:scale-95 flex items-center gap-1.5 border border-rose-200 cursor-pointer shadow-2xs"
+              title={lang === 'hi' ? 'लॉगआउट करें' : 'Sign Out / Logout'}
+            >
+              <LogOut className="w-3.5 h-3.5 text-rose-600" />
+              <span>{lang === 'hi' ? 'लॉगआउट' : 'Logout'}</span>
+            </button>
+          )}
         </div>
       </div>
 

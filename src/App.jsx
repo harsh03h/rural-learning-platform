@@ -487,15 +487,15 @@ export function App() {
         )}
 
         {role === 'teacher' && (
-          <TeacherView lang={lang} />
+          <TeacherView lang={lang} onLogout={handleLogout} />
         )}
 
         {role === 'parent' && (
-          <ParentView lang={lang} />
+          <ParentView lang={lang} onLogout={handleLogout} />
         )}
 
         {role === 'admin' && (
-          <AdminView lang={lang} />
+          <AdminView lang={lang} onLogout={handleLogout} />
         )}
       </main>
 
@@ -515,6 +515,7 @@ export function App() {
         onSaveProfile={handleSaveProfile}
         lang={lang}
         studentStats={studentStats}
+        onLogout={handleLogout}
       />
 
       <DiagnosticModal
