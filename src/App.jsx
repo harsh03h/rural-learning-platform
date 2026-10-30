@@ -203,6 +203,34 @@ export function App() {
     } catch (e) {}
   }, [selectedGrade]);
 
+  // Theme State: 'light' | 'dark' (Light Mode is Default!)
+  const [theme, setTheme] = useState(() => {
+    try {
+      const saved = localStorage.getItem('gyansetu_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+    } catch (e) {}
+    return 'light'; // Default to Light Mode
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('gyansetu_theme', theme);
+    } catch (e) {}
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    showToast(nextTheme === 'dark' 
+      ? (lang === 'hi' ? '🌙 डार्क मोड सक्रिय' : '🌙 Dark Mode Enabled') 
+      : (lang === 'hi' ? '☀️ लाइट मोड सक्रिय (डिफ़ॉल्ट)' : '☀️ Light Mode Enabled (Default)'));
+  };
+
   // Modals
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
@@ -387,7 +415,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f4f6f9] text-upnavy-950 font-sans">
+    <div className="min-h-screen flex flex-col bg-[#f4f6f9] dark:bg-slate-950 text-upnavy-950 dark:text-slate-100 font-sans transition-colors duration-200">
       {/* Toast Notification - Sleek, non-bouncing, stable notification positioned below sticky header */}
       {toastMessage && (
         <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700/80 text-xs flex items-center gap-2.5 animate-fadeIn transition-all">
@@ -403,6 +431,9 @@ export function App() {
         onOpenAuthModal={() => setIsAuthModalOpen(true)}
         onOpenProfileEdit={() => setIsProfileEditOpen(true)}
         onLogout={handleLogout}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
+        setTheme={setTheme}
         role={role}
         setRole={(r) => {
           setRole(r);
@@ -516,6 +547,9 @@ export function App() {
         lang={lang}
         studentStats={studentStats}
         onLogout={handleLogout}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
+        setTheme={setTheme}
       />
 
       <DiagnosticModal

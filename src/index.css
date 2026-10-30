@@ -12,6 +12,13 @@
     background-color: #f8fafc;
     -webkit-text-size-adjust: 100%;
     touch-action: manipulation;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  html.dark, html.dark body {
+    color: #f8fafc;
+    background-color: #030f1c;
+    color-scheme: dark;
   }
 
   img, svg, video, canvas {
@@ -41,6 +48,13 @@
   background: #94a3b8;
 }
 
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
 /* Subtle modern card glow & hover transitions */
 .modern-card {
   background: #ffffff;
@@ -53,6 +67,78 @@
   border-color: rgba(203, 213, 225, 0.9);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
   transform: translateY(-1px);
+}
+
+html.dark .modern-card {
+  background: #0b192c;
+  border-color: rgba(30, 58, 95, 0.8);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+html.dark .modern-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* Comprehensive Dark Mode Theme Harmonizer */
+html.dark .bg-white {
+  background-color: #0b192c !important;
+}
+
+html.dark .bg-white\/90,
+html.dark .bg-white\/95 {
+  background-color: rgba(11, 25, 44, 0.95) !important;
+}
+
+html.dark .bg-slate-50,
+html.dark .bg-slate-50\/70,
+html.dark .bg-slate-50\/80,
+html.dark .bg-slate-50\/90,
+html.dark .bg-slate-50\/95 {
+  background-color: #0f2238 !important;
+}
+
+html.dark .bg-slate-100,
+html.dark .bg-slate-100\/80,
+html.dark .bg-slate-100\/90 {
+  background-color: #152b45 !important;
+}
+
+html.dark .border-slate-200,
+html.dark .border-slate-200\/60,
+html.dark .border-slate-200\/70,
+html.dark .border-slate-200\/80,
+html.dark .border-slate-200\/90,
+html.dark .border-slate-100 {
+  border-color: #1e3a5f !important;
+}
+
+html.dark .text-upnavy-950,
+html.dark .text-slate-950,
+html.dark .text-slate-900,
+html.dark .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.dark .text-slate-700,
+html.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+html.dark .text-slate-400 {
+  color: #64748b !important;
+}
+
+html.dark input:not([type="checkbox"]):not([type="radio"]),
+html.dark select,
+html.dark textarea {
+  background-color: #0d1e33 !important;
+  color: #f8fafc !important;
+  border-color: #1e3a5f !important;
 }
 
 /* Sound wave animation for audio player */

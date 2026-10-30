@@ -28,7 +28,9 @@ import {
   Mail,
   Zap,
   HeartHandshake,
-  LogOut
+  LogOut,
+  Sun,
+  Moon
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from '../data/mockData';
@@ -113,7 +115,11 @@ export function ProfileEditModal({
   onSaveProfile, 
   lang,
   studentStats = { streakDays: 4, pointsXP: 350 },
-  onLogout
+  onLogout,
+
+
+  theme = 'light',
+  setTheme
 }) {
   if (!isOpen || !currentUser) return null;
 
@@ -839,6 +845,68 @@ export function ProfileEditModal({
                     />
                   </div>
                 </div>
+
+                {/* Theme & Display Appearance */}
+                <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 rounded-2xl space-y-3">
+                  <div className="font-bold text-upnavy-950 dark:text-slate-100 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      {theme === 'dark' ? (
+                        <Moon className="w-4 h-4 text-amber-400" />
+                      ) : (
+                        <Sun className="w-4 h-4 text-upsaffron-600" />
+                      )}
+                      <span>Display Theme & Appearance</span>
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                      {theme === 'dark' ? 'Dark Active' : 'Light (Default)'}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Choose your visual appearance. Light mode is GyanSetu's high-contrast default for daytime and classroom learning.
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-2.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => setTheme && setTheme('light')}
+                      className={`p-3 rounded-xl border text-left flex items-center gap-3 transition-all ${
+                        theme !== 'dark'
+                          ? 'border-upsaffron-500 bg-amber-50/70 dark:bg-amber-950/30 ring-2 ring-upsaffron-500/20'
+                          : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-slate-900/60'
+                      }`}
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-300 flex items-center justify-center shrink-0">
+                        <Sun className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                          Light Mode
+                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 font-bold">Default</span>
+                        </div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400">Daytime & High Contrast</div>
+                      </div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setTheme && setTheme('dark')}
+                      className={`p-3 rounded-xl border text-left flex items-center gap-3 transition-all ${
+                        theme === 'dark'
+                          ? 'border-upsaffron-500 bg-slate-800 ring-2 ring-upsaffron-500/20'
+                          : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-white dark:bg-slate-900/60'
+                      }`}
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 flex items-center justify-center shrink-0">
+                        <Moon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Dark Mode</div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400">Night & Low-Glare</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </form>
@@ -852,6 +920,9 @@ export function ProfileEditModal({
               onClick={() => {
                 onClose();
                 onLogout();
+
+
+
               }}
               className="px-4 py-2.5 rounded-xl text-xs font-bold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-2xs"
             >

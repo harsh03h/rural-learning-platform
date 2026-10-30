@@ -18,7 +18,9 @@ import {
   LifeBuoy,
   Flame,
   Trophy,
-  School
+  School,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { translations, supportedLanguages } from '../data/mockData';
 
@@ -32,7 +34,9 @@ export function Navbar({
   role, 
   setRole, 
   lang, 
-  setLang, 
+  setLang,
+  theme = 'light',
+  onToggleTheme, 
   isOffline, 
   setIsOffline, 
   isLowData, 
@@ -256,6 +260,28 @@ export function Navbar({
             <span className="hidden lg:inline">Help</span>
           </button>
 
+          {/* Dark / Light Mode Toggle Button */}
+          <button
+            onClick={onToggleTheme}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-semibold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 border border-slate-200/80 dark:border-slate-700 transition-all shadow-2xs cursor-pointer active:scale-95 group"
+            title={theme === 'dark' 
+              ? (lang === 'hi' ? 'लाइट मोड में बदलें (डिफ़ॉल्ट)' : 'Switch to Light Mode (Default)') 
+              : (lang === 'hi' ? 'डार्क मोड में बदलें' : 'Switch to Dark Mode')}
+            aria-label="Toggle Dark and Light Mode"
+          >
+            {theme === 'dark' ? (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20 group-hover:rotate-45 transition-transform shrink-0" />
+                <span className="hidden xl:inline text-slate-200 font-bold">Light</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-3.5 h-3.5 text-upnavy-800 group-hover:-rotate-12 transition-transform shrink-0" />
+                <span className="hidden xl:inline text-slate-700 font-bold">Dark</span>
+              </>
+            )}
+          </button>
+
           {/* User Profile / Menu Dropdown */}
           <div className="relative" ref={menuRef}>
             {currentUser ? (
@@ -457,6 +483,26 @@ export function Navbar({
                   </div>
 
                   <div className="pt-2 mt-1.5 border-t border-slate-100 space-y-1.5">
+                    {/* Theme Mode Option */}
+                    <button
+                      onClick={() => {
+                        onToggleTheme();
+                      }}
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center justify-between transition group cursor-pointer"
+                    >
+                      <span className="flex items-center gap-2">
+                        {theme === 'dark' ? (
+                          <Sun className="w-3.5 h-3.5 text-amber-400" />
+                        ) : (
+                          <Moon className="w-3.5 h-3.5 text-upnavy-700 dark:text-slate-300" />
+                        )}
+                        <span>{lang === 'hi' ? 'थीम मोड' : 'Appearance'}</span>
+                      </span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200">
+                        {theme === 'dark' ? (lang === 'hi' ? 'डार्क 🌙' : 'Dark 🌙') : (lang === 'hi' ? 'लाइट ☀️' : 'Light ☀️')}
+                      </span>
+                    </button>
+
                     {/* Switch / Another Account */}
                     <button
                       onClick={() => {
@@ -551,6 +597,14 @@ export function Navbar({
           >
             <HelpCircle className="w-3 h-3 text-upsaffron-600" />
             <span>Help</span>
+          </button>
+          <button
+            onClick={onToggleTheme}
+            className="p-1.5 rounded-full font-bold text-slate-700 dark:text-amber-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 shrink-0 flex items-center justify-center transition active:scale-95 cursor-pointer"
+            title={theme === 'dark' ? (lang === 'hi' ? 'लाइट मोड' : 'Switch to Light Mode') : (lang === 'hi' ? 'डार्क मोड' : 'Switch to Dark Mode')}
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
           </button>
         </div>
       </div>
