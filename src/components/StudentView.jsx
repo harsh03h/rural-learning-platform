@@ -1226,6 +1226,7 @@ export function StudentView({
         isOpen={isTimetableOpen}
         onClose={() => setIsTimetableOpen(false)}
         selectedGrade={selectedGrade}
+        currentUser={currentUser}
         lang={lang}
       />
     </div>
