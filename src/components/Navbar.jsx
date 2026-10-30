@@ -95,43 +95,43 @@ export function Navbar({
           </div>
 
           {/* Segmented Role Navigation (Desktop & Tablet) */}
-          <nav className="hidden md:flex items-center bg-slate-100/90 p-1 rounded-full border border-slate-200/70 text-xs">
+          <nav className="hidden md:flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-1 rounded-full border border-slate-200/70 dark:border-slate-700 text-xs">
             <button
               onClick={() => setRole('student')}
-              className={`px-3.5 py-1.5 rounded-full font-semibold transition-all duration-150 ${
+              className={`px-3 py-1 rounded-full font-semibold transition-all duration-150 ${
                 role === 'student'
                   ? 'bg-upnavy-800 text-white shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-upnavy-900'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-900 dark:hover:text-white'
               }`}
             >
               Student
             </button>
             <button
               onClick={() => setRole('teacher')}
-              className={`px-3.5 py-1.5 rounded-full font-semibold transition-all duration-150 ${
+              className={`px-3 py-1 rounded-full font-semibold transition-all duration-150 ${
                 role === 'teacher'
                   ? 'bg-upnavy-800 text-white shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-upnavy-900'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-900 dark:hover:text-white'
               }`}
             >
               Teacher
             </button>
             <button
               onClick={() => setRole('parent')}
-              className={`px-3.5 py-1.5 rounded-full font-semibold transition-all duration-150 ${
+              className={`px-3 py-1 rounded-full font-semibold transition-all duration-150 ${
                 role === 'parent'
                   ? 'bg-upnavy-800 text-white shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-upnavy-900'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-900 dark:hover:text-white'
               }`}
             >
-              Parent SMS
+              Parent
             </button>
             <button
               onClick={() => setRole('admin')}
-              className={`px-3.5 py-1.5 rounded-full font-semibold transition-all duration-150 ${
+              className={`px-3 py-1 rounded-full font-semibold transition-all duration-150 ${
                 role === 'admin'
                   ? 'bg-upnavy-800 text-white shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-upnavy-900'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-900 dark:hover:text-white'
               }`}
             >
               Admin
@@ -140,24 +140,24 @@ export function Navbar({
         </div>
 
         {/* Right: Modern Compact Utilities */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {/* Active Class Grade Selector Dropdown */}
           <div className="relative" ref={classMenuRef}>
             <button
               onClick={() => setIsClassMenuOpen(!isClassMenuOpen)}
-              className="px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-bold bg-upnavy-50 hover:bg-upnavy-100 text-upnavy-900 border border-upnavy-200/90 flex items-center gap-1.5 transition active:scale-95 shadow-2xs"
+              className="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-upnavy-900 dark:text-slate-100 border border-slate-200/90 dark:border-slate-700 flex items-center gap-1.5 transition active:scale-95 shadow-2xs"
               title="Switch Class Curriculum (Classes 6 to 10)"
             >
               <School className="w-3.5 h-3.5 text-upsaffron-600 shrink-0" />
-              <span className="font-black text-upnavy-950">{selectedGrade || 'Class 7'}</span>
+              <span>{selectedGrade || 'Class 7'}</span>
               <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
             </button>
 
             {isClassMenuOpen && (
-              <div className="absolute top-full mt-2 left-0 sm:left-auto sm:right-0 w-52 bg-white rounded-2xl shadow-xl border border-slate-200 py-1.5 z-50 animate-scaleUp">
-                <div className="px-3 py-1.5 text-[10px] font-black uppercase text-slate-400 tracking-wider border-b border-slate-100 flex items-center justify-between">
+              <div className="absolute top-full mt-2 left-0 sm:left-auto sm:right-0 w-52 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-1.5 z-50 animate-scaleUp">
+                <div className="px-3 py-1.5 text-[10px] font-black uppercase text-slate-400 tracking-wider border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                   <span>Curriculum Class</span>
-                  <span className="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.2 rounded font-mono">6 to 10</span>
+                  <span className="text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-1.5 py-0.2 rounded font-mono">6 to 10</span>
                 </div>
                 {[
                   { id: 'Class 6', label: 'Class 6', sub: 'Middle School • Foundation' },
@@ -174,12 +174,12 @@ export function Navbar({
                     }}
                     className={`w-full px-3 py-2 text-left text-xs transition flex items-center justify-between ${
                       selectedGrade === item.id 
-                        ? 'bg-upnavy-50 text-upnavy-950 font-black' 
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'bg-upnavy-50 dark:bg-slate-800 text-upnavy-950 dark:text-slate-100 font-black' 
+                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
                     }`}
                   >
                     <div>
-                      <div className="font-bold text-upnavy-950">{item.label}</div>
+                      <div className="font-bold">{item.label}</div>
                       <div className="text-[10px] text-slate-400 font-normal">{item.sub}</div>
                     </div>
                     {selectedGrade === item.id && (
@@ -191,137 +191,113 @@ export function Navbar({
             )}
           </div>
 
-          {/* Offline Sync Alert Pill (Only shown if pending syncs) */}
-          {pendingSyncCount > 0 && (
+          {/* Unified Compact Network & Data Status Capsule (Consolidates Sync, Offline, and Low Data) */}
+          <div className="hidden sm:flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-0.5 rounded-full border border-slate-200/80 dark:border-slate-700 text-xs">
             <button
-              onClick={onSyncNow}
-              className="hidden sm:flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 px-3 py-1.5 rounded-full text-[11px] font-bold transition active:scale-95 shadow-2xs"
-              title="Click to push offline quiz results to school database"
+              onClick={() => setIsOffline(!isOffline)}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full font-semibold transition active:scale-95 ${
+                isOffline
+                  ? 'bg-rose-500 text-white shadow-2xs font-bold'
+                  : 'text-slate-700 dark:text-slate-200 hover:text-upnavy-950'
+              }`}
+              title={isOffline ? 'Offline Mode Active - Tap to restore Online' : 'Online Mode - Tap to simulate Offline'}
             >
-              <RefreshCw className="w-3 h-3 text-amber-700" />
-              <span>{pendingSyncCount} Sync</span>
+              <span className={`w-2 h-2 rounded-full ${isOffline ? 'bg-white' : 'bg-emerald-500'}`} />
+              <span className="text-[11px] font-bold">{isOffline ? 'Offline' : 'Online'}</span>
             </button>
-          )}
 
-          {/* Network Simulator Indicator Button (Desktop/Tablet) */}
-          <button
-            onClick={() => setIsOffline(!isOffline)}
-            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-medium border transition-all ${
-              isOffline
-                ? 'bg-rose-50 text-rose-800 border-rose-200 hover:bg-rose-100 shadow-xs'
-                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200/80'
-            }`}
-            title="Click to toggle simulated offline mode"
-          >
-            <span className={`w-2 h-2 rounded-full shrink-0 ${isOffline ? 'bg-rose-500 ring-2 ring-rose-200' : 'bg-emerald-500 ring-2 ring-emerald-200'}`} />
-            <span className="hidden md:inline font-semibold">{isOffline ? 'Offline' : 'Online'}</span>
-          </button>
+            <button
+              onClick={() => setIsLowData(!isLowData)}
+              className={`flex items-center gap-1 px-2 py-1 rounded-full font-bold transition active:scale-95 ${
+                isLowData
+                  ? 'bg-amber-500 text-white shadow-2xs'
+                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+              }`}
+              title={isLowData ? 'Low-Data Mode ON (<40KB) - Tap for Standard' : 'Standard Visuals - Tap for Low-Data Saver (<40KB)'}
+            >
+              <Zap className={`w-3 h-3 ${isLowData ? 'fill-white' : ''}`} />
+              <span className="text-[10px] hidden xl:inline">{isLowData ? 'Saver' : ''}</span>
+            </button>
 
-          {/* Minimalist Low Data Toggle Pill (Desktop/Tablet) */}
-          <button
-            onClick={() => setIsLowData(!isLowData)}
-            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold border transition-all ${
-              isLowData
-                ? 'bg-amber-50 text-amber-900 border-amber-300/80 shadow-xs'
-                : 'bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200/80'
-            }`}
-            title="Low Data Mode: saves 98% bandwidth with audio & text only"
-          >
-            <Zap className={`w-3.5 h-3.5 shrink-0 ${isLowData ? 'text-amber-600 fill-amber-500' : 'text-slate-400'}`} />
-            <span className="hidden md:inline">{isLowData ? 'Low Data' : 'Standard'}</span>
-          </button>
+            {pendingSyncCount > 0 && (
+              <button
+                onClick={onSyncNow}
+                className="flex items-center gap-1 px-2 py-1 rounded-full font-bold text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition active:scale-95"
+                title={`${pendingSyncCount} pending offline changes - Click to Sync Now`}
+              >
+                <RefreshCw className="w-3 h-3 text-amber-600 animate-spin-slow" />
+                <span className="text-[11px]">{pendingSyncCount}</span>
+              </button>
+            )}
+          </div>
 
-          {/* Minimal Language Select */}
+          {/* Minimal Language Select (Compact Flag + Code) */}
           <div className="relative inline-flex items-center">
-            <div className="flex items-center gap-1 px-2 py-1.5 sm:px-2.5 rounded-full text-xs font-medium bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 transition cursor-pointer">
-              <Globe className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+            <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 transition cursor-pointer">
+              <Globe className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value)}
-                className="bg-transparent text-xs font-semibold text-slate-800 dark:text-slate-100 outline-none cursor-pointer pr-0 sm:pr-1"
+                className="bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer uppercase pr-0.5"
                 aria-label="Select Language"
               >
                 {supportedLanguages.map((l) => (
                   <option key={l.code} value={l.code} className="text-slate-900 font-medium">
-                    {l.flag} {l.name}
+                    {l.flag} {l.name} ({l.code.toUpperCase()})
                   </option>
                 ))}
               </select>
             </div>
           </div>
 
-          {/* Help & Support Desk Pill Button (Desktop/Tablet - on mobile it is in the sub-bar below) */}
+          {/* Help & Support Desk Circular Icon Button */}
           <button
             onClick={onOpenHelp}
-            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 border border-upsaffron-300/80 transition-all shadow-2xs group cursor-pointer"
-            title="GyanSetu Help & Support Desk (Toll-Free: 1800-180-5321)"
+            className="w-8 h-8 rounded-full flex items-center justify-center bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 transition active:scale-95 shadow-2xs shrink-0 cursor-pointer"
+            title="GyanSetu Help & Support Desk (1800 180 5321)"
+            aria-label="Help & Support Desk"
           >
-            <HelpCircle className="w-3.5 h-3.5 text-upsaffron-600 group-hover:scale-110 transition-transform shrink-0" />
-            <span className="hidden lg:inline">Help</span>
+            <HelpCircle className="w-4 h-4 text-upsaffron-600" />
           </button>
 
-          {/* Dark / Light Mode Toggle Button */}
+          {/* Dark / Light Mode Circular Icon Button */}
           <button
             onClick={onToggleTheme}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-semibold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 border border-slate-200/80 dark:border-slate-700 transition-all shadow-2xs cursor-pointer active:scale-95 group"
-            title={theme === 'dark' 
-              ? (lang === 'hi' ? 'लाइट मोड में बदलें (डिफ़ॉल्ट)' : 'Switch to Light Mode (Default)') 
-              : (lang === 'hi' ? 'डार्क मोड में बदलें' : 'Switch to Dark Mode')}
+            className="w-8 h-8 rounded-full flex items-center justify-center bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 border border-slate-200/80 dark:border-slate-700 transition active:scale-95 shadow-2xs shrink-0 cursor-pointer"
+            title={theme === 'dark' ? (lang === 'hi' ? 'लाइट मोड (डिफ़ॉल्ट)' : 'Switch to Light Mode (Default)') : (lang === 'hi' ? 'डार्क मोड' : 'Switch to Dark Mode')}
             aria-label="Toggle Dark and Light Mode"
           >
             {theme === 'dark' ? (
-              <>
-                <Sun className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20 group-hover:rotate-45 transition-transform shrink-0" />
-                <span className="hidden xl:inline text-slate-200 font-bold">Light</span>
-              </>
+              <Sun className="w-4 h-4 text-amber-400 fill-amber-400/20" />
             ) : (
-              <>
-                <Moon className="w-3.5 h-3.5 text-upnavy-800 group-hover:-rotate-12 transition-transform shrink-0" />
-                <span className="hidden xl:inline text-slate-700 font-bold">Dark</span>
-              </>
+              <Moon className="w-4 h-4 text-upnavy-800" />
             )}
           </button>
 
-          {/* User Profile / Menu Dropdown */}
-          <div className="relative" ref={menuRef}>
+          {/* User Profile / Sign In (Clean, uncluttered, no clipping) */}
+          <div className="relative shrink-0" ref={menuRef}>
             {currentUser ? (
               <div className="flex items-center gap-1 sm:gap-1.5">
                 <button
                   onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                  className="flex items-center gap-1.5 p-1 sm:pl-2.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 rounded-full transition text-xs text-upnavy-900 dark:text-slate-100 font-semibold cursor-pointer active:scale-95"
+                  className="flex items-center gap-1.5 p-1 pr-2.5 sm:pl-2 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 rounded-full transition text-xs text-upnavy-900 dark:text-slate-100 font-semibold cursor-pointer active:scale-95"
                   title="Open user profile menu"
                 >
-                  <span className="hidden md:inline font-bold">{currentUser.name.split(' ')[0]}</span>
-                  <div className="w-7 h-7 rounded-full bg-upnavy-100 text-upnavy-900 flex items-center justify-center font-bold text-xs shadow-2xs border border-upnavy-200 shrink-0">
+                  <div className="w-6 h-6 rounded-full bg-upnavy-100 text-upnavy-900 flex items-center justify-center font-bold text-xs shadow-2xs border border-upnavy-200 shrink-0">
                     {currentUser.avatar}
                   </div>
-                  <ChevronDown className="w-3.5 h-3.5 text-slate-400 mr-0.5 hidden sm:inline" />
-                </button>
-
-                {/* Direct Visible 1-Click Logout Button on Desktop / Tablet */}
-                <button
-                  onClick={onLogout}
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-rose-700 hover:text-rose-800 dark:text-rose-300 dark:hover:text-rose-200 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/50 border border-rose-200/80 dark:border-rose-800/60 transition active:scale-95 shadow-2xs cursor-pointer group"
-                  title={lang === 'hi' ? 'लॉगआउट करें (अतिथि मोड में जाएं)' : 'Sign Out / Logout to Guest'}
-                >
-                  <LogOut className="w-3.5 h-3.5 text-rose-600 group-hover:-translate-x-0.5 transition-transform" />
-                  <span className="hidden lg:inline">{lang === 'hi' ? 'लॉगआउट' : 'Logout'}</span>
+                  <span className="hidden sm:inline font-bold">{currentUser.name.split(' ')[0]}</span>
+                  <ChevronDown className="w-3 h-3 text-slate-400" />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5">
-                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 shadow-2xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Guest</span>
-                </span>
-                <button
-                  onClick={onOpenAuthModal}
-                  className="px-3 sm:px-4 py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1 sm:gap-1.5 shrink-0"
-                >
-                  <LogIn className="w-3.5 h-3.5" />
-                  <span className="hidden xs:inline sm:inline">Sign In</span>
-                </button>
-              </div>
+              <button
+                onClick={onOpenAuthModal}
+                className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1.5 shrink-0"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Sign In</span>
+              </button>
             )}
 
             {/* Modernized Profile Dropdown Popover */}
