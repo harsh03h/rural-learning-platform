@@ -6,7 +6,7 @@ export function SystemArchitectureModal({ isOpen, onClose, lang }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-3xl w-full p-4 sm:p-7 shadow-2xl border border-slate-100 max-h-[92vh] overflow-y-auto">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-4 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-6">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-upnavy-100 text-upnavy-800 border border-upnavy-200 flex items-center justify-center font-bold">
@@ -77,11 +77,11 @@ export function SystemArchitectureModal({ isOpen, onClose, lang }) {
           </div>
 
           {/* Key Differences from DIKSHA / Generic LMS */}
-          <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-3">
-            <h4 className="font-bold text-sm text-amber-950">
+          <div className="p-4 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-700/50 space-y-3">
+            <h4 className="font-bold text-sm text-amber-950 dark:text-amber-200">
               Viva Defense: "Why this platform when DIKSHA / Khan Academy already exist?"
             </h4>
-            <div className="space-y-2 text-[11px] leading-relaxed text-slate-700">
+            <div className="space-y-2 text-[11px] leading-relaxed text-slate-700 dark:text-slate-300">
               <div className="flex items-start gap-2">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                 <span><strong>Assumption Failure of existing LMS:</strong> Existing platforms assume high bandwidth, English familiarity, personal devices, and standard grade comprehension.</span>

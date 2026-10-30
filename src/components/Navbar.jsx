@@ -233,12 +233,12 @@ export function Navbar({
 
           {/* Minimal Language Select */}
           <div className="relative inline-flex items-center">
-            <div className="flex items-center gap-1 px-2 py-1.5 sm:px-2.5 rounded-full text-xs font-medium bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80 transition cursor-pointer">
+            <div className="flex items-center gap-1 px-2 py-1.5 sm:px-2.5 rounded-full text-xs font-medium bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 transition cursor-pointer">
               <Globe className="w-3.5 h-3.5 text-slate-500 shrink-0" />
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value)}
-                className="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer pr-0 sm:pr-1"
+                className="bg-transparent text-xs font-semibold text-slate-800 dark:text-slate-100 outline-none cursor-pointer pr-0 sm:pr-1"
                 aria-label="Select Language"
               >
                 {supportedLanguages.map((l) => (
@@ -288,7 +288,7 @@ export function Navbar({
               <div className="flex items-center gap-1 sm:gap-1.5">
                 <button
                   onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                  className="flex items-center gap-1.5 p-1 sm:pl-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-full transition text-xs text-upnavy-900 font-semibold cursor-pointer active:scale-95"
+                  className="flex items-center gap-1.5 p-1 sm:pl-2.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 rounded-full transition text-xs text-upnavy-900 dark:text-slate-100 font-semibold cursor-pointer active:scale-95"
                   title="Open user profile menu"
                 >
                   <span className="hidden md:inline font-bold">{currentUser.name.split(' ')[0]}</span>
@@ -301,7 +301,7 @@ export function Navbar({
                 {/* Direct Visible 1-Click Logout Button on Desktop / Tablet */}
                 <button
                   onClick={onLogout}
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition active:scale-95 shadow-2xs cursor-pointer group"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-rose-700 hover:text-rose-800 dark:text-rose-300 dark:hover:text-rose-200 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/50 border border-rose-200/80 dark:border-rose-800/60 transition active:scale-95 shadow-2xs cursor-pointer group"
                   title={lang === 'hi' ? 'लॉगआउट करें (अतिथि मोड में जाएं)' : 'Sign Out / Logout to Guest'}
                 >
                   <LogOut className="w-3.5 h-3.5 text-rose-600 group-hover:-translate-x-0.5 transition-transform" />

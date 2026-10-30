@@ -11,7 +11,7 @@ export function DownloadsModal({ isOpen, onClose, lang, downloadedIds, onRemoveD
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border border-slate-100 max-h-[88vh] overflow-y-auto">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[88vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-4">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-upnavy-100 text-upnavy-800 border border-upnavy-200 flex items-center justify-center font-bold">
@@ -38,9 +38,9 @@ export function DownloadsModal({ isOpen, onClose, lang, downloadedIds, onRemoveD
         ) : (
           <div className="space-y-3">
             {downloadedChapters.map(ch => (
-              <div key={ch.id} className="p-3 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between gap-3 text-xs">
+              <div key={ch.id} className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/80 flex items-center justify-between gap-3 text-xs">
                 <div>
-                  <div className="font-bold text-slate-800">{getLocalized(ch.title, lang)}</div>
+                  <div className="font-bold text-slate-800 dark:text-slate-100">{getLocalized(ch.title, lang)}</div>
                   <div className="text-[11px] text-slate-500">{ch.topicKey} • {ch.sizeKB} KB</div>
                 </div>
                 <div className="flex items-center gap-2">

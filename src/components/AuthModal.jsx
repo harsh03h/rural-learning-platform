@@ -334,13 +334,13 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
         <div className="p-4 sm:p-6 overflow-y-auto space-y-4 sm:space-y-5 flex-1 text-xs">
           
           {/* 1-Click Quick Evaluator Demo Section */}
-          <div className="p-3.5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/40 to-amber-50/80 border border-amber-200/90 shadow-2xs">
+          <div className="p-3.5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/40 to-amber-50/80 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-amber-950/40 border border-amber-200/90 dark:border-amber-700/50 shadow-2xs">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] font-bold text-amber-950 uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-upsaffron-600" />
                 <span>{lang === 'hi' ? '1-क्लिक त्वरित डेमो लॉगिन' : '1-Click Quick Evaluator Demo'}</span>
               </span>
-              <span className="text-[10px] text-amber-900 font-bold bg-white/90 px-2 py-0.5 rounded-full border border-amber-300/80 shadow-2xs">
+              <span className="text-[10px] text-amber-900 dark:text-amber-200 font-bold bg-white/90 dark:bg-slate-900/90 px-2 py-0.5 rounded-full border border-amber-300/80 dark:border-amber-600/50 shadow-2xs">
                 Instant Access ⚡
               </span>
             </div>

@@ -76,7 +76,7 @@ export function XpRewardsModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/75 backdrop-blur-md animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 max-h-[92vh] overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-hidden flex flex-col">
         
         {/* Top Header */}
         <div className="bg-gradient-to-r from-upnavy-950 via-upnavy-900 to-upnavy-800 text-white p-5 sm:p-6 relative overflow-hidden shrink-0">
@@ -147,7 +147,7 @@ export function XpRewardsModal({
         <div className="overflow-y-auto p-4 sm:p-6 space-y-6 flex-1 text-xs">
           
           {/* Level Progress Ladder Bar */}
-          <div className="p-4 sm:p-5 rounded-3xl bg-slate-50 border border-slate-200/90 space-y-3">
+          <div className="p-4 sm:p-5 rounded-3xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 space-y-3">
             <div className="flex items-center justify-between text-xs">
               <div className="font-bold text-upnavy-950 flex items-center gap-1.5">
                 <span>{currentLevelObj.title}</span>
@@ -158,7 +158,7 @@ export function XpRewardsModal({
             </div>
 
             {/* Progress bar */}
-            <div className="w-full bg-slate-200 h-3 rounded-full overflow-hidden p-0.5">
+            <div className="w-full bg-slate-200 dark:bg-slate-700 h-3 rounded-full overflow-hidden p-0.5">
               <div 
                 className="bg-gradient-to-r from-upsaffron-600 via-amber-500 to-emerald-500 h-full rounded-full transition-all duration-700" 
                 style={{ width: `${levelProgressPct}%` }}

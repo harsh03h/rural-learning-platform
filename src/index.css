@@ -141,6 +141,52 @@ html.dark textarea {
   border-color: #1e3a5f !important;
 }
 
+html.dark select option {
+  background-color: #0b192c !important;
+  color: #f8fafc !important;
+}
+
+/* Global Dark Mode Gradient Harmonizers */
+html.dark .from-white {
+  --tw-gradient-from: #0b192c var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgb(11 25 44 / 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.dark .via-white {
+  --tw-gradient-to: rgb(11 25 44 / 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #0b192c var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
+}
+
+html.dark .to-white {
+  --tw-gradient-to: #0b192c var(--tw-gradient-to-position) !important;
+}
+
+html.dark .to-upnavy-50\/50 {
+  --tw-gradient-to: rgba(14, 34, 60, 0.7) var(--tw-gradient-to-position) !important;
+}
+
+html.dark .from-upnavy-50 {
+  --tw-gradient-from: #0e223c var(--tw-gradient-from-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+html.dark .to-amber-50 {
+  --tw-gradient-to: #182838 var(--tw-gradient-to-position) !important;
+}
+
+html.dark .from-amber-50 {
+  --tw-gradient-from: #1e261d var(--tw-gradient-from-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+/* Smooth visual interactions */
+button, a, input, select, textarea, .modern-card {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 /* Sound wave animation for audio player */
 @keyframes soundwave {
   0%, 100% { height: 4px; }

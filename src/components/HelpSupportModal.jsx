@@ -261,7 +261,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-4xl w-full p-4 sm:p-7 shadow-2xl border border-slate-200/90 max-h-[92vh] overflow-y-auto relative flex flex-col">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-4xl w-full p-4 sm:p-7 shadow-2xl border border-slate-200/90 dark:border-slate-800 max-h-[92vh] overflow-y-auto relative flex flex-col">
         
         {/* Header */}
         <div className="flex items-start justify-between pb-4 border-b border-slate-100 gap-3">
@@ -296,7 +296,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
         </div>
 
         {/* Sub-nav Navigation Tabs (Grid on mobile, flex on desktop) */}
-        <div className="bg-slate-100 p-1.5 rounded-2xl grid grid-cols-2 sm:flex sm:flex-wrap gap-1.5 border border-slate-200/80 my-4 sm:my-5">
+        <div className="bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl grid grid-cols-2 sm:flex sm:flex-wrap gap-1.5 border border-slate-200/80 dark:border-slate-700 my-4 sm:my-5">
           <button
             onClick={() => setActiveTab('helpline')}
             className={`py-2 px-2.5 sm:px-3 sm:flex-1 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 sm:gap-2 ${

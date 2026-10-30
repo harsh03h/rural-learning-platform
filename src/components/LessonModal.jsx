@@ -105,7 +105,7 @@ export function LessonModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-2xl w-full p-4 sm:p-8 shadow-2xl border border-slate-100 max-h-[92vh] overflow-y-auto flex flex-col">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-4 sm:p-8 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto flex flex-col">
         {/* Modal Top Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-100">
           <div className="flex items-center gap-3">
@@ -186,7 +186,7 @@ export function LessonModal({
         {activeTab === 'lesson' && (
           <div className="space-y-5 animate-fadeIn">
             {/* Sleek Interactive Audio Narrator Player */}
-            <div className="p-4 rounded-2xl bg-gradient-to-r from-upnavy-50/70 via-slate-50 to-upsaffron-50/30 border border-upnavy-200/70 flex flex-wrap items-center justify-between gap-3">
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-upnavy-50/70 via-slate-50 to-upsaffron-50/30 dark:from-slate-800 dark:via-slate-800 dark:to-slate-800/80 border border-upnavy-200/70 dark:border-slate-700 flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <button
                   onClick={handlePlayAudio}

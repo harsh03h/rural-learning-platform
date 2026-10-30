@@ -341,7 +341,7 @@ export function StudentView({
       {/* 1. Modern Hero Section with Bento Stat Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Main Welcome Hero Card */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-white via-white to-upnavy-50/50 rounded-3xl p-5 sm:p-8 border border-slate-200/80 shadow-xs relative overflow-hidden flex flex-col justify-between">
+        <div className="lg:col-span-2 bg-gradient-to-br from-white via-white to-upnavy-50/50 dark:from-slate-900 dark:via-slate-900 dark:to-upnavy-950/60 rounded-3xl p-5 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden flex flex-col justify-between">
           <div className="space-y-3 relative z-10">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-bold text-upnavy-900 bg-upnavy-100/90 px-3 py-1 rounded-full border border-upnavy-200 flex items-center gap-1.5">

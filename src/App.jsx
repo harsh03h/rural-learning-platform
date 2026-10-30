@@ -465,7 +465,7 @@ export function App() {
       {/* Main Body Content by Active Role */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 pt-4 sm:pt-5">
         {/* Official GyanSetu Portal National Banner */}
-        <div className="mb-5 sm:mb-6 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs border border-slate-200/90 bg-white hover:shadow-md transition-all duration-300">
+        <div className="mb-5 sm:mb-6 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 hover:shadow-md transition-all duration-300">
           <img
             src={bannerImg}
             alt="GyanSetu - One Nation One Digital Platform"
@@ -611,31 +611,37 @@ export function App() {
       />
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200/90 bg-white/90 backdrop-blur-sm py-4 text-xs text-slate-500">
+      <footer className="mt-auto border-t border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm py-4 text-xs text-slate-500 dark:text-slate-400">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-upsaffron-500" />
-              <strong className="text-upnavy-950">GyanSetu (ज्ञानसेतु)</strong>
-              <span className="text-slate-400">• Rural EdTech Initiative</span>
+              <strong className="text-upnavy-950 dark:text-slate-100">GyanSetu (ज्ञानसेतु)</strong>
+              <span className="text-slate-400 dark:text-slate-500">• Rural EdTech Initiative (Classes 6–10)</span>
             </div>
-            <span className="hidden sm:inline text-slate-300">|</span>
-            <div className="flex items-center gap-1.5 text-[11px] text-slate-600">
-            </div>
+            <span className="hidden sm:inline text-slate-300 dark:text-slate-700">|</span>
             <button
               onClick={() => setIsHelpModalOpen(true)}
-              className="text-upsaffron-700 hover:text-upsaffron-800 font-bold hover:underline flex items-center gap-1 transition"
+              className="text-upsaffron-700 dark:text-upsaffron-400 hover:text-upsaffron-800 font-bold hover:underline flex items-center gap-1 transition"
             >
               <HelpCircle className="w-3.5 h-3.5" />
-              <span>Help & Support Desk</span>
+              <span>Help & Support Desk (1800 180 5321)</span>
             </button>
           </div>
 
           <div className="flex items-center gap-3 text-[11px]">
-            
-            <span>•</span>
-            <button onClick={() => setIsArchitectureOpen(true)} className="hover:underline text-upnavy-800 hover:text-upsaffron-600 font-bold transition">
-              Architecture & Why this platform
+            <button 
+              onClick={() => setIsDownloadsOpen(true)} 
+              className="hover:underline text-slate-600 dark:text-slate-300 hover:text-upsaffron-600 font-medium transition"
+            >
+              Offline Cache (&lt;50KB)
+            </button>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <button 
+              onClick={() => setIsArchitectureOpen(true)} 
+              className="hover:underline text-upnavy-800 dark:text-amber-400 hover:text-upsaffron-600 font-bold transition"
+            >
+              System Architecture & Why GyanSetu
             </button>
           </div>
         </div>

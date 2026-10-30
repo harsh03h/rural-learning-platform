@@ -84,7 +84,7 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
         className="sm:hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 animate-fadeIn" 
         onClick={onClose} 
       />
-      <div className="fixed inset-x-0 bottom-0 sm:inset-x-auto sm:right-6 sm:bottom-6 z-50 w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden flex flex-col h-[85vh] sm:h-[520px] max-h-[600px] animate-slideUp">
+      <div className="fixed inset-x-0 bottom-0 sm:inset-x-auto sm:right-6 sm:bottom-6 z-50 w-full sm:max-w-md bg-white dark:bg-slate-900 rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200/90 dark:border-slate-800 overflow-hidden flex flex-col h-[85vh] sm:h-[520px] max-h-[600px] animate-slideUp">
       {/* Header */}
       <div className="bg-upnavy-900 text-white p-4 px-5 flex items-center justify-between shadow-xs border-b border-upnavy-800">
         <div className="flex items-center gap-3">
@@ -112,7 +112,7 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
       </div>
 
       {/* Messages Scroll Area */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/50 text-xs">
+      <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50/50 dark:bg-slate-950/70 text-xs">
         {messages.map((m, idx) => (
           <div 
             key={idx}
@@ -126,7 +126,7 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
             <div className={`max-w-[85%] rounded-2xl p-3.5 shadow-2xs leading-relaxed ${
               m.sender === 'user'
                 ? 'bg-upnavy-950 text-white rounded-tr-xs'
-                : 'bg-white text-slate-800 border border-slate-200/80 rounded-tl-xs'
+                : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200/80 dark:border-slate-700 rounded-tl-xs'
             }`}>
               <p className="whitespace-pre-line">{m.text}</p>
               {m.sender === 'bot' && (
@@ -161,12 +161,12 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
       </div>
 
       {/* Quick Prompt Chips */}
-      <div className="px-3 py-2 bg-white border-t border-slate-100 flex gap-1.5 overflow-x-auto text-[11px] whitespace-nowrap">
+      <div className="px-3 py-2 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex gap-1.5 overflow-x-auto text-[11px] whitespace-nowrap">
         {quickPrompts.map((q, idx) => (
           <button
             key={idx}
             onClick={() => handleSend(q)}
-            className="px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition"
+            className="px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold transition"
           >
             {q}
           </button>
@@ -179,14 +179,14 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
           e.preventDefault();
           handleSend();
         }}
-        className="p-3 bg-white border-t border-slate-200 flex items-center gap-2"
+        className="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2"
       >
         <input
           type="text"
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           placeholder="Ask any doubt (e.g. What are fractions?)..."
-          className="flex-1 text-xs px-4 py-2.5 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-upsaffron-500 bg-slate-50 focus:bg-white transition"
+          className="flex-1 text-xs px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-upsaffron-500 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 transition"
         />
         <button
           type="submit"

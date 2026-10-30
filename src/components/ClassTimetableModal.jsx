@@ -825,7 +825,7 @@ export function ClassTimetableModal({
           </div>
 
           {/* Rural-First Study Habits Advice Box */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-upnavy-50 to-amber-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-upnavy-50 to-amber-50 dark:from-slate-900 dark:to-slate-900/90 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-xl bg-upsaffron-100 text-upsaffron-700 flex items-center justify-center shrink-0">
                 <Lightbulb className="w-5 h-5" />
