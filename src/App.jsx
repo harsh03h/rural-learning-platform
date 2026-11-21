@@ -17,6 +17,7 @@ import { RewardCertificateModal } from './components/RewardCertificateModal';
 import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap, HelpCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
+import posterImg from './assets/gyansetu-hero-poster.jpg';
 import { submitQuiz, syncOfflineBatch, submitDiagnostic } from './services/api';
 
 export function App() {
@@ -484,6 +485,16 @@ export function App() {
             </button>
           </div>
         )}
+
+        {/* GyanSetu Rural Learning Platform Official Poster Banner */}
+        <div className="mb-5 sm:mb-6 rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-xs bg-white dark:bg-slate-900 hover:shadow-md transition-all duration-300">
+          <img
+            src={posterImg}
+            alt="Gyan Setu - Rural Learning Platform: Empowering Communities Through Knowledge & Technology"
+            className="w-full h-auto max-h-48 sm:max-h-60 md:max-h-72 lg:max-h-80 object-cover object-[center_30%] select-none block"
+            loading="eager"
+          />
+        </div>
 
         {role === 'student' && (
           <StudentView
