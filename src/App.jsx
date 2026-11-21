@@ -515,6 +515,7 @@ export function App() {
             selectedGrade={selectedGrade}
             onSelectGrade={handleSelectGrade}
             onDownloadBatch={handleDownloadBatch}
+            onAwardXp={(pts) => setStudentStats(prev => ({ ...prev, pointsXP: (prev.pointsXP || 0) + pts }))}
           />
         )}
 

@@ -33,7 +33,8 @@ import {
   Lightbulb,
   FolderDown
 } from 'lucide-react';
-import { translations, sampleCourses, getLocalized } from '../data/mockData';
+import { translations, sampleCourses, getLocalized, supportedLanguages } from '../data/mockData';
+import confetti from 'canvas-confetti';
 import { ClassTimetableModal } from './ClassTimetableModal';
 
 export const CLASS_METADATA = {
@@ -264,7 +265,8 @@ export function StudentView({
   onOpenRewardCert,
   selectedGrade: propSelectedGrade,
   onSelectGrade: propOnSelectGrade,
-  onDownloadBatch
+  onDownloadBatch,
+  onAwardXp
 }) {
   const t = translations[lang] || translations['en'];
   const [activeTab, setActiveTab] = useState('courses'); // 'courses' | 'remedial' | 'progress'
@@ -279,6 +281,138 @@ export function StudentView({
       propOnSelectGrade(g);
     } else {
       setInternalGrade(g);
+    }
+  };
+
+  
+  // Bank of Interactive Daily Rapid Concept Bites (Aligned to NCERT Classes 6–10)
+  const DAILY_CHALLENGES = {
+    'Class 6': [
+      {
+        q: lang === 'hi' ? 'सबसे छोटी पूर्ण संख्या (Whole Number) कौन सी है?' : 'Which of the following is the smallest whole number?',
+        options: ['0', '1', '-1'],
+        ans: 0,
+        tip: lang === 'hi' ? 'पूर्ण संख्याएँ 0 से प्रारंभ होती हैं: {0, 1, 2, 3...}।' : 'Whole numbers start from 0: {0, 1, 2, 3...}. Natural numbers start from 1.'
+      },
+      {
+        q: lang === 'hi' ? '90° से छोटे कोण को क्या कहा जाता है?' : 'What is an angle strictly less than 90° called?',
+        options: [lang === 'hi' ? 'न्यून कोण (Acute)' : 'Acute Angle', lang === 'hi' ? 'अधिक कोण (Obtuse)' : 'Obtuse Angle', lang === 'hi' ? 'समकोण (Right)' : 'Right Angle'],
+        ans: 0,
+        tip: lang === 'hi' ? '0° से 90° के मध्य कोण न्यून कोण कहलाता है।' : 'Angles < 90° are Acute. Exactly 90° is Right, and > 90° is Obtuse.'
+      }
+    ],
+    'Class 7': [
+      {
+        q: lang === 'hi' ? 'दो ऋणात्मक पूर्णांकों का गुणनफल: (-6) × (-4) क्या होगा?' : 'What is the product of two negative integers: (-6) × (-4)?',
+        options: ['-24', '+24', '-10'],
+        ans: 1,
+        tip: lang === 'hi' ? 'दो ऋण (-) का गुणनफल सदैव धन (+) होता है।' : 'The product of two negative numbers is always positive: (-) × (-) = (+).'
+      },
+      {
+        q: lang === 'hi' ? 'प्रकाश संश्लेषण में पौधे कौन सी गैस ग्रहण करते हैं?' : 'Which gas do green plants absorb from air during photosynthesis?',
+        options: ['Oxygen (O₂)', 'Carbon Dioxide (CO₂)', 'Nitrogen (N₂)'],
+        ans: 1,
+        tip: lang === 'hi' ? 'पौधे CO₂ ग्रहण करते हैं तथा ऑक्सीजन (O₂) वातावरण में छोड़ते हैं।' : 'Plants absorb CO₂ through leaf stomata and release Oxygen (O₂) as a byproduct.'
+      }
+    ],
+    'Class 8': [
+      {
+        q: lang === 'hi' ? 'दूध को दही में जमाने वाला उपयोगी सूक्ष्मजीव कौन सा है?' : 'Which friendly microorganism turns milk into curd?',
+        options: ['Amoeba', 'Lactobacillus', 'Penicillium'],
+        ans: 1,
+        tip: lang === 'hi' ? 'लैक्टोबैसिलस जीवाणु दूध की शर्करा को लैक्टिक एसिड में बदलते हैं।' : 'Lactobacillus bacteria ferment lactose into lactic acid, forming thick curd.'
+      },
+      {
+        q: lang === 'hi' ? 'समीकरण 2x - 3 = 7 का मान x क्या है?' : 'Solve the linear equation: 2x - 3 = 7. What is x?',
+        options: ['x = 2', 'x = 5', 'x = 10'],
+        ans: 1,
+        tip: lang === 'hi' ? '2x = 7 + 3 = 10, अतः x = 10 / 2 = 5।' : '2x = 7 + 3 = 10 => x = 10 / 2 = 5.'
+      }
+    ],
+    'Class 9': [
+      {
+        q: lang === 'hi' ? 'न्यूटन के प्रथम गति नियम के अनुसार वस्तु अपनी अवस्था बनाए रखती है जब तक...?' : 'According to Newton\'s 1st Law, an object maintains motion unless acted upon by...?',
+        options: [
+          lang === 'hi' ? 'असंतुलित बाह्य बल' : 'Unbalanced External Force',
+          lang === 'hi' ? 'केवल गुरुत्वाकर्षण' : 'Gravity Only',
+          lang === 'hi' ? 'हवा का घर्षण' : 'Friction Only'
+        ],
+        ans: 0,
+        tip: lang === 'hi' ? 'जड़त्व (Inertia) के कारण वस्तु अपनी विरामावस्था या गति की अवस्था में बनी रहती है।' : 'Inertia keeps an object in uniform motion unless acted upon by a net external force.'
+      },
+      {
+        q: lang === 'hi' ? 'संख्या √2 परिमेय संख्या है या अपरिमेय?' : 'Is √2 a Rational or Irrational number?',
+        options: [lang === 'hi' ? 'परिमेय (Rational)' : 'Rational Number', lang === 'hi' ? 'अपरिमेय (Irrational)' : 'Irrational Number', lang === 'hi' ? 'पूर्णांक (Integer)' : 'Integer'],
+        ans: 1,
+        tip: lang === 'hi' ? '√2 का दशमलव प्रसार अशांत अनावर्ती (non-repeating) होता है।' : '√2 cannot be written as p/q with integer terms; it is an irrational real number.'
+      }
+    ],
+    'Class 10': [
+      {
+        q: lang === 'hi' ? 'त्रिकोणमिति में sin(30°) का सटीक मान क्या होता है?' : 'In trigonometry, what is the exact value of sin(30°)?',
+        options: ['1/2', '√3/2', '1'],
+        ans: 0,
+        tip: lang === 'hi' ? '30°-60°-90° समकोण त्रिभुज में लम्ब/कर्ण = 1/2 होता है।' : 'In a standard 30°-60°-90° right triangle, opposite / hypotenuse = 1/2.'
+      },
+      {
+        q: lang === 'hi' ? 'जल का विद्युत अपघटन (2H₂O → 2H₂ + O₂) किस प्रकार की अभिक्रिया है?' : 'What type of chemical reaction is water electrolysis: 2H₂O → 2H₂ + O₂?',
+        options: [
+          lang === 'hi' ? 'वियोजन अभिक्रिया (Decomposition)' : 'Decomposition Reaction',
+          lang === 'hi' ? 'संयोजन अभिक्रिया (Combination)' : 'Combination Reaction',
+          lang === 'hi' ? 'विस्थापन (Displacement)' : 'Displacement Reaction'
+        ],
+        ans: 0,
+        tip: lang === 'hi' ? 'एकल अभिकारक टूटकर दो या अधिक उत्पाद बनाता है।' : 'A single compound breaks down into two simpler gaseous elements.'
+      }
+    ]
+  };
+
+  const [challengeIndex, setChallengeIndex] = useState(0);
+  const [selectedChallengeOption, setSelectedChallengeOption] = useState(null);
+  const [isChallengeAnswered, setIsChallengeAnswered] = useState(false);
+  const [speakingChapterId, setSpeakingChapterId] = useState(null);
+
+  const activeGradeChallenges = DAILY_CHALLENGES[selectedGrade] || DAILY_CHALLENGES['Class 7'];
+  const currentChallenge = activeGradeChallenges[challengeIndex % activeGradeChallenges.length];
+
+  const handleAnswerChallenge = (optIdx) => {
+    if (isChallengeAnswered) return;
+    setSelectedChallengeOption(optIdx);
+    setIsChallengeAnswered(true);
+
+    if (optIdx === currentChallenge.ans) {
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 45, spread: 65, origin: { y: 0.65 } });
+      }
+      if (onAwardXp) {
+        onAwardXp(15);
+      }
+    }
+  };
+
+  const handleNextChallenge = () => {
+    setSelectedChallengeOption(null);
+    setIsChallengeAnswered(false);
+    setChallengeIndex(prev => prev + 1);
+  };
+
+  // Interactive Chapter Audio Narration (Web Speech API)
+  const handleToggleAudioChapter = (chapter) => {
+    if (speakingChapterId === chapter.id) {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      setSpeakingChapterId(null);
+    } else {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const textToSpeak = `${getLocalized(chapter.title, lang)}. ${getLocalized(chapter.summary, lang)}`;
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        const langConfig = supportedLanguages ? supportedLanguages.find(l => l.code === lang) : null;
+        utterance.lang = langConfig ? langConfig.tts : (lang === 'hi' ? 'hi-IN' : 'en-IN');
+        utterance.onend = () => setSpeakingChapterId(null);
+        utterance.onerror = () => setSpeakingChapterId(null);
+        window.speechSynthesis.speak(utterance);
+        setSpeakingChapterId(chapter.id);
+      }
     }
   };
 
@@ -390,7 +524,10 @@ export function StudentView({
                 <div className="text-xs font-bold text-upnavy-950">
                   {lang === 'hi' ? 'आज का लक्ष्य (2/3 पाठ पूर्ण)' : 'Daily Learning Quest (2 of 3 Completed)'}
                 </div>
-                <div className="text-[11px] text-slate-500">1 practice quiz remaining for today's streak</div>
+                <div className="w-32 sm:w-44 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden mt-1">
+                  <div className="bg-gradient-to-r from-upsaffron-500 to-amber-400 h-full rounded-full transition-all duration-500" style={{ width: '66%' }} />
+                </div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">1 practice quiz remaining for today's streak</div>
               </div>
             </div>
 
@@ -453,6 +590,90 @@ export function StudentView({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 1.5 Interactive Daily Rapid Concept Challenge Card */}
+      <div className="bg-gradient-to-br from-white via-amber-50/20 to-upsaffron-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-amber-950/20 p-5 sm:p-6 rounded-3xl border border-amber-200/90 dark:border-amber-800/60 shadow-xs relative overflow-hidden transition-all duration-300 hover:border-upsaffron-400 dark:hover:border-upsaffron-500">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-black uppercase text-upsaffron-800 dark:text-upsaffron-300 bg-upsaffron-100/90 dark:bg-upsaffron-950/80 px-3 py-1 rounded-full border border-upsaffron-300 dark:border-upsaffron-800/80 flex items-center gap-1.5 shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-upsaffron-600 dark:text-upsaffron-400 animate-spin-slow" />
+              <span>{lang === 'hi' ? `त्वरित संकल्पना चुनौती • ${selectedGrade}` : `Daily Rapid Quest • ${selectedGrade}`}</span>
+            </span>
+            <span className="text-[11px] font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 px-2.5 py-0.5 rounded-full border border-amber-200 dark:border-amber-800/50">
+              +15 XP Earned on Answer ⭐
+            </span>
+          </div>
+
+          <button
+            onClick={handleNextChallenge}
+            className="text-xs font-bold text-slate-500 hover:text-upsaffron-600 dark:text-slate-400 dark:hover:text-upsaffron-300 flex items-center gap-1 transition self-start sm:self-auto cursor-pointer"
+            title="Try another concept question"
+          >
+            <span>{lang === 'hi' ? 'अगला प्रश्न' : 'Try Another'}</span>
+            <span>↻</span>
+          </button>
+        </div>
+
+        <h3 className="text-sm sm:text-base font-black text-upnavy-950 dark:text-white mb-3.5 leading-snug">
+          {currentChallenge.q}
+        </h3>
+
+        {/* 3 Interactive Option Buttons */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          {currentChallenge.options.map((opt, oIdx) => {
+            const isChosen = selectedChallengeOption === oIdx;
+            const isCorrect = oIdx === currentChallenge.ans;
+            let btnStyle = 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-upsaffron-300';
+            
+            if (isChallengeAnswered) {
+              if (isCorrect) {
+                btnStyle = 'bg-emerald-500 text-white border-emerald-600 font-black shadow-sm ring-2 ring-emerald-300 dark:ring-emerald-800 scale-[1.01]';
+              } else if (isChosen) {
+                btnStyle = 'bg-rose-500 text-white border-rose-600 font-bold';
+              } else {
+                btnStyle = 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700 opacity-60';
+              }
+            }
+
+            return (
+              <button
+                key={oIdx}
+                onClick={() => handleAnswerChallenge(oIdx)}
+                disabled={isChallengeAnswered}
+                className={`p-3 rounded-2xl text-xs transition-all duration-150 border flex items-center justify-between cursor-pointer active:scale-95 text-left ${btnStyle}`}
+              >
+                <span className="font-bold">{opt}</span>
+                {isChallengeAnswered && isCorrect && <span className="font-black text-xs">✓ Correct!</span>}
+                {isChallengeAnswered && isChosen && !isCorrect && <span className="font-black text-xs">✗</span>}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Instant Concept Tip Feedback */}
+        {isChallengeAnswered && (
+          <div className="mt-3.5 pt-3 border-t border-amber-200/60 dark:border-amber-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs animate-fadeIn">
+            <div className="flex items-start gap-2 text-slate-700 dark:text-slate-200">
+              <span className="text-base shrink-0">
+                {selectedChallengeOption === currentChallenge.ans ? '🎉' : '💡'}
+              </span>
+              <div>
+                <strong className={selectedChallengeOption === currentChallenge.ans ? 'text-emerald-700 dark:text-emerald-400 font-black' : 'text-amber-800 dark:text-amber-300 font-bold'}>
+                  {selectedChallengeOption === currentChallenge.ans ? (lang === 'hi' ? 'शाबाश! +15 XP आपकी निरंतरता में जुड़ गए।' : 'Spot on! +15 XP added to your learning streak.') : (lang === 'hi' ? 'संकल्पना टिप:' : 'Concept Explanation:')}
+                </strong>{' '}
+                <span className="text-slate-600 dark:text-slate-300">{currentChallenge.tip}</span>
+              </div>
+            </div>
+
+            <button
+              onClick={handleNextChallenge}
+              className="px-4 py-1.5 rounded-xl bg-upnavy-900 hover:bg-upsaffron-600 text-white font-bold text-xs shrink-0 self-start sm:self-auto transition active:scale-95 shadow-2xs cursor-pointer"
+            >
+              {lang === 'hi' ? 'अगला प्रश्न हल करें →' : 'Next Concept Question →'}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 2. Modern Segmented Tab Bar */}
@@ -894,6 +1115,24 @@ export function StudentView({
                                 <Sparkles className="w-2.5 h-2.5 text-upsaffron-500" />
                                 <span>5 Qs Quiz</span>
                               </span>
+
+                              {/* Interactive Audio Narration Button */}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleToggleAudioChapter(chapter);
+                                }}
+                                className={`px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 transition active:scale-95 shrink-0 ${
+                                  speakingChapterId === chapter.id
+                                    ? 'bg-upsaffron-600 text-white shadow-xs animate-pulse ring-1 ring-upsaffron-400'
+                                    : 'bg-slate-50 hover:bg-upsaffron-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 hover:text-upsaffron-700 dark:text-slate-300 border border-slate-200/70 dark:border-slate-700'
+                                }`}
+                                title={speakingChapterId === chapter.id ? "Stop audio narration" : "Listen to audio narration"}
+                              >
+                                <Volume2 className={`w-2.5 h-2.5 ${speakingChapterId === chapter.id ? 'animate-bounce text-white' : 'text-upsaffron-600'}`} />
+                                <span>{speakingChapterId === chapter.id ? (lang === 'hi' ? "सुन रहे हैं..." : "Listening...") : (lang === 'hi' ? "ऑडियो" : "Audio")}</span>
+                              </button>
                             </div>
 
                             <div className="flex items-center gap-1 text-xs font-semibold text-slate-400 bg-slate-50 px-2.5 py-0.5 rounded-full border border-slate-200/60 shrink-0">
@@ -1247,12 +1486,20 @@ export function StudentView({
       {/* Modern Floating AI Doubt Saathi Button */}
       {!isAiSaathiOpen && (
         <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30">
+          <div className="hidden sm:flex items-center gap-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 shadow-md text-[11px] text-slate-600 dark:text-slate-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>AI Saathi Active</span>
+          </div>
+
           <button
             onClick={onOpenAiSaathi}
-            className="flex items-center gap-2 bg-upnavy-900 hover:bg-upsaffron-600 text-white px-4 py-2.5 sm:px-5 sm:py-3 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 border border-upnavy-700 group text-xs font-bold"
+            className="flex items-center gap-2.5 bg-gradient-to-r from-upnavy-950 via-upnavy-900 to-upnavy-800 hover:from-upsaffron-600 hover:to-amber-500 text-white px-4 py-2.5 sm:px-5 sm:py-3 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 border border-upnavy-700/60 ring-2 ring-upsaffron-400/40 hover:ring-upsaffron-400 text-xs font-bold cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-upsaffron-400 group-hover:rotate-12 transition-transform duration-300 shrink-0" />
             <span>Ask AI Saathi</span>
+            <span className="text-[10px] font-black bg-upsaffron-500 text-white px-1.5 py-0.2 rounded-full">
+              Free
+            </span>
           </button>
         </div>
       )}
