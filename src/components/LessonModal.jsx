@@ -25,6 +25,7 @@ import {
 import confetti from 'canvas-confetti';
 import { getLocalized, supportedLanguages } from '../data/mockData';
 import { getQuestionsForChapter } from '../data/chapterQuizBank';
+import { FormattedLessonContent } from './FormattedLessonContent';
 
 export function LessonModal({ 
   chapter, 
@@ -320,23 +321,12 @@ export function LessonModal({
               </div>
             )}
 
-            {/* Lesson Body Content */}
-            <div className="prose prose-sm max-w-none text-slate-700 dark:text-slate-200 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 leading-relaxed font-sans">
-              <div className="whitespace-pre-line text-xs sm:text-sm">
-                {getLocalized(chapter.lowDataContent, lang)}
-              </div>
-            </div>
-
-            {/* Quick Practice CTA */}
-            <div className="pt-2 flex justify-end">
-              <button
-                onClick={() => setActiveTab('quiz')}
-                className="px-6 py-2.5 rounded-2xl bg-upsaffron-600 hover:bg-upsaffron-700 text-white text-xs font-bold flex items-center gap-2 shadow-sm shadow-upsaffron-600/30 transition active:scale-95"
-              >
-                <span>{lang === 'hi' ? '5 प्रश्नों का अभ्यास क्विज़ शुरू करें' : 'Start 5-Question Quiz'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            {/* Modern Formatted NCERT Lesson Cards */}
+            <FormattedLessonContent 
+              content={getLocalized(chapter.lowDataContent, lang)} 
+              lang={lang}
+              onTakeQuiz={() => setActiveTab('quiz')}
+            />
           </div>
         )}
 
