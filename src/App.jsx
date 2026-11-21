@@ -243,6 +243,7 @@ export function App() {
   const [isXpModalOpen, setIsXpModalOpen] = useState(false);
   const [isRewardCertOpen, setIsRewardCertOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState(null);
+  const [lessonInitialTab, setLessonInitialTab] = useState('lesson');
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -504,7 +505,10 @@ export function App() {
             isOffline={isOffline}
             diagnosticData={diagnosticData}
             onOpenDiagnostic={() => setIsDiagnosticOpen(true)}
-            onOpenLesson={(ch) => setActiveLesson(ch)}
+            onOpenLesson={(ch, tab = 'lesson') => {
+              setActiveLesson(ch);
+              setLessonInitialTab(tab);
+            }}
             downloadedIds={downloadedIds}
             onToggleDownload={handleToggleDownload}
             onOpenAiSaathi={() => setIsAiSaathiOpen(true)}
@@ -571,6 +575,7 @@ export function App() {
         isDownloaded={activeLesson ? downloadedIds.includes(activeLesson.id) : false}
         onToggleDownload={handleToggleDownload}
         onRecordQuizResult={handleRecordQuizResult}
+        initialTab={lessonInitialTab}
       />
 
       <AiSaathiChat
