@@ -161,11 +161,11 @@ export function LessonModal({
   const earnedXP = score * 20;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
-      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-4 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn notes-modal-overlay">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-4 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto flex flex-col notes-modal-container">
         
         {/* Modal Top Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 no-print">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-upnavy-50 dark:bg-slate-800 text-upnavy-800 dark:text-upsaffron-400 border border-upnavy-200/80 dark:border-slate-700 flex items-center justify-center font-bold shrink-0">
               <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -219,7 +219,7 @@ export function LessonModal({
         </div>
 
         {/* Modern Segmented Navigation Tabs */}
-        <div className="flex gap-2 my-4 p-1 bg-slate-100/80 dark:bg-slate-800/80 rounded-2xl text-xs font-bold w-fit border border-slate-200/60 dark:border-slate-700">
+        <div className="flex gap-2 my-4 p-1 bg-slate-100/80 dark:bg-slate-800/80 rounded-2xl text-xs font-bold w-fit border border-slate-200/60 dark:border-slate-700 no-print">
           <button
             onClick={() => setActiveTab('lesson')}
             className={`px-3.5 sm:px-4 py-2 rounded-xl transition flex items-center gap-1.5 sm:gap-2 ${

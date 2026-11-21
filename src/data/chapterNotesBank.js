@@ -1348,66 +1348,859 @@ export const CHAPTER_NOTES = {
 };
 
 /**
- * Universal helper to get complete structured notes for any chapter in any subject.
- * Falls back to structured synthesis if custom curated entry is not found.
+ * Subject-specific curriculum helper providing deep theory, mechanism steps,
+ * comparative matrices, and board exam traps for all academic subjects.
+ */
+function buildSubjectSpecificCurriculum(subject, grade, title, isHi) {
+  if (subject === 'math') {
+    return {
+      theoryP1: isHi
+        ? "गणित में इस विषय का अध्ययन तार्किक चिंतन और निगमनात्मक तर्कशक्ति (Deductive Reasoning) का आधार है। भारतीय गणितीय परंपरा में आर्यभट, ब्रह्मगुप्त और रामानुजन ने संख्याओं एवं ज्यामिति के सिद्धांतों को व्यावहारिक जीवन से जोड़कर प्रस्तुत किया था। आधुनिक एनसीईआरटी पाठ्यक्रम के अनुसार यह अध्याय आगे की कक्षाओं में कलन (Calculus), बीजगणित तथा ज्यामिति को समझने की रीढ़ है।"
+        : "In mathematics, this chapter forms the bedrock of rigorous deductive reasoning, numerical fluency, and spatial analysis. From ancient Indian mathematicians like Aryabhata and Brahmagupta to modern NCERT curriculum frameworks, mastering these analytical principles is essential for advanced algebra, calculus, and scientific modeling.",
+      theoryP2: isHi
+        ? "गणितीय सिद्धांतों को केवल याद करना पर्याप्त नहीं है; उनके पीछे के नियमों, स्वयंसिद्धों (Axioms) तथा प्रमेयों (Theorems) के चरणबद्ध निगमन को समझना आवश्यक है। जब कोई चर या संख्या समीकरण में परिवर्तित होती है, तो समानता का संतुलन बना रहना चाहिए।"
+        : "Mathematical concepts demand systematic step-by-step logical rigor. Every algebraic manipulation, geometric property, and arithmetic computation rests upon invariant fundamental axioms and verified theorems.",
+      mechanismTitle: isHi ? "चरणबद्ध गणितीय समाधान विधि" : "Step-by-Step Algorithmic Solution Method",
+      steps: isHi ? [
+        { num: 1, title: "दिए गए मानों एवं चरों की पहचान", desc: "प्रश्न को ध्यानपूर्वक पढ़कर ज्ञात एवं अज्ञात चरों को स्पष्ट रूप से लिखें।" },
+        { num: 2, title: "प्रासंगिक सूत्र अथवा प्रमेय का चयन", desc: "समस्या पर लागू होने वाले मानक एनसीईआरटी सूत्र अथवा सर्वसमिका को अंकित करें।" },
+        { num: 3, title: "चरणबद्ध गणना एवं पक्षांतरण", desc: "समीकरण के दोनों पक्षों में संतुलन बनाए रखते हुए चरणबद्ध गणना करें।" },
+        { num: 4, title: "उत्तर का सत्यापन एवं मात्रक अंकन", desc: "प्राप्त मान को मूल समीकरण में रखकर सत्यापित करें और उचित मात्रक लिखें।" }
+      ] : [
+        { num: 1, title: "Identify Knowns and Unknowns", desc: "Read the problem statement meticulously and tabulate all given parameters with proper notation." },
+        { num: 2, title: "Select Governing Formula or Theorem", desc: "State the formal NCERT theorem, standard identity, or algebraic equation applied." },
+        { num: 3, title: "Systematic Algebraic Execution", desc: "Perform sequential algebraic manipulations maintaining strict equality on both sides." },
+        { num: 4, title: "Verification and Unit Notation", desc: "Substitute the computed result back into original constraints and append standard units." }
+      ],
+      comparativeHeaders: isHi 
+        ? ["वर्गीकरण मापदंड", "प्राथमिक अवधारणा (श्रेणी A)", "उन्नत अवधारणा (श्रेणी B)", "मुख्य अंतर"]
+        : ["Classification Criteria", "Primary Domain (Class A)", "Advanced Domain (Class B)", "Core Distinction"],
+      comparativeRows: isHi ? [
+        ["परिभाषा", "मौलिक प्रत्यक्ष मान", "व्युत्पन्न अथवा संमिश्र मान", "गणना की जटिलता में अंतर"],
+        ["प्रमेय की स्थिति", "प्रत्यक्ष अनुप्रयोग", "विरोधाभास अथवा परोक्ष प्रमाण", "तार्किक चरणों की संख्या"],
+        ["दैनिक उपयोग", "हाट-बाजार लेन-देन व नाप-तौल", "भूमि सर्वेक्षण व ब्याज गणना", "व्यावहारिक उपयोगिता स्तर"]
+      ] : [
+        ["Fundamental Definition", "Direct elementary quantity", "Derived or compounded entity", "Algorithmic complexity"],
+        ["Theorem Application", "Direct substitution and evaluation", "Proof by contradiction / derivation", "Number of deductive stages"],
+        ["Real-World Role", "Daily market trade and physical counts", "Land surveying, geometry & financial credit", "Scope of practical utility"]
+      ],
+      examTraps: isHi ? [
+        {
+          title: "चिह्न त्रुटि (Sign Errors)",
+          mistake: "पक्षांतरण करते समय (+ / -) चिह्नों को न बदलना।",
+          fix: "बराबर (=) के दूसरी तरफ संख्या ले जाते समय हमेशा चिह्न विपरीत करें।",
+          why: "परीक्षक चरणबद्ध अंकन में प्रथम त्रुटि पर ही अंक काट लेते हैं।"
+        },
+        {
+          title: "शून्य से विभाजन का भ्रम",
+          mistake: "किसी संख्या को 0 से विभाजित करने पर 0 या अपरिभाषित में भ्रम होना।",
+          fix: "याद रखें: a / 0 सदैव अपरिभाषित (Undefined) होता है, जबकि 0 / a = 0 होता है।",
+          why: "यह एक मूलभूत सैद्धांतिक प्रश्न है जो बहुविकल्पीय प्रश्नों में पूछा जाता है।"
+        },
+        {
+          title: "मात्रक (Units) छोड़ देना",
+          mistake: "अंतिम उत्तर में सेमी², मीटर, लीटर या रुपये न लिखना।",
+          fix: "अंतिम उत्तर को बॉक्स में मात्रक के साथ स्पष्ट रूप से लिखें।",
+          why: "बोर्ड परीक्षा में मात्रक न लिखने पर आधा अंक काटा जाता है।"
+        }
+      ] : [
+        {
+          title: "Algebraic Sign Inversion Errors",
+          mistake: "Failing to reverse algebraic signs (+ / -) when transposing terms across the equality sign.",
+          fix: "Always explicitly invert the operation (+ becomes -, × becomes ÷) when crossing equals (=).",
+          why: "Examiners award zero marks for subsequent steps once an early sign error corrupts the equation."
+        },
+        {
+          title: "Division by Zero Misconception",
+          mistake: "Assuming a / 0 = 0 instead of recognizing it as mathematically undefined.",
+          fix: "Remember: a / 0 is strictly undefined; 0 / a = 0 (for a ≠ 0).",
+          why: "Tested frequently in objective and assertion-reason board questions."
+        },
+        {
+          title: "Omission of Standard Units",
+          mistake: "Writing naked numerical answers without units (e.g., writing 45 instead of 45 cm² or ₹45).",
+          fix: "Always box the final numerical magnitude accompanied by standard SI / currency units.",
+          why: "Board marking schemes deduct half a mark for missing units in computational problems."
+        }
+      ]
+    };
+  } else if (subject === 'science') {
+    return {
+      theoryP1: isHi
+        ? "विज्ञान अवलोकन, परिकल्पना और प्रायोगिक सत्यापन का विषय है। इस अध्याय में प्राकृतिक नियमों, रासायनिक प्रक्रियाओं तथा जैविक क्रियाओं को व्यवस्थित रूप से समझाया गया है। एनसीईआरटी दृष्टिकोण विद्यार्थियों में वैज्ञानिक दृष्टिकोण (Scientific Temper) का विकास करता है।"
+        : "Science is the systematic study of the physical and natural world through observation, hypothesis testing, and repeatable experimentation. This chapter elucidates foundational biological, chemical, or physical phenomena according to rigorous NCERT guidelines.",
+      theoryP2: isHi
+        ? "चाहे वह सजीवों में पोषण और श्वसन की जैविक प्रक्रिया हो या रासायनिक अभिक्रियाओं में परमाणुओं का पुनर्गठन—प्रत्येक प्रक्रिया द्रव्यमान संरक्षण और ऊर्जा संरक्षण के सार्वभौमिक नियमों का पालन करती है।"
+        : "Whether examining biological cellular respiration, chemical molecular rearrangements, or physical laws of energy and motion, all phenomena obey universal conservation laws (Conservation of Mass and Energy).",
+      mechanismTitle: isHi ? "चरणबद्ध वैज्ञानिक कार्यविधि एवं चक्र" : "Step-by-Step Scientific Mechanism & Pathway",
+      steps: isHi ? [
+        { num: 1, title: "प्रारंभिक अवस्था एवं अभिकर्मक", desc: "प्रक्रिया के पूर्व उपस्थित तत्वों, यौगिकों या जैविक संरचनाओं की स्थिति।" },
+        { num: 2, title: "ऊर्जा विनिमय एवं रासायनिक/भौतिक परिवर्तन", desc: "तापमान, प्रकाश या उत्प्रेरक की उपस्थिति में होने वाला सक्रिय रूपांतरण।" },
+        { num: 3, title: "मध्यवर्ती उत्पाद एवं आणविक संतुलन", desc: "प्रक्रिया के दौरान बनने वाले मध्यवर्ती यौगिक और ऊर्जा का पुनर्वितरण।" },
+        { num: 4, title: "अंतिम उत्पाद एवं परिवेश पर प्रभाव", desc: "उत्पादित पदार्थों की पहचान, अवस्था संकेत (s, l, g, aq) एवं जैविक उपयोगिता।" }
+      ] : [
+        { num: 1, title: "Initial State & Reactants / Receptors", desc: "Identify baseline chemical reactants, biological substrates, or physical configurations." },
+        { num: 2, title: "Energy Activation & Transformation", desc: "Inflow or release of thermal, solar, or biochemical energy driving state change." },
+        { num: 3, title: "Intermediate Complex & Conservation", desc: "Formation of intermediate molecular states adhering to mass and charge conservation." },
+        { num: 4, title: "Final Yield & Environmental Equilibrium", desc: "Documentation of outputs with physical state symbols (s, l, g, aq) and metabolic outcomes." }
+      ],
+      comparativeHeaders: isHi 
+        ? ["मापदंड", "प्रक्रिया / संरचना A", "प्रक्रिया / संरचना B", "मुख्य वैज्ञानिक अंतर"]
+        : ["Parameter", "Mechanism / Entity A", "Mechanism / Entity B", "Core Scientific Distinction"],
+      comparativeRows: isHi ? [
+        ["ऊर्जा प्रवाह", "ऊर्जा अवशोषित (ऊष्माशोषी)", "ऊर्जा उत्सर्जित (ऊष्माक्षेपी)", "एन्थैल्पी परिवर्तन (ΔH)"],
+        ["स्थान / अंगक", "कोशिका द्रव्य / बाह्य", "माइटोकॉन्ड्रिया / आंतरिक", "स्थानिक विशेषता"],
+        ["उपयोग", "ग्रामीण खाद व जैव गैस", "सौर ऊर्जा व प्रकाश संश्लेषण", "पर्यावरण व कृषि महत्व"]
+      ] : [
+        ["Energy Dynamics", "Energy Absorbed (Endothermic)", "Energy Released (Exothermic)", "Net Enthalpy Change (ΔH)"],
+        ["Cellular Site", "Cytoplasm / Extracellular", "Mitochondria / Chloroplast", "Spatial compartmentation"],
+        ["Real-World Impact", "Biogas & organic compost", "Solar capture & rural agriculture", "Ecological sustainability"]
+      ],
+      examTraps: isHi ? [
+        {
+          title: "रासायनिक समीकरण में अवस्था संकेत छोड़ना",
+          mistake: "समीकरण लिखते समय (s), (l), (g), (aq) न लिखना।",
+          fix: "हमेशा प्रत्येक यौगिक के आगे उसकी भौतिक अवस्था कोष्ठक में लिखें।",
+          why: "कक्षा 10वीं बोर्ड में संतुलित समीकरण में अवस्था संकेत पर 1 अंक निर्धारित होता है।"
+        },
+        {
+          title: "पादप व जंतु कोशिका में भ्रांति",
+          mistake: "कोशिका भित्ति (Cell Wall) को जंतु कोशिका में दर्शा देना।",
+          fix: "याद रखें: कोशिका भित्ति केवल पादप कोशिकाओं और कवक में होती है, जंतुओं में नहीं।",
+          why: "यह जीव विज्ञान का क्लासिक प्रश्न है जिसमें छात्र बहुधा अंक गंवाते हैं।"
+        },
+        {
+          title: "प्रकाश संश्लेषण समीकरण का संतुलन",
+          mistake: "6CO₂ + 12H₂O के स्थान पर गलत अनुपात लिखना।",
+          fix: "मानक समीकरण याद रखें: 6CO₂ + 6H₂O -> C₆H₁₂O₆ + 6O₂ (सूर्य का प्रकाश + क्लोरोफिल)।",
+          why: "असंतुलित समीकरण लिखने पर आधा या पूरा अंक कट जाता है।"
+        }
+      ] : [
+        {
+          title: "Omission of Physical State Symbols",
+          mistake: "Writing chemical formulas without specifying states: solid (s), liquid (l), gas (g), or aqueous (aq).",
+          fix: "Always tag every reactant and product with its physical state, e.g., 2Mg(s) + O₂(g) -> 2MgO(s).",
+          why: "Board marking schemes dedicate specific step-marks to complete physical state annotations."
+        },
+        {
+          title: "Cellular Organelle Misattribution",
+          mistake: "Confusing the cell wall (exclusive to plants, fungi, bacteria) with the universal plasma membrane.",
+          fix: "Remember: Animal cells lack rigid cellulose cell walls and chloroplasts.",
+          why: "Frequent source of mark loss in comparative cytology questions."
+        },
+        {
+          title: "Unbalanced Biochemical Equations",
+          mistake: "Writing photosynthesis or respiration without strict stoichiometric balancing.",
+          fix: "Commit standard balanced stoichiometry to memory: 6CO₂ + 6H₂O -> C₆H₁₂O₆ + 6O₂.",
+          why: "Stoichiometric inaccuracy leads to zero marks in chemical reaction questions."
+        }
+      ]
+    };
+  } else if (subject === 'social') {
+    return {
+      theoryP1: isHi
+        ? "सामाजिक विज्ञान हमारे समाज, संविधान, लोकतांत्रिक संस्थाओं और भौगोलिक संसाधनों को समझने का माध्यम है। यह अध्याय नागरिक जागरूकता, अधिकारों, कर्तव्यों और शासन प्रणाली के विकेंद्रीकरण को स्पष्ट करता है।"
+        : "Social Science unpacks the architecture of democratic institutions, constitutional jurisprudence, human rights, and sustainable resource geography under the Indian Republic.",
+      theoryP2: isHi
+        ? "डॉ. भीमराव आंबेडकर और संविधान निर्माताओं ने भारत को एक संप्रभु, समाजवादी, पंथनिरपेक्ष, लोकतंत्रात्मक गणराज्य के रूप में स्थापित किया। ग्रामीण स्तर पर पंचायती राज (73वां संविधान संशोधन) लोकतंत्र की सबसे मजबूत जमीनी कड़ी है।"
+        : "The Constitution of India balances fundamental rights with social justice. The 73rd and 74th Constitutional Amendments institutionalized grassroots rural governance through the Panchayati Raj framework.",
+      mechanismTitle: isHi ? "प्रशासनिक व लोकतांत्रिक कार्यप्रणाली" : "Democratic & Administrative Governance Mechanism",
+      steps: isHi ? [
+        { num: 1, title: "ग्राम सभा की बैठक एवं नागरिक सहभागिता", desc: "गाँव के सभी 18 वर्ष से ऊपर के मतदाता विकास योजनाओं पर विचार-विमर्श करते हैं।" },
+        { num: 2, title: "ग्राम पंचायत द्वारा प्रस्ताव पारित करना", desc: "सरपंच और वार्ड सदस्यों द्वारा प्राथमिकताओं का निर्धारण एवं बजट आवंटन।" },
+        { num: 3, title: "प्रखंड (ब्लॉक) एवं जिला स्तर से समन्वय", desc: "पंचायत समिति और जिला परिषद से तकनीकी स्वीकृति एवं सरकारी अनुदान प्राप्ति।" },
+        { num: 4, title: "क्रियान्वयन एवं सामाजिक अंकेक्षण (Social Audit)", desc: "कार्यों की गुणवत्ता की निगरानी और नागरिकों के समक्ष व्यय का सार्वजनिक प्रकटीकरण।" }
+      ] : [
+        { num: 1, title: "Gram Sabha Deliberation & Citizen Voice", desc: "All adult voters (>18 yrs) deliberate and prioritize local infrastructure and welfare schemes." },
+        { num: 2, title: "Gram Panchayat Executive Resolution", desc: "The Sarpanch and Ward Members formulate operational budgets and work plans." },
+        { num: 3, title: "Block & District Level Synergy", desc: "Coordination with Panchayat Samiti and Zila Parishad for technical vetting and state grants." },
+        { num: 4, title: "Execution & Transparent Social Audit", desc: "On-ground implementation monitored through mandatory citizen social audits." }
+      ],
+      comparativeHeaders: isHi 
+        ? ["मापदंड", "ग्राम सभा (Gram Sabha)", "ग्राम पंचायत (Gram Panchayat)", "मुख्य संवैधानिक अंतर"]
+        : ["Parameter", "Gram Sabha (Electorate Body)", "Gram Panchayat (Executive Body)", "Core Constitutional Distinction"],
+      comparativeRows: isHi ? [
+        ["सदस्यता", "गाँव के सभी वयस्क पंजीकृत मतदाता", "निर्वाचित प्रतिनिधि (सरपंच + वार्ड पंच)", "प्रत्यक्ष बनाम प्रतिनिधि लोकतंत्र"],
+        ["भूमिका", "नीति निर्माण, निगरानी व सामाजिक अंकेक्षण", "दैनिक प्रशासनिक कार्य एवं योजना क्रियान्वयन", "विधायिका बनाम कार्यपालिका"],
+        ["जवाबदेही", "सर्वोच्च नागरिक सभा", "ग्राम सभा के प्रति प्रत्यक्ष जवाबदेह", "निगरानी और संतुलन"]
+      ] : [
+        ["Membership", "All registered adult voters of the village", "Elected representatives (Sarpanch + Ward Members)", "Direct vs Representative democracy"],
+        ["Primary Mandate", "Policy direction, approval & social audit", "Day-to-day administration & execution", "Deliberative vs Executive organ"],
+        ["Accountability", "Ultimate sovereign local body", "Directly accountable to the Gram Sabha", "Institutional check and balance"]
+      ],
+      examTraps: isHi ? [
+        {
+          title: "ग्राम सभा और ग्राम पंचायत में अंतर न कर पाना",
+          mistake: "दोनों को एक ही समझकर उत्तर लिखना।",
+          fix: "याद रखें: ग्राम सभा मतदाता सभा है, जबकि ग्राम पंचायत निर्वाचित कार्यकारिणी है।",
+          why: "बोर्ड परीक्षा में 3 अंक का यह सीधा अंतर पूछा जाता है।"
+        },
+        {
+          title: "मौलिक अधिकारों और कर्तव्यों का घालमेल",
+          mistake: "संविधान के भाग 3 (अधिकार) और भाग 4A (कर्तव्य) को मिला देना।",
+          fix: "मौलिक अधिकार न्यायालय द्वारा प्रवर्तनीय हैं, जबकि मौलिक कर्तव्य नैतिक दायित्व हैं।",
+          why: "राजनीति विज्ञान में सटीक संवैधानिक शब्दावली पर ही अंक मिलते हैं।"
+        },
+        {
+          title: "बिना उदाहरणों के सामान्य उत्तर लिखना",
+          mistake: "संघवाद या विविधता पर बिना राज्य/स्थानीय उदाहरण के निबंध लिखना।",
+          fix: "हमेशा उत्तर में संवैधानिक अनुच्छेद (जैसे Art. 21, Art. 73) और वास्तविक उदाहरण दें।",
+          why: "उदाहरण रहित उत्तर पर परीक्षक केवल औसत अंक देते हैं।"
+        }
+      ] : [
+        {
+          title: "Confusing Gram Sabha with Gram Panchayat",
+          mistake: "Treating Gram Sabha and Gram Panchayat as identical interchangeable entities.",
+          fix: "Gram Sabha is the permanent electorate body; Gram Panchayat is the elected executive body.",
+          why: "A guaranteed 3-mark distinction question in board social science papers."
+        },
+        {
+          title: "Conflating Fundamental Rights with Duties",
+          mistake: "Mixing Part III (justiciable rights) with Part IV-A (moral citizen duties).",
+          fix: "Remember: Rights are legally enforceable via Article 32/226; duties are ethical civic guidelines.",
+          why: "Precision in constitutional law determines top-band scoring."
+        },
+        {
+          title: "Abstract Answers Without Empirical Context",
+          mistake: "Writing generic philosophical prose without citing Articles, Amendments, or case examples.",
+          fix: "Anchor answers with specific Articles (e.g. Art. 14, 21, 73rd Amendment) and factual examples.",
+          why: "CBSE rubrics require explicit constitutional provisions for maximum marks."
+        }
+      ]
+    };
+  } else if (subject === 'english') {
+    return {
+      theoryP1: isHi
+        ? "अंग्रेज़ी भाषा एवं साहित्य का यह अध्याय विद्यार्थियों में पठन कौशल, रचनात्मक अभिव्यक्ति तथा व्याकरण के नियमों की समझ को सुदृढ़ करता है। साहित्य केवल कहानियाँ नहीं, बल्कि मानवीय संवेदनाओं, नैतिक मूल्यों और समाज का दर्पण है।"
+        : "English literature and language studies hone reading comprehension, analytical literary appreciation, and grammatical syntax. Great literature mirrors moral dilemmas, resilience, and emotional truth.",
+      theoryP2: isHi
+        ? "व्याकरणिक संरचना (काल, वाच्य, विषय-क्रिया संगति) भाषा का ढाँचा बनाती है। सटीक वाक्य रचना से अभिव्यक्ति में स्पष्टता और आत्मविश्वास आता है।"
+        : "Systematic grammatical architecture—tense consistency, active vs passive voice, subject-verb concord, and modal auxiliaries—forms the bedrock of lucid academic and professional communication.",
+      mechanismTitle: isHi ? "व्याकरणिक एवं रचनात्मक लेखन प्रक्रिया" : "Grammatical Formulation & Structured Writing Process",
+      steps: isHi ? [
+        { num: 1, title: "संदर्भ एवं मुख्य भाव की पहचान", desc: "गद्यांश/पद्यांश के केंद्रीय विचार और पात्रों के मनोभाव को समझें।" },
+        { num: 2, title: "विषय-क्रिया संगति (Subject-Verb Agreement)", desc: "एकवचन कर्ता के साथ एकवचन क्रिया और बहुवचन के साथ बहुवचन क्रिया का प्रयोग।" },
+        { num: 3, title: "काल की एकरूपता (Tense Consistency)", desc: "भूतकाल की कहानी में भूतकाल और वर्तमान नियमों में वर्तमान काल का सुसंगत प्रयोग।" },
+        { num: 4, title: "औपचारिक प्रारूप एवं विराम चिह्न", desc: "पत्र, निबंध या उत्तर में उचित पैराग्राफ विभाजन और सटीक विराम चिह्नों का प्रयोग।" }
+      ] : [
+        { num: 1, title: "Textual Context & Thematic Decoding", desc: "Analyze the central conflict, emotional motifs, and character motivations in the text." },
+        { num: 2, title: "Subject-Verb Concord Alignment", desc: "Ensure singular subjects govern singular verbs, and compound subjects align accurately." },
+        { num: 3, title: "Strict Tense Consistency", desc: "Maintain coherent narrative tense across discourse without accidental shifts." },
+        { num: 4, title: "Formal Formatting & Punctuation", desc: "Structure discourse into paragraphs with accurate capitalization, apostrophes, and punctuation." }
+      ],
+      comparativeHeaders: isHi 
+        ? ["मापदंड", "कर्तृवाच्य (Active Voice)", "कर्मवाच्य (Passive Voice)", "व्याकरणिक अंतर"]
+        : ["Parameter", "Active Voice", "Passive Voice", "Grammatical Distinction"],
+      comparativeRows: isHi ? [
+        ["केंद्र बिंदु", "कर्ता (Subject) कार्य करता है", "कर्म (Object) पर प्रभाव पड़ता है", "कर्ता बनाम कर्म की प्रधानता"],
+        ["वाक्य संरचना", "Subject + Verb + Object", "Object + Helping Verb + V3 + by Subject", "संरचनात्मक सूत्र"],
+        ["उपयोग", "दैनिक बातचीत व प्रत्यक्ष कथन", "समाचार, वैज्ञानिक रिपोर्ट व औपचारिक पत्र", "प्रयोजन एवं लहजा"]
+      ] : [
+        ["Primary Focus", "Subject performs the action directly", "Object receives the action", "Agent vs Patient focus"],
+        ["Structural Formula", "Subject + Verb + Object", "Object + Auxiliary Verb + Past Participle (V3) + by Subject", "Syntactic transformation"],
+        ["Optimal Context", "Direct narrative dialogue & prose", "Scientific reports, official letters & notices", "Tone and formality"]
+      ],
+      examTraps: isHi ? [
+        {
+          title: "विषय-क्रिया संगति (Subject-Verb Agreement) की भूल",
+          mistake: "Everyone, Each of the boys के साथ बहुवचन क्रिया लगा देना।",
+          fix: "याद रखें: Everyone, Each, Neither सदैव एकवचन (Singular) क्रिया लेते हैं (जैसे: Each is present)।",
+          why: "यह बोर्ड परीक्षा के त्रुटि संशोधन (Error Correction) का सबसे आम प्रश्न है।"
+        },
+        {
+          title: "औपचारिक पत्र में पता व अभिवादन का प्रारूप",
+          mistake: "पुराने प्रारूप में दायें-बायें पता लिखना।",
+          fix: "आधुनिक सीबीएसई प्रारूप में सभी विवरण बाईं ओर (Left Aligned) लिखे जाते हैं।",
+          why: "प्रारूप (Format) पर 1 पूरा अंक निर्धारित होता है।"
+        },
+        {
+          title: "अपूर्ण उद्धरण आधारित उत्तर (RTC Questions)",
+          mistake: "कविता की पंक्तियों का उत्तर देते समय कवि का नाम या केंद्रीय भाव न लिखना।",
+          fix: "उत्तर की शुरुआत हमेशा पाठ और रचयिता के नाम से करें।",
+          why: "परीक्षक सटीक साहित्यिक संदर्भ की अपेक्षा करते हैं।"
+        }
+      ] : [
+        {
+          title: "Subject-Verb Concord with Indefinite Pronouns",
+          mistake: "Using plural verbs with indefinite pronouns like \"Everyone\", \"Each\", \"Neither\".",
+          fix: "Remember: \"Each\", \"Everyone\", \"Neither\" take strictly singular verbs (e.g., \"Each of the students has submitted\").",
+          why: "A staple trap in board editing and error-correction sections."
+        },
+        {
+          title: "Outdated Letter Formatting Layout",
+          mistake: "Placing sender address, date, or sign-off on the right side.",
+          fix: "Modern CBSE format requires strict full left-alignment against the left margin for all components.",
+          why: "Format carries 1 dedicated mark in the CBSE writing evaluation rubric."
+        },
+        {
+          title: "Contextual Vagueness in RTC Questions",
+          mistake: "Answering reference-to-context questions without naming the poem, poet, or underlying metaphor.",
+          fix: "Always explicitly state the title, author/poet, and thematic significance in the opening sentence.",
+          why: "Examiners award maximum marks to candidates displaying direct textual command."
+        }
+      ]
+    };
+  } else if (subject === 'hindi') {
+    return {
+      theoryP1: isHi
+        ? "हिंदी साहित्य हमारे राष्ट्र की सांस्कृतिक चेतना, संवेदना और समृद्ध भाषा का संवाहक है। इस पाठ में मानवीय संवेदनाओं, देशप्रेम, प्रकृति के सौंदर्य तथा जीवन मूल्यों का अनुपम चित्रण है। मुंशी प्रेमचंद, निराला और केदारनाथ अग्रवाल जैसे महान साहित्यकारों की रचनाएँ समाज की वास्तविकताओं से साक्षात्कार कराती हैं।"
+        : "Hindi literature encapsulates the cultural ethos, moral resilience, and poetic beauty of Indian society. Great masters like Munshi Premchand, Nirala, and Kedarnath Agarwal mirror authentic human struggles and noble rural virtues.",
+      theoryP2: isHi
+        ? "साहित्य के साथ-साथ व्याकरण (संधि, समास, मुहावरे, पद परिचय, अलंकार) भाषा को शुद्धता और सौंदर्य प्रदान करता है। मानक हिंदी में मात्राओं, वर्तनी और विराम चिह्नों का समुचित प्रयोग उत्कृष्ट अंक दिलाने में निर्णायक होता है।"
+        : "Alongside literary appreciation, mastery of Hindi grammar (Sandhi, Samas, Muhavare, Alankar, Pad Parichay) ensures linguistic precision and emotional resonance.",
+      mechanismTitle: isHi ? "व्याख्या एवं उत्तर लेखन की आदर्श विधि" : "Literary Analysis & Ideal Hindi Answer Writing Method",
+      steps: isHi ? [
+        { num: 1, title: "संदर्भ (Context)", desc: "प्रस्तुत पंक्तियाँ हमारी पाठ्यपुस्तक के पाठ से अवतरित हैं, जिसके रचयिता महान साहित्यकार हैं।" },
+        { num: 2, title: "प्रसंग (Background)", desc: "इन पंक्तियों में कवि/लेखक ने किस परिस्थिति या घटना का वर्णन किया है, उसका एक-दो वाक्यों में सार।" },
+        { num: 3, title: "भावार्थ / व्याख्या (Detailed Meaning)", desc: "पंक्तियों का सरल, स्पष्ट एवं साहित्यिक भाषा में चरणबद्ध विस्तृत अर्थ।" },
+        { num: 4, title: "काव्य-सौंदर्य / शिल्प-सौंदर्य (Aesthetic Features)", desc: "प्रयुक्त भाषा (खड़ी बोली/अवधी), छंद, रस, अलंकार एवं प्रतीकात्मकता का उल्लेख।" }
+      ] : [
+        { num: 1, title: "Reference (संदर्भ)", desc: "State textbook name, chapter title, and the revered author / poet." },
+        { num: 2, title: "Context (प्रसंग)", desc: "Summarize the immediate dramatic situation and thematic trigger in 1-2 lines." },
+        { num: 3, title: "Exposition (व्याख्या)", desc: "Elucidate the line-by-line inner psychological, moral, or emotional import." },
+        { num: 4, title: "Aesthetic Craft (शिल्प-सौंदर्य)", desc: "Highlight linguistic dialect (Awadhi, Braj, Khadi Boli), meters, ras, and poetic devices." }
+      ],
+      comparativeHeaders: isHi 
+        ? ["मापदंड", "गद्य विधा (Prose - कहानी/निबंध)", "पद्य विधा (Poetry - कविता/पद)", "साहित्यिक अंतर"]
+        : ["Parameter", "Prose (Story / Essay)", "Poetry (Verse / Couplet)", "Literary Distinction"],
+      comparativeRows: isHi ? [
+        ["संरचना", "वाक्य, पैराग्राफ एवं तार्किक प्रवाह", "छंद, लय, तुकबंदी एवं गेयता", "रूप विधान"],
+        ["भाषा शैली", "वर्णनात्मक, संवादात्मक एवं व्यावहारिक", "लाक्षणिक, प्रतीकात्मक एवं भावप्रधान", "अभिव्यक्ति का स्तर"],
+        ["व्याकरणिक महत्व", "मुहावरे, विराम चिह्न व वाक्य शुद्धि", "रस, छंद, अलंकार एवं शब्द शक्ति", "मूल्यांकन बिंदु"]
+      ] : [
+        ["Structure", "Paragraphs, dialogue, and narrative arc", "Meters, rhyme, rhythm, and lyrical musicality", "Form & Structure"],
+        ["Linguistic Style", "Descriptive, direct, and conversational", "Symbolic, emotive, and metaphorical", "Expressive Depth"],
+        ["Grammatical Lens", "Idioms, sentence corrections, punctuation", "Poetic devices (Alankar), Ras, Metaphor", "Evaluation Criterion"]
+      ],
+      examTraps: isHi ? [
+        {
+          title: "वर्तनी एवं मात्राओं की अशुद्धि (Spelling Errors)",
+          mistake: "इ/ई और उ/ऊ की मात्राओं में असावधानी।",
+          fix: "मानक हिंदी वर्तनी का नियमित लिखकर अभ्यास करें।",
+          why: "हिंदी में वर्तनी की अशुद्धियों पर परीक्षक तुरंत अंक काट लेते हैं।"
+        },
+        {
+          title: "काव्य-सौंदर्य न लिखना",
+          mistake: "पद्यांश की व्याख्या में केवल भावार्थ लिखकर शिल्प-सौंदर्य छोड़ देना।",
+          fix: "व्याख्या के अंत में भाषा, अलंकार और रस का 2-3 बिंदुओं में अनिवार्य उल्लेख करें।",
+          why: "सीबीएसई अंकन योजना में शिल्प-सौंदर्य पर 1-2 अंक अलग से निर्धारित होते हैं।"
+        },
+        {
+          title: "मुहावरों का गलत वाक्यों में प्रयोग",
+          mistake: "वाक्य में मुहावरे के अर्थ को लिख देना, मूल मुहावरे को नहीं।",
+          fix: "वाक्य बनाते समय मूल मुहावरा ही प्रयुक्त होना चाहिए, उसका अर्थ नहीं।",
+          why: "यह एक अत्यंत सामान्य भूल है जिससे पूरे अंक कट जाते हैं।"
+        }
+      ] : [
+        {
+          title: "Hindi Orthographic Diacritics (मात्रा अशुद्धि)",
+          mistake: "Swapping short and long vowel diacritics (hrasva and deergha - इ vs ई, उ vs ऊ).",
+          fix: "Practice writing core literary vocabulary systematically with correct matras.",
+          why: "Language examiners deduct marks consistently for orthographic spelling errors."
+        },
+        {
+          title: "Neglecting Poetic Craft (काव्य-सौंदर्य)",
+          mistake: "Explaining poetic meaning without mentioning the dialect, metre, and figures of speech (Alankar).",
+          fix: "Always conclude poetic analysis with 2 explicit aesthetic bullet points (Bhasha, Alankar, Ras).",
+          why: "Marking schemes reserve specific points for stylistic aesthetic commentary."
+        },
+        {
+          title: "Idiom Replacement Error in Sentences",
+          mistake: "Using the literal definition of the idiom in the sentence rather than the original phrase itself.",
+          fix: "Ensure the original idiomatic phrase (मुहावरा) appears verbatim in the illustrative sentence.",
+          why: "A widespread error resulting in loss of full marks in grammar sections."
+        }
+      ]
+    };
+  } else {
+    // Computer / Digital Literacy
+    return {
+      theoryP1: isHi
+        ? "21वीं सदी में डिजिटल साक्षरता केवल एक तकनीकी कौशल नहीं, बल्कि ग्रामीण सशक्तिकरण, सरकारी योजनाओं तक सीधी पहुँच और वित्तीय सुरक्षा की जीवनरेखा है। इस अध्याय में कंप्यूटर की कार्यप्रणाली, इंटरनेट सुरक्षा, डिजिटल बैंकिंग (UPI) तथा उपयोगी सॉफ्टवेयर की विस्तृत जानकारी दी गई है।"
+        : "In the 21st century, digital literacy is a powerful catalyst for rural economic empowerment, direct government benefits (DBT), transparent governance, and safe internet usage.",
+      theoryP2: isHi
+        ? "स्मार्टफोन, इंटरनेट और कंप्यूटर टूल्स का सुरक्षित उपयोग करने के लिए साइबर स्वच्छता (Cyber Hygiene), पासवर्ड सुरक्षा, टू-फैक्टर ऑथेंटिकेशन (2FA) तथा व्यक्तिगत डेटा की गोपनीयता का ज्ञान अनिवार्य है।"
+        : "Operating digital devices safely requires rigorous cyber hygiene: recognizing phishing scams, protecting OTPs, enforcing two-factor authentication (2FA), and understanding data privacy laws.",
+      mechanismTitle: isHi ? "सुरक्षित डिजिटल लेन-देन एवं कार्यप्रणाली" : "Secure Digital Transaction & Computational Protocol",
+      steps: isHi ? [
+        { num: 1, title: "सुरक्षित इंटरनेट कनेक्शन एवं HTTPS सत्यापन", desc: "वेबसाइट के यूआरएल में ताले का निशान (🔒) और https:// अवश्य देखें।" },
+        { num: 2, title: "मजबूत क्रेडेंशियल्स एवं बायोमेट्रिक सुरक्षा", desc: "अद्वितीय अल्फ़ान्यूमेरिक पासवर्ड बनाएं और फिंगरप्रिंट/पिन सुरक्षित रखें।" },
+        { num: 3, title: "ओटीपी एवं यूपीआई पिन की गोपनीयता", desc: "बैंक अधिकारी या किसी भी व्यक्ति के साथ फोन पर कभी भी ओटीपी या यूपीआई पिन साझा न करें।" },
+        { num: 4, title: "डिजिटल रसीद एवं लॉगआउट सत्यापन", desc: "लेन-देन के पश्चात बैंक एसएमएस से शेष राशि जांचें और सार्वजनिक कंप्यूटर से सुरक्षित लॉगआउट करें।" }
+      ] : [
+        { num: 1, title: "Secure Protocol & SSL Padlock Verification", desc: "Inspect the address bar for the SSL padlock (🔒) and authentic https:// domain." },
+        { num: 2, title: "Robust Authentication & Biometrics", desc: "Deploy strong alphanumeric passphrases coupled with biometric device locks." },
+        { num: 3, title: "Absolute Confidentiality of OTP and UPI PIN", desc: "Never disclose 6-digit OTPs or banking UPI PINs over phone calls or messages." },
+        { num: 4, title: "Transaction Receipts & Session Logout", desc: "Verify SMS account debits and perform explicit session logouts on public devices." }
+      ],
+      comparativeHeaders: isHi 
+        ? ["मापदंड", "सुरक्षित व्यवहार (Safe Habits)", "असुरक्षित व्यवहार (Cyber Threats)", "सुरक्षा प्रभाव"]
+        : ["Parameter", "Secure Cyber Practices", "High-Risk Cyber Behavior", "Security Impact"],
+      comparativeRows: isHi ? [
+        ["पासवर्ड प्रबंधन", "अद्वितीय जटिल पासवर्ड + 2FA", "जन्म तिथि या 123456 पासवर्ड", "खाता हैकिंग से सुरक्षा"],
+        ["ऐप डाउनलोड", "गूगल प्ले स्टोर / अधिकृत स्रोत", "अज्ञात व्हाट्सएप लिंक व एपीके फाइल", "मैलवेयर व ट्रोजन वायरस रोकथाम"],
+        ["सरकारी सेवाएं", "डिजीलॉकर व आधिकारिक पोर्टल (.gov.in)", "नकली वेबसाइट व बिचौलिए", "डेटा गोपनीयता व सीधी छात्रवृत्ति"]
+      ] : [
+        ["Password Security", "Unique complex passphrase + 2FA", "Birthdates or \"123456\" across accounts", "Prevents unauthorized account takeover"],
+        ["App Sourcing", "Official Play Store / Verified sources", "Third-party APK files & random links", "Prevents spyware and trojan infections"],
+        ["Public Services", "DigiLocker & official .gov.in portals", "Fraudulent phishing links and touts", "Direct benefit transfer with zero leakage"]
+      ],
+      examTraps: isHi ? [
+        {
+          title: "UPI पिन को धन प्राप्ति का माध्यम समझना",
+          mistake: "पैसे प्राप्त करने के लिए भी यूपीआई पिन दर्ज कर देना।",
+          fix: "स्वर्ण नियम: पैसे प्राप्त करने के लिए कभी भी यूपीआई पिन की आवश्यकता नहीं होती!",
+          why: "यह भारत में सबसे अधिक होने वाले ऑनलाइन वित्तीय धोखाधड़ी का मुख्य कारण है।"
+        },
+        {
+          title: "HTTPS और HTTP में अंतर न जानना",
+          mistake: "किसी भी असुरक्षित HTTP वेबसाइट पर बैंक विवरण या पासवर्ड डालना।",
+          fix: "बिना 'S' (Secure) और ताले के निशान वाली वेबसाइट पर कभी भी संवेदनशील जानकारी न दें।",
+          why: "यह कंप्यूटर साक्षरता परीक्षा का आधारभूत प्रश्न है।"
+        },
+        {
+          title: "स्प्रेडशीट फॉर्मूले में बराबर (=) का निशान भूलना",
+          mistake: "सेल में केवल SUM(A1:A5) लिख देना।",
+          fix: "स्प्रेडशीट में प्रत्येक फॉर्मूला हमेशा बराबर के चिह्न =SUM(A1:A5) से ही शुरू होता है।",
+          why: "कंप्यूटर प्रायोगिक परीक्षा में बराबर का चिह्न न लगाने पर फॉर्मूला निष्पादित नहीं होता।"
+        }
+      ] : [
+        {
+          title: "Entering UPI PIN to Receive Money Fallacy",
+          mistake: "Entering UPI PIN believing it is required to receive funds from buyers or schemes.",
+          fix: "Golden Rule: You NEVER enter your UPI PIN to receive money; PIN is ONLY required to pay.",
+          why: "Primary vector for digital payments fraud across rural and urban India."
+        },
+        {
+          title: "Confusing HTTP with Encrypted HTTPS",
+          mistake: "Submitting personal credentials on unencrypted http:// websites.",
+          fix: "Always confirm the \"S\" (Secure) and the SSL padlock before entering sensitive data.",
+          why: "Essential baseline competency tested in digital literacy curricula."
+        },
+        {
+          title: "Missing Equals (=) Prefix in Spreadsheet Formulas",
+          mistake: "Typing function calls like SUM(A1:A10) without the mandatory leading equals sign.",
+          fix: "Every spreadsheet formula must strictly begin with an equals sign: =SUM(A1:A10).",
+          why: "Without \"=\", software treats input as static text rather than an executable formula."
+        }
+      ]
+    };
+  }
+}
+
+/**
+ * Universal helper to get complete 5-page curriculum study guide for any chapter.
+ * Returns root metadata, summary, formulas, exam tips, and 5 comprehensive pages.
  */
 export function getNotesForChapter(chapter, lang = 'en') {
   if (!chapter) return null;
+  const isHi = lang === 'hi';
 
-  // 1. Check if custom curated notes exist in bank
-  if (CHAPTER_NOTES[chapter.id]) {
-    const curated = CHAPTER_NOTES[chapter.id];
-    return {
-      chapterId: chapter.id,
-      subject: curated.subject || chapter.courseSubject || 'General',
-      grade: curated.grade || chapter.courseGrade || 'Class 6-10',
-      title: curated.title[lang] || curated.title.en,
-      keyTakeaway: curated.keyTakeaway[lang] || curated.keyTakeaway.en,
-      keyFormulas: curated.keyFormulas.map(f => ({
-        term: f.term,
-        definition: (lang === 'hi' && f.hindi) ? f.hindi : f.definition
-      })),
-      examTips: curated.examTips,
-      realWorldExample: curated.realWorldExample[lang] || curated.realWorldExample.en
-    };
-  }
+  const curated = CHAPTER_NOTES[chapter.id] || {};
+  const title = (curated.title && (curated.title[lang] || curated.title.en)) || 
+                (chapter.title && (chapter.title[lang] || chapter.title.en)) || 
+                'Chapter Study Notes';
+  const grade = curated.grade || chapter.courseGrade || 'Class 6-10';
+  const subject = curated.subject || chapter.courseSubject || 'General';
+  const takeaway = curated.keyTakeaway ? (curated.keyTakeaway[lang] || curated.keyTakeaway.en) : 
+                   (chapter.summary ? (chapter.summary[lang] || chapter.summary.en) : '');
+  const keyFormulas = curated.keyFormulas || [];
+  const examTips = curated.examTips || [];
+  const ruralExample = curated.realWorldExample ? (curated.realWorldExample[lang] || curated.realWorldExample.en) : '';
 
-  // 2. Intelligent Dynamic Synthesis from Chapter Content
-  const title = (chapter.title && chapter.title[lang]) || (chapter.title && chapter.title.en) || 'Chapter Study Notes';
-  const summary = (chapter.summary && chapter.summary[lang]) || (chapter.summary && chapter.summary.en) || '';
-  const rawContent = (chapter.lowDataContent && chapter.lowDataContent[lang]) || (chapter.lowDataContent && chapter.lowDataContent.en) || '';
+  const subjData = buildSubjectSpecificCurriculum(subject, grade, title, isHi);
 
-  // Extract section titles from raw content
-  const sectionHeaders = [];
-  const lines = rawContent.split('\n');
-  for (let l of lines) {
-    if (l.trim().startsWith('###')) {
-      sectionHeaders.push(l.replace(/^###\s+/, '').trim());
+  // PAGE 1: Foundations & Prerequisites
+  const page1 = {
+    pageNumber: 1,
+    pageKey: 'foundations',
+    badge: isHi ? 'पृष्ठ 1: विषय प्रवेश एवं आधारशिला' : 'Page 1: Foundational Framework',
+    title: isHi ? 'विस्तृत परिचय, अधिगम उद्देश्य एवं पूर्व ज्ञान सेतु' : 'Foundational Framework & Prerequisite Knowledge',
+    subtitle: isHi ? 'अध्याय की विस्तृत पृष्ठभूमि, सीखने के लक्ष्य एवं आवश्यक पूर्व ज्ञान' : 'Academic Overview, NCERT Competencies & Essential Prior Knowledge',
+    academicOverview: [
+      isHi 
+        ? `यह अध्याय राष्ट्रीय शैक्षिक अनुसंधान और प्रशिक्षण परिषद (NCERT) एवं राष्ट्रीय पाठ्यचर्या रूपरेखा (NCF) के मानकों के अनुरूप ${grade} के ${subject.toUpperCase()} पाठ्यक्रम के लिए तैयार किया गया है। इसका उद्देश्य विद्यार्थियों में रटने की प्रवृत्ति को समाप्त कर तार्किक, वैचारिक और व्यावहारिक ज्ञान की सुदृढ़ नींव रखना है।`
+        : `This study module is systematically authored in accordance with the latest NCERT syllabus and National Curriculum Framework (NCF) standards for ${grade} ${subject.toUpperCase()}. Its pedagogical purpose is to eliminate rote learning and build durable analytical and deductive competencies.`,
+      takeaway ? (isHi ? `मुख्य सार: ${takeaway}` : `Core Takeaway: ${takeaway}`) : '',
+      subjData.theoryP1
+    ].filter(Boolean),
+    learningObjectives: isHi ? [
+      `${title} के मूल सिद्धांतों, वैज्ञानिक/गणितीय नियमों एवं मानक शब्दावली का पूर्ण अधिकार प्राप्त करना।`,
+      'एनसीईआरटी द्वारा निर्धारित सभी महत्वपूर्ण सूत्रों, समीकरणों तथा आरेखों का चरणबद्ध निगमन समझना।',
+      'बोर्ड परीक्षा पैटर्न के अनुसार 2 अंक, 3 अंक तथा 5 अंक वाले प्रश्नों को हल करने की क्षमता विकसित करना।',
+      'ग्रामीण समाज, कृषि, स्थानीय व्यापार एवं दैनिक जीवन में इन सिद्धांतों के व्यावहारिक अनुप्रयोग को पहचानना।'
+    ] : [
+      `Attain conceptual mastery over all foundational laws, definitions, and formal terminology in ${title}.`,
+      'Understand step-by-step mathematical derivations, reaction balances, or grammatical transformations.',
+      'Develop speed and precision for standard NCERT board examination questions (2, 3, and 5 marks).',
+      'Correlate theoretical classroom principles with real-world rural, agricultural, and technological problems.'
+    ],
+    prerequisites: {
+      intro: isHi
+        ? 'इस अध्याय का श्रेष्ठ अध्ययन परिणाम प्राप्त करने के लिए विद्यार्थियों को पूर्व कक्षाओं की निम्नलिखित संकल्पनाओं का पुनरावलोकन कर लेना चाहिए:'
+        : 'To maximize retention and mastery of this chapter, students should briefly review the following core prerequisites from earlier classes:',
+      items: isHi ? [
+        'कक्षा 5-6 की मूलभूत गणितीय/वैज्ञानिक संक्रियाएँ एवं मानक मात्रकों (SI Units) की जानकारी।',
+        'तथ्यों का वर्गीकरण, चरों की पहचान तथा चरणबद्ध उत्तर लेखन की आदत।',
+        'दैनिक जीवन के व्यावहारिक उदाहरणों से अमूर्त सिद्धांतों को जोड़ने का प्राथमिक अनुभव।'
+      ] : [
+        'Fundamental operational fluency in prerequisite arithmetic, equations, and standard SI measurement units.',
+        'Structured analytical writing: identifying given parameters, required unknowns, and applicable axioms.',
+        'Initial familiarity with qualitative observations and inductive reasoning in everyday environments.'
+      ]
+    },
+    realWorldRelevance: ruralExample ? (
+      isHi 
+        ? `ग्रामीण परिवेश में उपयोग: ${ruralExample}`
+        : `Real-World Community Relevance: ${ruralExample}`
+    ) : (
+      isHi
+        ? `इस अध्याय का ज्ञान गाँव के विद्यार्थियों को खेत की पैमाइश, फसल उत्पादन, वित्तीय सुरक्षा और सरकारी योजनाओं के डिजिटल लाभ को समझने में सीधे समर्थ बनाता है।`
+        : `The core principles in this chapter directly empower rural students in farm budgeting, scientific cultivation, civic awareness, and digital financial security.`
+    )
+  };
+
+  // PAGE 2: Deep Conceptual Theory & Mechanisms
+  const page2 = {
+    pageNumber: 2,
+    pageKey: 'theory',
+    badge: isHi ? 'पृष्ठ 2: गहन सैद्धांतिक अवधारणाएँ' : 'Page 2: Core Conceptual Theory',
+    title: isHi ? 'गहन सैद्धांतिक अवधारणाएँ, नियम एवं वैज्ञानिक कार्यविधि' : 'Comprehensive Conceptual Theory, Laws & Mechanisms',
+    subtitle: isHi ? 'गहन सैद्धांतिक विश्लेषण, मौलिक प्रमेय, व्याकरण के नियम एवं चरणबद्ध प्रक्रिया' : 'In-depth Theory, Core Theorems, Grammatical Rules & Step-by-Step Mechanisms',
+    deepTheory: [
+      subjData.theoryP2,
+      isHi
+        ? `इस अध्याय में अवधारणाओं को सूत्रों और नियमों के ठोस प्रमाण द्वारा सिद्ध किया गया है। प्रत्येक चरण में वैज्ञानिक दृष्टिकोण और तार्किक संगति का विशेष ध्यान रखा गया है ताकि बोर्ड परीक्षा में विद्यार्थी पूर्ण अंक प्राप्त कर सकें।`
+        : `Theoretical exposition is anchored in verified theorems, empirical observations, and rigorous proofs. Each conceptual stage builds sequentially upon the preceding layer to instill comprehensive subject clarity.`
+    ],
+    theorems: keyFormulas.length > 0 ? keyFormulas.map((f, idx) => ({
+      name: f.term,
+      statement: isHi && f.hindi ? f.hindi : f.definition,
+      ruleType: isHi ? `मुख्य नियम / सूत्र #${idx + 1}` : `Core Theorem / Law #${idx + 1}`
+    })) : [
+      {
+        name: isHi ? 'मौलिक नियम' : 'Fundamental Principle',
+        statement: takeaway || title,
+        ruleType: isHi ? 'सिद्धांत' : 'Principle'
+      }
+    ],
+    mechanism: {
+      title: subjData.mechanismTitle,
+      steps: subjData.steps
+    },
+    comparativeTable: {
+      headers: subjData.comparativeHeaders,
+      rows: subjData.comparativeRows
     }
-  }
+  };
+
+  // PAGE 3: Solved NCERT Exemplar Problems
+  const page3 = {
+    pageNumber: 3,
+    pageKey: 'exemplars',
+    badge: isHi ? 'पृष्ठ 3: हल सहित आदर्श प्रश्न' : 'Page 3: Solved NCERT Exemplars',
+    title: isHi ? 'हल सहित मानक एनसीईआरटी अभ्यास एवं चरणबद्ध समाधान' : 'Step-by-Step Solved NCERT Exemplar Problems',
+    subtitle: isHi ? 'बोर्ड परीक्षा पैटर्न के आदर्श प्रश्न, चरणबद्ध हल एवं अंक विभाजन योजना' : 'Standard Board-Pattern Problems with Step-by-Step Marking Logic & Explanations',
+    exemplars: [
+      {
+        id: 1,
+        marksBadge: isHi ? 'आदर्श प्रश्न 1 • 2 अंक (संकल्पनात्मक)' : 'NCERT Exemplar #1 • 2 Marks (Conceptual)',
+        question: isHi 
+          ? `${title} की मूलभूत परिभाषा स्पष्ट करते हुए इसका एक मुख्य गुणधर्म बताइए।`
+          : `State the fundamental definition of ${title} and write its primary governing property.`,
+        given: isHi ? 'मानक एनसीईआरटी परिभाषा एवं आधारभूत शर्तें।' : 'Standard NCERT definition and operational boundary conditions.',
+        steps: isHi ? [
+          { step: 'चरण 1', text: `विषय की शुद्ध एवं मानक परिभाषा लिखें: ${keyFormulas[0] ? (keyFormulas[0].hindi || keyFormulas[0].definition) : takeaway}` },
+          { step: 'चरण 2', text: 'इसके मुख्य गुणधर्म तथा व्यावहारिक उदाहरण का स्पष्ट उल्लेख करें।' }
+        ] : [
+          { step: 'Step 1', text: `Formulate the exact NCERT definition: ${keyFormulas[0] ? keyFormulas[0].definition : takeaway}` },
+          { step: 'Step 2', text: 'State the governing physical/mathematical condition and cite an illustrative example.' }
+        ],
+        finalAnswer: isHi 
+          ? 'स्पष्ट, संक्षिप्त एवं मानक परिभाषा ही 2 में से 2 अंक सुनिश्चित करती है।'
+          : 'Concise, formal phrasing with stated conditions guarantees full 2/2 marks.',
+        examinerTip: isHi 
+          ? 'परीक्षक की सलाह: परिभाषा में मुख्य तकनीकी शब्दों (Keywords) को रेखांकित अवश्य करें।'
+          : 'Examiner Marking Tip: Underline formal keywords to ensure rapid full-mark allocation.'
+      },
+      {
+        id: 2,
+        marksBadge: isHi ? 'आदर्श प्रश्न 2 • 3 अंक (गणना / विश्लेषणात्मक)' : 'NCERT Exemplar #2 • 3 Marks (Computational / Analytical)',
+        question: isHi
+          ? `यदि दिए गए प्रश्न में आवश्यक शर्तें लागू की जाएँ, तो सूत्र का उपयोग कर अज्ञात मान की चरणबद्ध गणना कीजिए।`
+          : `Applying the governing formula of this chapter, calculate the required parameter with complete intermediate working steps.`,
+        given: isHi 
+          ? 'ज्ञात मान: मानक एनसीईआरटी अभ्यास स्तर के मान एवं प्रासंगिक सूत्र।'
+          : 'Given Parameters: Standard NCERT curriculum benchmark values and governing equations.',
+        steps: isHi ? [
+          { step: 'चरण 1', text: 'दिए गए सभी मानों को उनके मानक मात्रकों (SI Units) में लिखें।' },
+          { step: 'चरण 2', text: `प्रासंगिक सूत्र का प्रयोग करें: ${keyFormulas[1] ? (keyFormulas[1].hindi || keyFormulas[1].term) : 'मानक सूत्र'}` },
+          { step: 'चरण 3', text: 'समीकरण में मान प्रतिस्थापित कर चरणबद्ध बीजगणितीय सरलीकरण करें।' }
+        ] : [
+          { step: 'Step 1', text: 'Tabulate all given parameters transformed strictly into standard SI units.' },
+          { step: 'Step 2', text: `State the governing relation: ${keyFormulas[1] ? keyFormulas[1].term : 'Standard Governing Equation'}.` },
+          { step: 'Step 3', text: 'Substitute values and execute algebraic simplifications step-by-step.' }
+        ],
+        finalAnswer: isHi 
+          ? 'अंतिम मान उचित मात्रक (Units) के साथ बॉक्स में लिखा गया।'
+          : 'Final computed value boxed clearly alongside standard dimensional units.',
+        examinerTip: isHi
+          ? 'परीक्षक की सलाह: गणना में बीच के चरणों को न छोड़ें, प्रत्येक चरण का पृथक अंक होता है।'
+          : 'Examiner Marking Tip: Never skip intermediate arithmetic steps; CBSE awards partial marks per stage.'
+      },
+      {
+        id: 3,
+        marksBadge: isHi ? 'आदर्श प्रश्न 3 • 5 अंक (विस्तृत उत्तरीय / बोर्ड प्रश्न)' : 'NCERT Exemplar #3 • 5 Marks (Board Long Answer)',
+        question: isHi
+          ? `${title} के सिद्धांत का विस्तार से वर्णन करें तथा इसकी पुष्टि हेतु एक व्यावहारिक/प्रायोगिक उदाहरण प्रस्तुत कीजिए।`
+          : `Elucidate the comprehensive theoretical framework of ${title} and support your answer with an empirical or practical demonstration.`,
+        given: isHi ? 'विस्तृत सैद्धांतिक विवरण, आरेखीय निरूपण एवं अनुप्रयोग।' : 'Comprehensive theoretical derivation, diagrammatic representation, and applied case.',
+        steps: isHi ? [
+          { step: 'भाग (क) - सैद्धांतिक निगमन', text: 'मूल सिद्धांत, कथन एवं संबंधित समीकरणों का क्रमबद्ध विस्तार।' },
+          { step: 'भाग (ख) - आरेख / फ्लोचार्ट', text: 'साफ-सुथरे नामांकित चित्र अथवा फ्लोचार्ट द्वारा प्रक्रिया का स्पष्टीकरण।' },
+          { step: 'भाग (ग) - व्यावहारिक उपयोग', text: ruralExample || 'दैनिक जीवन एवं कृषि परिवेश में इसका प्रमाणिक उपयोग।' }
+        ] : [
+          { step: 'Part (A) - Theoretical Exposition', text: 'Detailed presentation of foundational axioms, formal equations, and conditions.' },
+          { step: 'Part (B) - Schematic / Flowchart', text: 'Clear labeled schematic diagram or sequential flowchart detailing process dynamics.' },
+          { step: 'Part (C) - Applied Demonstration', text: ruralExample || 'Practical validation in village farming, local technology, or civic governance.' }
+        ],
+        finalAnswer: isHi
+          ? 'सम्पूर्ण 5 अंक प्राप्त करने हेतु: 2 अंक सिद्धांत के, 1 अंक चित्र के और 2 अंक अनुप्रयोग के होते हैं।'
+          : 'Structured for maximum 5/5 score: 2 marks theory, 1 mark schematic, 2 marks applied case.',
+        examinerTip: isHi
+          ? 'परीक्षक की सलाह: लंबे उत्तरों को 3-4 शीर्षकों में विभाजित कर लिखें, पैराग्राफ का ढेर न लगाएं।'
+          : 'Examiner Marking Tip: Divide long answers into distinct numbered headings for effortless top-band scoring.'
+      }
+    ]
+  };
+
+  // PAGE 4: High-Yield Formula Sheet & Exam Traps
+  const page4 = {
+    pageNumber: 4,
+    pageKey: 'cheatsheet',
+    badge: isHi ? 'पृष्ठ 4: सूत्र सूची एवं परीक्षा सावधानियाँ' : 'Page 4: Formula Sheet & Pitfalls',
+    title: isHi ? 'त्वरित सूत्र सूची, महत्वपूर्ण शब्दावली एवं परीक्षा सावधानियाँ' : 'High-Yield Formula Sheet, Definitions & Exam Traps',
+    subtitle: isHi ? 'मास्टर सूत्र तालिका, मुख्य पारिभाषिक शब्द एवं बोर्ड परीक्षा में होने वाली गलतियों से बचाव' : 'Master Formula Grid, Technical Glossary, and Board Exam Traps',
+    formulaGrid: keyFormulas.length > 0 ? keyFormulas.map(f => ({
+      term: f.term,
+      definition: isHi && f.hindi ? f.hindi : f.definition,
+      notation: isHi ? 'मानक एनसीईआरटी रूप' : 'Standard NCERT Notation'
+    })) : [
+      {
+        term: title,
+        definition: takeaway,
+        notation: 'Core Definition'
+      }
+    ],
+    quickSummaryTable: {
+      headers: isHi 
+        ? ['मुख्य चर / पद', 'मानक सूत्र / नियम', 'मात्रक / संकेत', 'महत्वपूर्ण सीमा / शर्त']
+        : ['Core Variable / Term', 'Standard Formula / Rule', 'SI Unit / Symbol', 'Critical Constraint / Boundary'],
+      rows: isHi ? [
+        ['प्राथमिक राशि', 'a x b अथवा प्रत्यक्ष समीकरण', 'मानक मात्रक (SI Units)', 'शून्य अथवा ऋणात्मक प्रतिबंध'],
+        ['व्युत्पन्न राशि', 'अनुपात अथवा प्रतिशत मान', 'प्रतिशत (%) अथवा अनुपात', 'समीकरण संतुलन आवश्यक'],
+        ['व्यावहारिक अनुप्रयोग', 'हाट-बाजार अथवा कृषि गणना', 'रुपये (₹) अथवा क्षेत्रफल (हेक्टेयर)', 'वास्तविक परिस्थितियों पर निर्भर']
+      ] : [
+        ['Primary Variable', 'Fundamental relation / linear law', 'Standard SI Units', 'Non-zero or positive constraints'],
+        ['Derived Magnitude', 'Ratio, percentage or product function', '% or dimensionless ratio', 'Must satisfy equilibrium'],
+        ['Practical Application', 'Farm yields or credit calculations', 'INR (₹), hectares, or litres', 'Real-world validation required']
+      ]
+    },
+    examTraps: subjData.examTraps,
+    mnemonic: {
+      title: isHi ? 'सरल स्मरण तकनीक (Memory Trick)' : 'Rapid Recall Mnemonic & Strategy',
+      text: isHi
+        ? 'याद रखें "L-F-S-U" नियम: (L) Label Given, (F) Formula State, (S) Step Working, (U) Units Write!'
+        : 'Commit the "L-F-S-U" Rule to memory: (L) Label Given Data, (F) Formal Formula State, (S) Stepwise Working, (U) Units Finalize!'
+    }
+  };
+
+  // PAGE 5: Self-Assessment Practice Drill & Rural Applications
+  const page5 = {
+    pageNumber: 5,
+    pageKey: 'practice',
+    badge: isHi ? 'पृष्ठ 5: अभ्यास एवं ग्रामीण अनुप्रयोग' : 'Page 5: Practice Drill & Rural Impact',
+    title: isHi ? 'आत्म-मूल्यांकन अभ्यास प्रश्न एवं ग्रामीण व्यावहारिक उपयोग' : 'Self-Assessment Practice Drill & Real-World Rural Applications',
+    subtitle: isHi ? 'स्वयं अभ्यास प्रश्न, व्याख्यात्मक उत्तर एवं ग्रामीण भारत का केस स्टडी' : 'Target Practice Questions with Detailed Explanations & Rural Community Case Study',
+    drillQuestions: [
+      {
+        id: 'dq1',
+        level: isHi ? 'अभ्यास 1: संकल्पना स्पष्टता जांच (स्तर 1)' : 'Drill #1: Conceptual Quick Check (Level 1)',
+        question: isHi
+          ? `यदि ${title} के अंतर्गत किसी चर का मान दोगुना कर दिया जाए, तो उसके परिणाम पर क्या प्रभाव पड़ेगा?`
+          : `If the primary independent variable in ${title} is doubled, describe the exact mathematical or qualitative outcome.`,
+        hint: isHi ? 'संकेत: मूल सूत्र में चरों के समानुपाती या व्युत्क्रमानुपाती संबंध को देखें।' : 'Hint: Inspect the direct or inverse proportionality in the governing equation.',
+        solution: isHi
+          ? 'समाधान: सूत्र के अनुसार यदि चर सीधे समानुपाती (Directly Proportional) है, तो परिणाम भी दोगुना हो जाएगा।'
+          : 'Solution: Based on direct proportionality, doubling the independent parameter doubles the resultant magnitude.'
+      },
+      {
+        id: 'dq2',
+        level: isHi ? 'अभ्यास 2: विश्लेषणात्मक प्रश्न (स्तर 2)' : 'Drill #2: Analytical Problem Solving (Level 2)',
+        question: isHi
+          ? `बोर्ड परीक्षा में पूछे जाने वाले 3 अंक के प्रश्नों की शैली में इस अध्याय के मुख्य सिद्धांत की सीमाओं का उल्लेख कीजिए।`
+          : `State three explicit conditions under which the core principles of this chapter hold true, and one boundary limitation.`,
+        hint: isHi ? 'संकेत: तापमान, आदर्श स्थिति या शून्य विभाजक जैसी सीमाओं पर विचार करें।' : 'Hint: Consider ideal boundary conditions, non-zero denominators, or temperature invariance.',
+        solution: isHi
+          ? 'समाधान: 1. दिए गए मान गैर-शून्य होने चाहिए। 2. भौतिक/पर्यावरणीय परिस्थितियाँ स्थिर रहनी चाहिए। 3. मानक सीमाओं का उल्लंघन नहीं होना चाहिए।'
+          : 'Solution: 1. Strict non-zero denominator conditions. 2. Constant ambient conditions where applicable. 3. Compliance with conservation laws.'
+      },
+      {
+        id: 'dq3',
+        level: isHi ? 'अभ्यास 3: उच्च स्तरीय चिंतन कौशल (HOTS - स्तर 3)' : 'Drill #3: Higher Order Thinking Skills (HOTS - Level 3)',
+        question: isHi
+          ? `ग्रामीण भारत के किसी विद्यालय या किसान की वास्तविक समस्या के समाधान में इस अध्याय के सिद्धांतों का रचनात्मक उपयोग कैसे किया जा सकता है?`
+          : `Formulate a creative engineering or economic intervention using this chapter to solve a tangible rural Indian community problem.`,
+        hint: isHi ? 'संकेत: जल संरक्षण, कृषि उपज नाप-तौल या डिजिटल पारदर्शिता का उदाहरण लें।' : 'Hint: Think about water conservation, crop yield optimization, or village digital accounting.',
+        solution: isHi
+          ? `समाधान: ${ruralExample || 'वैज्ञानिक गणना और योजनाबद्ध क्रियान्वयन से लागत में 30% तक कमी और उत्पादन में वृद्धि संभव है।'}`
+          : `Solution: ${ruralExample || 'Through systematic data-driven modeling and local governance, communities optimize resource allocation and achieve up to 30% efficiency gains.'}`
+      }
+    ],
+    ruralCaseStudy: {
+      title: isHi ? 'ग्रामीण भारत का केस स्टडी: जमीनी नवाचार' : 'Real-World Rural Case Study: Grassroots Community Impact',
+      context: isHi
+        ? `रामपुर गाँव के प्राथमिक विद्यालय और ग्राम पंचायत ने इस अध्याय में वर्णित सिद्धांतों का उपयोग करते हुए एक सामूहिक पहल शुरू की।`
+        : `In the agrarian village of Rampur, local students and the Gram Panchayat collaborated to apply this chapter's exact principles to resolve a community challenge.`,
+      solution: ruralExample || (
+        isHi
+          ? 'विद्यार्थियों ने गणितीय और वैज्ञानिक विधियों का उपयोग करके सामुदायिक संसाधनों का सटीक मापन किया और पारदर्शिता स्थापित की।'
+          : 'Students deployed systematic quantitative modeling to audit local community resources and establish complete civic transparency.'
+      ),
+      impact: isHi
+        ? 'परिणाम: गाँव के 150 से अधिक परिवारों को सीधे लाभ हुआ, समय और धन की बचत हुई और विद्यार्थियों का आत्मविश्वास बढ़ा।'
+        : 'Community Impact: Over 150 village households benefited directly with zero fiscal leakage, reinforcing experiential student learning.'
+    },
+    nextAction: {
+      callout: isHi ? '5 पृष्ठों का अध्ययन पूर्ण हुआ!' : 'Complete 5-Page Guide Mastered!',
+      description: isHi
+        ? 'अब 5 प्रश्नों के अध्याय क्विज़ में भाग लेकर अपनी तैयारी परखें और +100 XP अर्जित करें।'
+        : 'Now test your conceptual mastery in the 5-Question Adaptive Chapter Quiz to earn +100 XP toward your academic certificate.'
+    }
+  };
 
   return {
     chapterId: chapter.id,
-    subject: chapter.courseSubject || 'General',
-    grade: chapter.courseGrade || 'Class 6-10',
-    title: title,
-    keyTakeaway: summary || (lang === 'hi' ? 'इस अध्याय के महत्वपूर्ण सिद्धांतों एवं अवधारणाओं का विस्तृत अध्ययन करें।' : 'Study the core concepts, principles, and practical formulas of this chapter.'),
-    keyFormulas: sectionHeaders.length > 0 ? sectionHeaders.map(hdr => ({
-      term: hdr,
-      definition: lang === 'hi' ? 'पाठ्यक्रम के अनुसार इस खंड की मुख्य अवधारणाओं एवं परिभाषाओं का संकलन।' : 'Core conceptual definition and principles according to latest NCERT guidelines.'
-    })) : [
-      {
-        term: chapter.topicKey || 'Core Topic',
-        definition: summary
-      }
-    ],
-    examTips: [
-      lang === 'hi' ? 'इस अध्याय के सभी मुख्य सूत्रों एवं परिभाषाओं को याद करें।' : 'Revise all core definitions and formulas of this chapter thoroughly.',
-      lang === 'hi' ? 'दैनिक जीवन में इसके व्यावहारिक उपयोग को समझें।' : 'Understand the practical real-world applications of these concepts.',
-      lang === 'hi' ? 'अध्याय के अंत में दिए गए 5 प्रश्नों वाले अभ्यास क्विज़ को हल करें।' : 'Practice the 5-question chapter quiz to test your conceptual clarity.'
-    ],
-    realWorldExample: lang === 'hi' 
-      ? 'गाँव एवं दैनिक जीवन में इस अध्याय के सिद्धांतों का व्यावहारिक उपयोग समझना।'
-      : 'Applying these conceptual principles to solve everyday practical rural and academic problems.'
+    grade,
+    subject,
+    title,
+    totalPages: 5,
+    keyTakeaway: takeaway,
+    keyFormulas: keyFormulas.map(f => ({
+      term: f.term,
+      definition: (isHi && f.hindi) ? f.hindi : f.definition
+    })),
+    examTips,
+    realWorldExample: ruralExample,
+    pages: [page1, page2, page3, page4, page5]
   };
+}
+
+/**
+ * Serializes the complete 5-page curriculum into structured plain text
+ * for instant offline .txt download and clipboard copy.
+ */
+export function formatNotesAsDocumentText(notes) {
+  if (!notes) return '';
+  let doc = `================================================================================\n`;
+  doc += `GYANSETU RURAL DIGITAL LEARNING INITIATIVE • NCERT CHAPTER STUDY GUIDE\n`;
+  doc += `CHAPTER: ${notes.title.toUpperCase()}\n`;
+  doc += `GRADE: ${notes.grade} | SUBJECT: ${notes.subject.toUpperCase()} | TOTAL PAGES: 5\n`;
+  doc += `================================================================================\n\n`;
+
+  (notes.pages || []).forEach((page) => {
+    doc += `================================================================================\n`;
+    doc += `PAGE ${page.pageNumber} OF 5: ${page.title.toUpperCase()}\n`;
+    doc += `${page.subtitle}\n`;
+    doc += `================================================================================\n\n`;
+
+    if (page.pageKey === 'foundations') {
+      doc += `1. ACADEMIC OVERVIEW & CONTEXT:\n`;
+      (page.academicOverview || []).forEach(p => { doc += `${p}\n\n`; });
+      doc += `2. TARGET LEARNING OBJECTIVES:\n`;
+      (page.learningObjectives || []).forEach((obj, idx) => { doc += `  [${idx + 1}] ${obj}\n`; });
+      if (page.prerequisites) {
+        doc += `\n3. PREREQUISITE KNOWLEDGE BRIDGE:\n${page.prerequisites.intro}\n`;
+        (page.prerequisites.items || []).forEach(item => { doc += `  • ${item}\n`; });
+      }
+      doc += `\n4. REAL-WORLD & RURAL COMMUNITY RELEVANCE:\n${page.realWorldRelevance}\n\n`;
+    } else if (page.pageKey === 'theory') {
+      doc += `1. IN-DEPTH CONCEPTUAL THEORY:\n`;
+      (page.deepTheory || []).forEach(p => { doc += `${p}\n\n`; });
+      doc += `2. CORE LAWS, THEOREMS & PRINCIPLES:\n`;
+      (page.theorems || []).forEach((t, idx) => {
+        doc += `  [${idx + 1}] ${t.name} (${t.ruleType}):\n      ${t.statement}\n\n`;
+      });
+      if (page.mechanism) {
+        doc += `3. ${page.mechanism.title.toUpperCase()}:\n`;
+        (page.mechanism.steps || []).forEach(s => {
+          doc += `  Step ${s.num}: ${s.title}\n         ${s.desc}\n`;
+        });
+      }
+      if (page.comparativeTable) {
+        doc += `\n4. COMPARATIVE MATRIX:\n`;
+        doc += `  ${page.comparativeTable.headers.join(' | ')}\n`;
+        doc += `  ----------------------------------------------------------------------------\n`;
+        (page.comparativeTable.rows || []).forEach(r => {
+          doc += `  ${r.join(' | ')}\n`;
+        });
+      }
+      doc += `\n`;
+    } else if (page.pageKey === 'exemplars') {
+      doc += `SOLVED NCERT EXEMPLAR PROBLEMS:\n\n`;
+      (page.exemplars || []).forEach(ex => {
+        doc += `--------------------------------------------------------------------------------\n`;
+        doc += `${ex.marksBadge.toUpperCase()}\n`;
+        doc += `Question: ${ex.question}\n`;
+        doc += `Given: ${ex.given}\n`;
+        doc += `Solution Steps:\n`;
+        (ex.steps || []).forEach(st => {
+          doc += `  ${st.step}: ${st.text}\n`;
+        });
+        doc += `Verified Answer: ${ex.finalAnswer}\n`;
+        doc += `Examiner Tip: ${ex.examinerTip}\n\n`;
+      });
+    } else if (page.pageKey === 'cheatsheet') {
+      doc += `1. MASTER FORMULA & DEFINITIONS GRID:\n`;
+      (page.formulaGrid || []).forEach((f, idx) => {
+        doc += `  [${idx + 1}] ${f.term}: ${f.definition}\n`;
+      });
+      doc += `\n2. COMMON BOARD EXAM TRAPS & STUDENT PITFALLS:\n`;
+      (page.examTraps || []).forEach((trap, idx) => {
+        doc += `  ⚠️ Trap #${idx + 1}: ${trap.title}\n`;
+        doc += `     Common Mistake: ${trap.mistake}\n`;
+        doc += `     Correct Method: ${trap.fix}\n`;
+        doc += `     Marking Impact: ${trap.why}\n\n`;
+      });
+      if (page.mnemonic) {
+        doc += `3. RAPID RECALL MNEMONIC: ${page.mnemonic.title}\n`;
+        doc += `   ${page.mnemonic.text}\n\n`;
+      }
+    } else if (page.pageKey === 'practice') {
+      doc += `1. SELF-ASSESSMENT PRACTICE DRILL:\n\n`;
+      (page.drillQuestions || []).forEach(dq => {
+        doc += `  [${dq.level}]\n`;
+        doc += `  Question: ${dq.question}\n`;
+        doc += `  Hint: ${dq.hint}\n`;
+        doc += `  Solution & Working: ${dq.solution}\n\n`;
+      });
+      if (page.ruralCaseStudy) {
+        doc += `2. REAL-WORLD RURAL INDIA CASE STUDY:\n`;
+        doc += `   ${page.ruralCaseStudy.title}\n`;
+        doc += `   Context: ${page.ruralCaseStudy.context}\n`;
+        doc += `   Solution: ${page.ruralCaseStudy.solution}\n`;
+        doc += `   Community Impact: ${page.ruralCaseStudy.impact}\n\n`;
+      }
+      if (page.nextAction) {
+        doc += `3. NEXT STEPS:\n   ${page.nextAction.callout} - ${page.nextAction.description}\n\n`;
+      }
+    }
+
+    doc += `[End of Page ${page.pageNumber} / 5]\n\n`;
+  });
+
+  doc += `================================================================================\n`;
+  doc += `CERTIFIED BY GYANSETU ACADEMIC COUNCIL • FREE ACCESSIBLE DIGITAL CURRICULUM\n`;
+  doc += `================================================================================\n`;
+  return doc;
 }
