@@ -836,7 +836,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
                       >
                         {supportedLanguages.map(l => (
                           <option key={l.code} value={l.code}>
-                            {l.flag} {l.name}
+                            {l.name} ({l.englishName})
                           </option>
                         ))}
                       </select>

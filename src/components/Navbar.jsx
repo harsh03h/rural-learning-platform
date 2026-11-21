@@ -238,12 +238,12 @@ export function Navbar({
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value)}
-                className="bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer uppercase pr-0.5"
+                className="bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer pr-0.5"
                 aria-label="Select Language"
               >
                 {supportedLanguages.map((l) => (
                   <option key={l.code} value={l.code} className="text-slate-900 font-medium">
-                    {l.flag} {l.name} ({l.code.toUpperCase()})
+                    {l.name} ({l.code.toUpperCase()})
                   </option>
                 ))}
               </select>

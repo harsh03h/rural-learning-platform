@@ -1,16 +1,16 @@
 // GyanSetu - Rural Digital Learning Platform Mock Data & Multi-language strings
 
 export const supportedLanguages = [
-  { code: 'hi', name: 'हिन्दी', englishName: 'Hindi', flag: '🇮🇳', tts: 'hi-IN' },
-  { code: 'en', name: 'English', englishName: 'English', flag: '🇬🇧', tts: 'en-IN' },
-  { code: 'mr', name: 'मराठी', englishName: 'Marathi', flag: '🇮🇳', tts: 'mr-IN' },
-  { code: 'bn', name: 'বাংলা', englishName: 'Bengali', flag: '🇮🇳', tts: 'bn-IN' },
-  { code: 'te', name: 'తెలుగు', englishName: 'Telugu', flag: '🇮🇳', tts: 'te-IN' },
-  { code: 'ta', name: 'தமிழ்', englishName: 'Tamil', flag: '🇮🇳', tts: 'ta-IN' },
-  { code: 'gu', name: 'ગુજરાતી', englishName: 'Gujarati', flag: '🇮🇳', tts: 'gu-IN' },
-  { code: 'kn', name: 'ಕನ್ನಡ', englishName: 'Kannada', flag: '🇮🇳', tts: 'kn-IN' },
-  { code: 'pa', name: 'ਪੰਜਾਬੀ', englishName: 'Punjabi', flag: '🇮🇳', tts: 'pa-IN' },
-  { code: 'od', name: 'ଓଡ଼ିଆ', englishName: 'Odia', flag: '🇮🇳', tts: 'or-IN' }
+  { code: 'hi', name: 'हिन्दी', englishName: 'Hindi', tts: 'hi-IN' },
+  { code: 'en', name: 'English', englishName: 'English', tts: 'en-IN' },
+  { code: 'mr', name: 'मराठी', englishName: 'Marathi', tts: 'mr-IN' },
+  { code: 'bn', name: 'বাংলা', englishName: 'Bengali', tts: 'bn-IN' },
+  { code: 'te', name: 'తెలుగు', englishName: 'Telugu', tts: 'te-IN' },
+  { code: 'ta', name: 'தமிழ்', englishName: 'Tamil', tts: 'ta-IN' },
+  { code: 'gu', name: 'ગુજરાતી', englishName: 'Gujarati', tts: 'gu-IN' },
+  { code: 'kn', name: 'ಕನ್ನಡ', englishName: 'Kannada', tts: 'kn-IN' },
+  { code: 'pa', name: 'ਪੰਜਾਬੀ', englishName: 'Punjabi', tts: 'pa-IN' },
+  { code: 'od', name: 'ଓଡ଼ିଆ', englishName: 'Odia', tts: 'or-IN' }
 ];
 
 export const getLocalized = (obj, lang) => {

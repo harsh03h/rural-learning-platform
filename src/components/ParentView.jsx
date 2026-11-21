@@ -424,7 +424,6 @@ export function ParentView({ lang, onLogout }) {
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                     }`}
                   >
-                    <span>{l.flag}</span>
                     <span>{l.name}</span>
                   </button>
                 ))}

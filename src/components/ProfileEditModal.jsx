@@ -807,7 +807,7 @@ export function ProfileEditModal({
                   >
                     {supportedLanguages.map(l => (
                       <option key={l.code} value={l.code}>
-                        {l.flag} {l.name} ({l.code.toUpperCase()})
+                        {l.name} ({l.code.toUpperCase()})
                       </option>
                     ))}
                   </select>
