@@ -294,22 +294,7 @@ export function RewardCertificateModal({
           </div>
         </div>
 
-        {/* Modal Bottom Print Tip */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 no-print pt-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>High-Resolution Vector Rendering • A4 Landscape Ready</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handlePrint}
-              className="font-bold text-upnavy-900 dark:text-upsaffron-400 hover:underline flex items-center gap-1"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Click to Print or Save PDF</span>
-            </button>
-          </div>
-        </div>
+
 
       </div>
     </div>
