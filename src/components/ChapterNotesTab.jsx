@@ -3,7 +3,6 @@ import {
   FileText, 
   Download, 
   Printer, 
-  Copy, 
   Check, 
   Sparkles, 
   Lightbulb, 
@@ -26,7 +25,6 @@ import { getNotesForChapter, formatNotesAsDocumentText } from '../data/chapterNo
 export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState('stepper'); // 'stepper' | 'continuous'
-  const [copied, setCopied] = useState(false);
   const [downloadedTxt, setDownloadedTxt] = useState(false);
   const [revealedSolutions, setRevealedSolutions] = useState({});
 
@@ -43,17 +41,6 @@ export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
   const isHi = lang === 'hi';
   const pages = notes.pages || [];
   const activePageObj = pages.find(p => p.pageNumber === currentPage) || pages[0];
-
-  const handleCopyNotes = () => {
-    const text = formatNotesAsDocumentText(notes);
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } else {
-      alert(text);
-    }
-  };
 
   const handleDownloadTxt = () => {
     const text = formatNotesAsDocumentText(notes);
@@ -604,16 +591,6 @@ export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
             >
               {downloadedTxt ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Download className="w-3.5 h-3.5 text-slate-400" />}
               <span>{downloadedTxt ? 'Saved .txt! ✓' : 'Save Text File'}</span>
-            </button>
-
-            {/* Copy Full 5 Pages */}
-            <button
-              onClick={handleCopyNotes}
-              className="px-3 py-2 rounded-xl border border-slate-700 bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 text-xs font-bold flex items-center gap-1.5 active:scale-95 transition cursor-pointer"
-              title="Copy complete 5-page notes to clipboard"
-            >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
-              <span>{copied ? 'Copied 5 Pages! ✓' : 'Copy All'}</span>
             </button>
           </div>
         </div>
