@@ -312,38 +312,7 @@ export function RewardCertificateModal({
                 </div>
 
               </div>
-
             </div>
-          </div>
-
-        </div>
-
-        {/* 3. Modal Sticky Bottom Action Bar (Guarantees visible close & print buttons even if scrolled, hidden during print) */}
-        <div className="shrink-0 px-4 sm:px-6 py-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 no-print z-20">
-          <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-            <span className="font-bold text-upnavy-950 dark:text-slate-200">GyanSetu Merit Certificate</span>
-            <span>•</span>
-            <span className="font-mono text-amber-800 dark:text-amber-400 font-bold">{certId}</span>
-          </div>
-
-          <div className="flex items-center gap-2.5 ml-auto">
-            {/* Bottom Close Button */}
-            <button
-              onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
-            >
-              <X className="w-4 h-4" />
-              <span>Close</span>
-            </button>
-
-            {/* Bottom Print Button */}
-            <button
-              onClick={handlePrint}
-              className="px-5 py-2 rounded-xl bg-gradient-to-r from-upnavy-900 via-upnavy-800 to-upnavy-900 hover:from-upsaffron-600 hover:to-amber-500 text-white font-bold text-xs flex items-center gap-2 shadow-sm active:scale-95 transition cursor-pointer"
-            >
-              <Printer className="w-4 h-4 text-upsaffron-300" />
-              <span>Print A4 Certificate</span>
-            </button>
           </div>
         </div>
 
