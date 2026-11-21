@@ -1,0 +1,317 @@
+import React, { useState } from 'react';
+import { 
+  X, 
+  Printer, 
+  Download, 
+  Award, 
+  Sparkles, 
+  Trophy, 
+  Star, 
+  ShieldCheck, 
+  CheckCircle2, 
+  Globe, 
+  School, 
+  Share2,
+  Check
+} from 'lucide-react';
+
+export function RewardCertificateModal({
+  isOpen,
+  onClose,
+  currentUser,
+  studentStats = { streakDays: 4, pointsXP: 350 },
+  lang = 'en'
+}) {
+  if (!isOpen) return null;
+
+  const [certLang, setCertLang] = useState(lang === 'hi' ? 'hi' : 'en');
+  const [copied, setCopied] = useState(false);
+
+  const isGuest = !currentUser;
+  const studentName = currentUser?.name || (certLang === 'hi' ? 'आरव शर्मा' : 'Aarav Sharma');
+  const studentGrade = currentUser?.grade || 'Class 7';
+  const studentRoll = currentUser?.roll || '7042';
+  const studentSchool = currentUser?.school || (isGuest 
+    ? (certLang === 'hi' ? 'मॉडल उच्चतर माध्यमिक विद्यालय, रामपुर' : 'Model Senior Secondary School, Rampur') 
+    : 'Model Senior Secondary School Rampur');
+  const pointsXP = studentStats.pointsXP || 350;
+  const streakDays = studentStats.streakDays || 4;
+
+  const currentDate = new Date().toLocaleDateString(certLang === 'hi' ? 'hi-IN' : 'en-IN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  const certId = `GS-MERIT-2026-XP${pointsXP}-${studentRoll}`;
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleShare = () => {
+    const text = `🏆 Proud moment! ${studentName} (${studentGrade}) earned the official GyanSetu Academic Merit Certificate with ${pointsXP} XP points on GyanSetu Rural Learning Platform! Certificate ID: ${certId}`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } else {
+      alert(text);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto certificate-print-overlay">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-4xl w-full p-3 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-800 my-4 sm:my-8 flex flex-col space-y-4">
+        
+        {/* Modal Top Control Bar (Hidden during printing) */}
+        <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 no-print gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shadow-xs">
+              <Award className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-sm sm:text-base font-black text-upnavy-950 dark:text-slate-100 flex items-center gap-2">
+                <span>Academic Merit Certificate</span>
+                <span className="text-[10px] font-bold bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full border border-amber-300">
+                  Level 3 Achiever
+                </span>
+              </h2>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Official printable certificate recognizing your mastery across Classes 6–10
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* Language Switcher */}
+            <button
+              onClick={() => setCertLang(certLang === 'en' ? 'hi' : 'en')}
+              className="px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1 transition"
+              title="Toggle Certificate Language (English / हिन्दी)"
+            >
+              <Globe className="w-3.5 h-3.5 text-upsaffron-600" />
+              <span>{certLang === 'en' ? 'हिन्दी' : 'English'}</span>
+            </button>
+
+            {/* Share Pride Report */}
+            <button
+              onClick={handleShare}
+              className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 hidden sm:flex items-center gap-1.5 transition"
+              title="Share Pride Report with Parents"
+            >
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Share2 className="w-3.5 h-3.5 text-upsaffron-600" />}
+              <span>{copied ? 'Copied!' : 'Share Pride'}</span>
+            </button>
+
+            {/* Primary Print / Save PDF Button */}
+            <button
+              onClick={handlePrint}
+              className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-upnavy-800 to-upnavy-900 hover:from-upsaffron-600 hover:to-amber-500 text-white text-xs font-black flex items-center gap-1.5 shadow-sm active:scale-95 transition cursor-pointer"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span>Print A4 Certificate</span>
+            </button>
+
+            <button
+              onClick={onClose}
+              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-300 flex items-center justify-center transition"
+              aria-label="Close Certificate Preview"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* THE OFFICIAL HIGH-RESOLUTION PRINTABLE CERTIFICATE */}
+        <div className="certificate-print-container w-full overflow-hidden rounded-2xl sm:rounded-3xl border-4 sm:border-8 border-upnavy-950 p-2 sm:p-4 bg-gradient-to-b from-[#fffefc] via-[#fcf9f2] to-[#fbf6e9] shadow-xl text-slate-900 relative">
+          
+          {/* Ornate Gold Inner Filigree Border */}
+          <div className="border-2 sm:border-3 border-amber-600/70 p-4 sm:p-8 rounded-xl sm:rounded-2xl relative bg-transparent flex flex-col justify-between min-h-[480px] sm:min-h-[580px]">
+            
+            {/* 4 Corner Ornaments */}
+            <div className="absolute top-2 left-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
+            <div className="absolute top-2 right-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
+            <div className="absolute bottom-2 left-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
+            <div className="absolute bottom-2 right-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
+
+            {/* Faint Center Watermark */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-[0.035] pointer-events-none select-none">
+              <div className="w-64 h-64 sm:w-96 sm:h-96 rounded-full border-8 border-upnavy-950 flex flex-col items-center justify-center text-center p-8">
+                <span className="text-6xl sm:text-8xl">🎓</span>
+                <span className="font-serif font-black text-2xl tracking-widest mt-4">GYANSETU</span>
+                <span className="font-serif text-sm">ज्ञानं परमं बलम्</span>
+              </div>
+            </div>
+
+            {/* 1. Certificate Header & Insignia */}
+            <div className="text-center space-y-2 relative z-10">
+              <div className="flex items-center justify-center gap-3">
+                <span className="h-px w-12 sm:w-20 bg-gradient-to-r from-transparent to-amber-500" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-upnavy-950 via-upnavy-900 to-upnavy-800 text-upsaffron-400 border-2 border-amber-400/80 flex items-center justify-center shadow-md">
+                  <Award className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
+                </div>
+                <span className="h-px w-12 sm:w-20 bg-gradient-to-l from-transparent to-amber-500" />
+              </div>
+
+              <div>
+                <div className="text-[10px] sm:text-xs font-black tracking-[0.25em] text-amber-800 uppercase font-sans">
+                  GyanSetu Rural Digital Learning Initiative
+                </div>
+                <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 tracking-wider uppercase">
+                  Autonomous Academic Council • Certified Under National Curriculum Framework
+                </div>
+              </div>
+
+              {/* Title */}
+              <div className="pt-2">
+                <h1 className="text-xl sm:text-3xl lg:text-4xl font-serif font-black tracking-tight text-upnavy-950 uppercase leading-none">
+                  {certLang === 'hi' ? 'शैक्षणिक प्रवीणता एवं मेरिट प्रमाण पत्र' : 'Certificate of Academic Merit'}
+                </h1>
+                <p className="text-[11px] sm:text-xs font-semibold text-amber-800 tracking-widest uppercase mt-1">
+                  {certLang === 'hi' ? 'कक्षा 6–10 उत्कृष्ट संकल्पना ज्ञान एवं निरंतरता' : 'Excellence in Conceptual Mastery & Learning Dedication'}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-center gap-1 text-amber-500 text-xs pt-1">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+            </div>
+
+            {/* 2. Recipient Presentation Section */}
+            <div className="text-center space-y-2.5 my-4 sm:my-6 relative z-10">
+              <p className="text-xs sm:text-sm font-serif italic text-slate-600">
+                {certLang === 'hi' 
+                  ? 'यह ससम्मान प्रमाणित किया जाता है कि विद्यार्थी' 
+                  : 'This is proudly presented and certified to'}
+              </p>
+
+              {/* Student Name */}
+              <div className="inline-block relative">
+                <h2 className="text-2xl sm:text-4xl font-serif font-black text-upnavy-950 tracking-wider capitalize px-4 sm:px-8">
+                  {studentName}
+                </h2>
+                <div className="h-0.5 sm:h-1 w-full bg-gradient-to-r from-transparent via-amber-500 to-transparent mt-1" />
+              </div>
+
+              <div className="text-xs sm:text-sm font-semibold text-slate-700 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+                <span>{certLang === 'hi' ? 'कक्षा:' : 'Student of'} <strong>{studentGrade}</strong></span>
+                <span>•</span>
+                <span>{certLang === 'hi' ? 'अनुक्रमांक (Roll):' : 'Roll No:'} <strong className="font-mono">{studentRoll}</strong></span>
+                <span>•</span>
+                <span>{studentSchool}</span>
+              </div>
+
+              {/* Citation Body */}
+              <p className="max-w-2xl mx-auto text-xs sm:text-sm leading-relaxed text-slate-700 font-serif pt-1 px-2">
+                {certLang === 'hi' ? (
+                  <>
+                    जिन्होंने कक्षा 6 से 10 के एनसीईआरटी पाठ्यक्रम के विभिन्न विषयों में असाधारण लगन और निरंतरता का परिचय देते हुए कुल <strong>{pointsXP} लर्निंग अंक (XP)</strong> एवं <strong>{streakDays} दिनों की अध्ययन निरंतरता</strong> अर्जित की है, तथा <strong>लेवल 3: संकल्पना पारंगत (Concept Achiever)</strong> का गौरव प्राप्त किया है।
+                  </>
+                ) : (
+                  <>
+                    For demonstrating exemplary academic dedication, consistent study discipline, and conceptual proficiency across Classes 6–10 NCERT Curriculum subjects, accumulating <strong>{pointsXP} Learning Points (XP)</strong> with a continuous <strong>{streakDays}-day learning streak</strong>, earning the distinction of <strong>Level 3: Concept Achiever</strong>.
+                  </>
+                )}
+              </p>
+            </div>
+
+            {/* 3. Official Credentials, Gold Foil Seal & Signatures */}
+            <div className="pt-4 border-t border-amber-600/40 grid grid-cols-3 items-end gap-2 text-xs relative z-10">
+              
+              {/* Left: Metadata & Digital Verification */}
+              <div className="space-y-1 text-left">
+                <div className="text-[10px] sm:text-[11px] text-slate-500">
+                  <span className="block font-bold text-slate-600 uppercase text-[9px]">Issuance Date</span>
+                  <span className="font-semibold text-upnavy-950">{currentDate}</span>
+                </div>
+                <div className="text-[9px] sm:text-[10px] text-slate-500 pt-1">
+                  <span className="block font-bold text-slate-600 uppercase text-[8px]">Certificate ID</span>
+                  <span className="font-mono font-bold text-amber-900">{certId}</span>
+                </div>
+                <div className="flex items-center gap-1 text-[9px] text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded w-fit">
+                  <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
+                  <span>Registry Verified</span>
+                </div>
+              </div>
+
+              {/* Center: Radiant Golden Foil Seal */}
+              <div className="flex flex-col items-center justify-center -mb-2 sm:-mb-3">
+                <div className="relative flex flex-col items-center">
+                  {/* Seal Medallion */}
+                  <div className="w-16 h-16 sm:w-22 sm:h-22 rounded-full bg-gradient-to-tr from-amber-600 via-amber-400 to-amber-200 border-2 sm:border-4 border-amber-600 shadow-lg flex flex-col items-center justify-center text-center p-1 relative z-10">
+                    <div className="w-full h-full rounded-full border border-dashed border-amber-800/80 flex flex-col items-center justify-center p-0.5">
+                      <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-amber-950 fill-amber-900" />
+                      <span className="text-[6px] sm:text-[8px] font-black uppercase text-amber-950 tracking-tighter leading-none mt-0.5">
+                        Official Seal
+                      </span>
+                      <span className="text-[5px] sm:text-[7px] font-bold text-amber-900 font-mono">
+                        GYANSETU
+                      </span>
+                      <span className="text-[5px] sm:text-[6px] text-amber-950">2026-27</span>
+                    </div>
+                  </div>
+
+                  {/* Ribbon Tails Hanging Down */}
+                  <div className="flex gap-1.5 -mt-2 z-0">
+                    <div className="w-3 sm:w-4 h-6 sm:h-8 bg-amber-600 rounded-b shadow-sm transform -rotate-6" />
+                    <div className="w-3 sm:w-4 h-6 sm:h-8 bg-amber-600 rounded-b shadow-sm transform rotate-6" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Authoritative Signatures */}
+              <div className="text-right space-y-2">
+                <div>
+                  <div className="font-serif italic font-bold text-slate-800 text-xs sm:text-sm tracking-wide">
+                    Sunita Deshmukh
+                  </div>
+                  <div className="h-px w-24 sm:w-32 bg-slate-400 ml-auto my-0.5" />
+                  <div className="text-[9px] sm:text-[10px] font-bold text-upnavy-950">
+                    Dr. Sunita Deshmukh
+                  </div>
+                  <div className="text-[8px] sm:text-[9px] text-slate-500">
+                    Head of Academic Council
+                  </div>
+                </div>
+
+                <div className="pt-1">
+                  <div className="font-serif italic font-bold text-slate-800 text-xs sm:text-sm tracking-wide">
+                    Rajeshwar Rao
+                  </div>
+                  <div className="h-px w-24 sm:w-32 bg-slate-400 ml-auto my-0.5" />
+                  <div className="text-[9px] sm:text-[10px] font-bold text-upnavy-950">
+                    Prof. Rajeshwar Rao
+                  </div>
+                  <div className="text-[8px] sm:text-[9px] text-slate-500">
+                    Director of Rural Curriculum
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* Modal Bottom Print Tip */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 no-print pt-2">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span>High-Resolution Vector Rendering • A4 Landscape Ready</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrint}
+              className="font-bold text-upnavy-900 dark:text-upsaffron-400 hover:underline flex items-center gap-1"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span>Click to Print or Save PDF</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}

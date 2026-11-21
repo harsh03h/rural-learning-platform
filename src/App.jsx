@@ -13,6 +13,7 @@ import { DownloadsModal } from './components/DownloadsModal';
 import { ProfileEditModal } from './components/ProfileEditModal';
 import { HelpSupportModal } from './components/HelpSupportModal';
 import { XpRewardsModal } from './components/XpRewardsModal';
+import { RewardCertificateModal } from './components/RewardCertificateModal';
 import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap, HelpCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
@@ -240,6 +241,7 @@ export function App() {
   const [isDownloadsOpen, setIsDownloadsOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [isXpModalOpen, setIsXpModalOpen] = useState(false);
+  const [isRewardCertOpen, setIsRewardCertOpen] = useState(false);
   const [activeLesson, setActiveLesson] = useState(null);
 
   const showToast = (msg) => {
@@ -458,6 +460,7 @@ export function App() {
         onOpenArchitecture={() => setIsArchitectureOpen(true)}
         onOpenHelp={() => setIsHelpModalOpen(true)}
         onOpenXpRewards={() => setIsXpModalOpen(true)}
+            onOpenRewardCert={() => setIsRewardCertOpen(true)}
         selectedGrade={selectedGrade}
         onSelectGrade={handleSelectGrade}
       />
@@ -599,6 +602,13 @@ export function App() {
         lang={lang}
       />
 
+            <RewardCertificateModal
+        isOpen={isRewardCertOpen}
+        onClose={() => setIsRewardCertOpen(false)}
+        currentUser={currentUser}
+        studentStats={studentStats}
+        lang={lang}
+      />
       <XpRewardsModal
         isOpen={isXpModalOpen}
         onClose={() => setIsXpModalOpen(false)}

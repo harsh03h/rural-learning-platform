@@ -275,6 +275,41 @@ button, a, input, select, textarea, .modern-card {
     padding: 16px !important;
   }
 
+  
+  /* Certificate Clean A4 Landscape & Portrait Print Isolation */
+  .certificate-print-overlay {
+    position: static !important;
+    inset: auto !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .certificate-print-container {
+    position: static !important;
+    box-shadow: none !important;
+    border: 6px solid #062640 !important;
+    border-radius: 16px !important;
+    max-height: none !important;
+    height: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+    background: #ffffff !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   .timetable-day-card {
     page-break-inside: avoid !important;
     break-inside: avoid !important;

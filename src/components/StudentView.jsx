@@ -261,6 +261,7 @@ export function StudentView({
   currentUser,
   isAiSaathiOpen,
   onOpenXpRewards,
+  onOpenRewardCert,
   selectedGrade: propSelectedGrade,
   onSelectGrade: propOnSelectGrade,
   onDownloadBatch
@@ -1068,13 +1069,24 @@ export function StudentView({
               </p>
             </div>
 
-            <button
-              onClick={onOpenXpRewards}
-              className="px-5 py-2.5 rounded-2xl bg-white hover:bg-amber-50 text-upnavy-950 font-bold text-xs shadow-md transition active:scale-95 flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer relative z-10"
-            >
-              <Trophy className="w-4 h-4 text-upsaffron-600" />
-              <span>Open Rewards & Perks Hub →</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-2.5 shrink-0 self-start sm:self-auto relative z-10">
+              <button
+                onClick={onOpenRewardCert || onOpenXpRewards}
+                className="px-4 py-2.5 rounded-2xl bg-amber-950/40 hover:bg-amber-950/60 text-white border border-amber-300/40 font-bold text-xs transition active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-xs"
+                title="View & print official GyanSetu Academic Merit Certificate"
+              >
+                <Award className="w-4 h-4 text-amber-300" />
+                <span>View Merit Certificate 📜</span>
+              </button>
+
+              <button
+                onClick={onOpenXpRewards}
+                className="px-5 py-2.5 rounded-2xl bg-white hover:bg-amber-50 text-upnavy-950 font-bold text-xs shadow-md transition active:scale-95 flex items-center gap-2 cursor-pointer"
+              >
+                <Trophy className="w-4 h-4 text-upsaffron-600" />
+                <span>Rewards Hub →</span>
+              </button>
+            </div>
           </div>
 
           {/* Grade Progression Radar (Classes 6 to 10) */}

@@ -23,6 +23,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { RewardCertificateModal } from './RewardCertificateModal';
 
 const XP_LEVELS = [
   { level: 1, title: 'Novice Scholar (प्रारंभिक विद्यार्थी)', minXp: 0, maxXp: 100, badge: '🌱', color: 'emerald', desc: 'Foundational grade concept explorer' },
@@ -307,12 +308,12 @@ export function XpRewardsModal({
                 <button
                   onClick={() => {
                     handleClaim('cert', 'GyanSetu Merit Certificate');
-                    window.print();
+                    setIsCertModalOpen(true);
                   }}
-                  className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition active:scale-95 shrink-0 self-start sm:self-auto cursor-pointer"
+                  className="px-4 py-2 bg-gradient-to-r from-emerald-700 to-emerald-800 hover:from-emerald-800 hover:to-emerald-900 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition active:scale-95 shrink-0 self-start sm:self-auto cursor-pointer shadow-xs"
                 >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>Print Certificate</span>
+                  <Award className="w-3.5 h-3.5 text-upsaffron-300" />
+                  <span>View & Print Certificate</span>
                 </button>
               </div>
 
@@ -445,8 +446,18 @@ export function XpRewardsModal({
             Got It! Close Hub
           </button>
         </div>
-
       </div>
+
+      {/* Embedded Reward Certificate Preview & Print Modal */}
+      {isCertModalOpen && (
+        <RewardCertificateModal
+          isOpen={isCertModalOpen}
+          onClose={() => setIsCertModalOpen(false)}
+          currentUser={currentUser}
+          studentStats={studentStats}
+          lang={lang}
+        />
+      )}
     </div>
   );
 }

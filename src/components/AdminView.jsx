@@ -2615,18 +2615,20 @@ export function AdminView({ lang = 'en', onLogout }) {
       )}
 
       {/* ========================================================= */}
-      {/* MODAL 8: ACCREDITATION CERTIFICATE (PRINTABLE) */}
+      {/* MODAL 8: ACCREDITATION CERTIFICATE (PRINTABLE ROYAL ORNATE EDITION) */}
       {/* ========================================================= */}
       {isAccreditationModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-4 sm:p-8 shadow-2xl border border-slate-200 space-y-5 sm:space-y-6 animate-in fade-in zoom-in-95 my-4 sm:my-8">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto certificate-print-overlay">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-4 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4 animate-in fade-in zoom-in-95 my-4 sm:my-8 flex flex-col">
+            
+            {/* Top Toolbar (No-print) */}
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 no-print">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-upnavy-950 text-white flex items-center justify-center font-bold text-lg">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-upnavy-950 to-upnavy-800 text-amber-400 border border-amber-400/60 flex items-center justify-center font-bold text-lg shadow-sm">
                   🏛️
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-upnavy-950">
+                  <h3 className="text-base font-black text-upnavy-950 dark:text-slate-100">
                     Institutional Accreditation Certificate 2026-27
                   </h3>
                   <p className="text-xs text-slate-500">
@@ -2634,77 +2636,134 @@ export function AdminView({ lang = 'en', onLogout }) {
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => setIsAccreditationModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
 
-            <div className="space-y-4 p-5 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
-              <div className="grid grid-cols-2 gap-3 pb-3 border-b border-slate-200">
-                <div>
-                  <span className="text-slate-400 block text-[10px] uppercase font-bold">School Name</span>
-                  <span className="font-bold text-upnavy-950">{institution.schoolName}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px] uppercase font-bold">Campus Code</span>
-                  <span className="font-bold font-mono text-upnavy-950">{institution.accreditationCode}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px] uppercase font-bold">District / Block</span>
-                  <span className="font-bold text-upnavy-950">{institution.district} / {institution.block}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block text-[10px] uppercase font-bold">Headmistress</span>
-                  <span className="font-bold text-upnavy-950">{institution.headmistress}</span>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="font-bold text-upnavy-950">Compliance & Saturation Indicators:</div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  <div className="p-2 bg-white rounded-lg border border-slate-200">
-                    <span className="text-slate-400 text-[10px] block">Students Enrolled</span>
-                    <span className="font-black text-upnavy-950 text-sm">128 Students</span>
-                  </div>
-                  <div className="p-2 bg-white rounded-lg border border-slate-200">
-                    <span className="text-slate-400 text-[10px] block">Gender Parity</span>
-                    <span className="font-black text-upnavy-950 text-sm">46.9% Girls (95.4% Att.)</span>
-                  </div>
-                  <div className="p-2 bg-white rounded-lg border border-slate-200">
-                    <span className="text-slate-400 text-[10px] block">Faculty Ratio</span>
-                    <span className="font-black text-upnavy-950 text-sm">1:16 (8 Teachers)</span>
-                  </div>
-                  <div className="p-2 bg-white rounded-lg border border-slate-200">
-                    <span className="text-slate-400 text-[10px] block">Mid-Day Meal Saturation</span>
-                    <span className="font-black text-emerald-700 text-sm">100% Saturation</span>
-                  </div>
-                  <div className="p-2 bg-white rounded-lg border border-slate-200">
-                    <span className="text-slate-400 text-[10px] block">Textbooks & Kits</span>
-                    <span className="font-black text-emerald-700 text-sm">100% Disbursed</span>
-                  </div>
-                  <div className="p-2 bg-white rounded-lg border border-slate-200">
-                    <span className="text-slate-400 text-[10px] block">Solar & ICT Lab</span>
-                    <span className="font-black text-emerald-700 text-sm">34 Tablets Operational</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
-                <div>
-                  <div className="font-mono text-[10px] text-slate-400">DIGITAL CERTIFICATE ID</div>
-                  <div className="font-mono font-bold text-upnavy-950">GS-PVT-2026-RMP-092801</div>
-                </div>
-                <div className="p-2 bg-emerald-100 border border-emerald-300 rounded-xl text-center">
-                  <div className="text-[10px] font-extrabold text-emerald-900 uppercase">✓ VERIFIED & SEALED</div>
-                  <div className="text-[9px] text-emerald-700">{institution.headmistress} ({institution.designation})</div>
-                </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => window.print()}
+                  className="px-4 py-1.5 bg-upnavy-900 hover:bg-upnavy-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition active:scale-95 shadow-xs"
+                >
+                  <Printer className="w-3.5 h-3.5 text-upsaffron-400" />
+                  <span>Print A4 Certificate</span>
+                </button>
+                <button
+                  onClick={() => setIsAccreditationModalOpen(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center transition"
+                  aria-label="Close modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2.5">
+            {/* THE ORNATE ACCREDITATION CERTIFICATE DOCUMENT */}
+            <div className="certificate-print-container w-full rounded-2xl sm:rounded-3xl border-4 sm:border-8 border-upnavy-950 p-3 sm:p-5 bg-gradient-to-b from-[#fffefc] via-[#fcf9f2] to-[#fbf6e9] shadow-xl text-slate-900 relative">
+              <div className="border-2 sm:border-3 border-amber-600/70 p-4 sm:p-7 rounded-xl sm:rounded-2xl relative bg-transparent flex flex-col justify-between space-y-5">
+                
+                {/* 4 Corner Ornaments */}
+                <div className="absolute top-2 left-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
+                <div className="absolute top-2 right-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
+                <div className="absolute bottom-2 left-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
+                <div className="absolute bottom-2 right-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
+
+                {/* Header */}
+                <div className="text-center space-y-1.5 relative z-10">
+                  <div className="text-[10px] font-black tracking-[0.25em] text-amber-800 uppercase">
+                    Autonomous Rural Academic Accreditation Council
+                  </div>
+                  <h2 className="text-xl sm:text-3xl font-serif font-black text-upnavy-950 tracking-tight uppercase">
+                    Certificate of Institutional Accreditation
+                  </h2>
+                  <p className="text-xs text-slate-600 font-serif italic">
+                    Recognizing compliance with Quality Education, Rural Saturation & Digital Infrastructure Guidelines
+                  </p>
+                  <div className="flex items-center justify-center gap-1 text-amber-500 text-xs pt-0.5">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                  </div>
+                </div>
+
+                {/* Institution Details */}
+                <div className="p-4 rounded-2xl bg-white/80 border border-amber-600/30 text-xs shadow-2xs relative z-10">
+                  <div className="grid grid-cols-2 gap-3 pb-3 border-b border-amber-200/60">
+                    <div>
+                      <span className="text-slate-400 block text-[10px] uppercase font-bold">School Name</span>
+                      <span className="font-serif font-black text-upnavy-950 text-sm sm:text-base">{institution.schoolName}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px] uppercase font-bold">Campus Code</span>
+                      <span className="font-bold font-mono text-amber-800 text-sm">{institution.accreditationCode}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px] uppercase font-bold">District / Block</span>
+                      <span className="font-bold text-upnavy-950">{institution.district} / {institution.block}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px] uppercase font-bold">Head of Institution</span>
+                      <span className="font-bold text-upnavy-950">{institution.headmistress}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 pt-3">
+                    <div className="font-black text-upnavy-950 text-[11px] uppercase tracking-wider">
+                      Verified Compliance & Saturation Indicators (Classes 6 to 10):
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      <div className="p-2 bg-amber-50/60 rounded-xl border border-amber-200/60">
+                        <span className="text-slate-500 text-[10px] block">Students Enrolled</span>
+                        <span className="font-black text-upnavy-950 text-xs sm:text-sm">128 Students</span>
+                      </div>
+                      <div className="p-2 bg-amber-50/60 rounded-xl border border-amber-200/60">
+                        <span className="text-slate-500 text-[10px] block">Gender Parity</span>
+                        <span className="font-black text-upnavy-950 text-xs sm:text-sm">46.9% Girls (95.4% Att.)</span>
+                      </div>
+                      <div className="p-2 bg-amber-50/60 rounded-xl border border-amber-200/60">
+                        <span className="text-slate-500 text-[10px] block">Faculty Ratio</span>
+                        <span className="font-black text-upnavy-950 text-xs sm:text-sm">1:16 (8 Teachers)</span>
+                      </div>
+                      <div className="p-2 bg-emerald-50 rounded-xl border border-emerald-200">
+                        <span className="text-emerald-700 text-[10px] block font-bold">Mid-Day Meal Saturation</span>
+                        <span className="font-black text-emerald-800 text-xs sm:text-sm">100% Saturation ✓</span>
+                      </div>
+                      <div className="p-2 bg-emerald-50 rounded-xl border border-emerald-200">
+                        <span className="text-emerald-700 text-[10px] block font-bold">Textbooks & Kits</span>
+                        <span className="font-black text-emerald-800 text-xs sm:text-sm">100% Disbursed ✓</span>
+                      </div>
+                      <div className="p-2 bg-emerald-50 rounded-xl border border-emerald-200">
+                        <span className="text-emerald-700 text-[10px] block font-bold">Solar & ICT Lab</span>
+                        <span className="font-black text-emerald-800 text-xs sm:text-sm">34 Tablets Operational ✓</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer Credentials & Signatures */}
+                <div className="pt-3 border-t border-amber-600/40 grid grid-cols-3 items-end gap-2 text-xs relative z-10">
+                  <div>
+                    <div className="font-mono text-[9px] text-slate-400">DIGITAL CERTIFICATE ID</div>
+                    <div className="font-mono font-bold text-upnavy-950 text-[11px]">GS-PVT-2026-RMP-092801</div>
+                    <div className="text-[9px] text-slate-500">Autonomous Council Accreditation</div>
+                  </div>
+
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-amber-600 via-amber-400 to-amber-200 border-2 border-amber-600 shadow-md flex flex-col items-center justify-center text-center p-1">
+                      <Star className="w-3.5 h-3.5 text-amber-950 fill-amber-900" />
+                      <span className="text-[6px] font-black uppercase text-amber-950">ACCREDITED</span>
+                      <span className="text-[5px] font-bold text-amber-900">2026-27</span>
+                    </div>
+                  </div>
+
+                  <div className="text-right space-y-1">
+                    <div className="p-2 bg-emerald-100 border border-emerald-300 rounded-xl text-center inline-block">
+                      <div className="text-[10px] font-extrabold text-emerald-900 uppercase">✓ VERIFIED & SEALED</div>
+                      <div className="text-[9px] text-emerald-700">{institution.headmistress} ({institution.designation})</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Bottom Actions (No-print) */}
+            <div className="flex items-center justify-end gap-2.5 no-print pt-1">
               <button
                 onClick={() => window.print()}
                 className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl flex items-center gap-2 transition"
