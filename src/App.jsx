@@ -17,7 +17,6 @@ import { RewardCertificateModal } from './components/RewardCertificateModal';
 import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap, HelpCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
-import bannerImg from './assets/gyansetu-banner.png';
 import { submitQuiz, syncOfflineBatch, submitDiagnostic } from './services/api';
 
 export function App() {
@@ -467,34 +466,21 @@ export function App() {
 
       {/* Main Body Content by Active Role */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 pt-4 sm:pt-5">
-        {/* Official GyanSetu Portal National Banner */}
-        <div className="mb-5 sm:mb-6 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 hover:shadow-md transition-all duration-300">
-          <img
-            src={bannerImg}
-            alt="GyanSetu - One Nation One Digital Platform"
-            className="w-full h-auto block select-none rounded-2xl sm:rounded-3xl object-cover"
-            loading="eager"
-          />
-        </div>
-
-        {/* If user logged out: Prompt login card */}
+        {/* Modern Compact Guest Announcement Strip */}
         {!currentUser && (
-          <div className="mb-6 bg-gradient-to-r from-upnavy-900 via-upnavy-800 to-upnavy-950 text-white p-6 rounded-3xl shadow-xl border border-upnavy-700/60 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="space-y-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider bg-upsaffron-500/20 text-upsaffron-300 px-2.5 py-0.5 rounded-full border border-upsaffron-400/30">
-                GyanSetu Authentication Gateway
-              </span>
-              <h2 className="text-xl font-bold">You are currently browsing as Guest</h2>
-              <p className="text-xs text-slate-300">
-                Login with your Student, Teacher, Parent or Admin credentials to track personal progress and offline syncs.
+          <div className="mb-5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-upnavy-900/95 via-upnavy-800/95 to-upnavy-950/95 text-white border border-upnavy-700/50 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <p className="text-slate-200 text-xs leading-tight">
+                <strong className="text-upsaffron-300 font-bold">Guest Mode Active:</strong> Your quiz scores, XP points, and offline downloads are safely stored on this device.
               </p>
             </div>
             <button
               onClick={() => setIsAuthModalOpen(true)}
-              className="px-6 py-2.5 rounded-xl bg-upsaffron-600 hover:bg-upsaffron-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-upsaffron-600/30 active:scale-95 transition shrink-0"
+              className="px-4 py-1.5 rounded-xl bg-upsaffron-600 hover:bg-upsaffron-500 text-white font-bold text-xs flex items-center gap-1.5 shrink-0 transition active:scale-95 shadow-xs self-start sm:self-auto"
             >
-              <LogIn className="w-4 h-4" />
-              <span>Login / Switch Role</span>
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Sign In / Switch</span>
             </button>
           </div>
         )}

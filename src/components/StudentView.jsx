@@ -342,7 +342,8 @@ export function StudentView({
       {/* 1. Modern Hero Section with Bento Stat Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Main Welcome Hero Card */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-white via-white to-upnavy-50/50 dark:from-slate-900 dark:via-slate-900 dark:to-upnavy-950/60 rounded-3xl p-5 sm:p-8 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden flex flex-col justify-between">
+        <div className="lg:col-span-2 bg-gradient-to-br from-white via-white to-slate-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800/80 rounded-3xl p-6 sm:p-8 border border-slate-200/90 dark:border-slate-800 shadow-xs relative overflow-hidden flex flex-col justify-between">
+          <div className="absolute -top-16 -right-16 w-60 h-60 bg-upsaffron-500/10 dark:bg-upsaffron-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="space-y-3 relative z-10">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-bold text-upnavy-900 bg-upnavy-100/90 px-3 py-1 rounded-full border border-upnavy-200 flex items-center gap-1.5">
@@ -601,8 +602,9 @@ export function StudentView({
                   <span className="text-[11px] text-slate-300 font-semibold">
                     {activeClassMeta.sub}
                   </span>
-                  <span className="text-[10px] bg-white/10 text-emerald-300 px-2 py-0.5 rounded-full font-bold border border-white/10">
-                    Rest of classes hidden for focused view ✓
+                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full font-bold border border-emerald-400/30 flex items-center gap-1">
+                    <CheckCircle className="w-3 h-3 text-emerald-400" />
+                    <span>NCERT & State Syllabus Aligned</span>
                   </span>
                 </div>
                 <h4 className="text-base sm:text-lg font-black text-white">
@@ -909,7 +911,7 @@ export function StudentView({
                         </div>
 
                         {/* Interactive Footer Actions */}
-                        <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
                           <button
                             onClick={() => onToggleDownload(chapter.id)}
                             className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition ${
@@ -925,7 +927,7 @@ export function StudentView({
 
                           <button
                             onClick={() => onOpenLesson(chapter)}
-                            className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-upnavy-800 to-upnavy-900 hover:from-upsaffron-600 hover:to-amber-500 text-white font-bold text-xs flex items-center gap-2 shadow-xs hover:shadow-md active:scale-95 transition-all"
+                            className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-upsaffron-600 via-upsaffron-500 to-amber-500 hover:from-upsaffron-500 hover:via-amber-500 hover:to-amber-400 text-white font-bold text-xs flex items-center gap-2 shadow-sm shadow-upsaffron-600/30 hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all"
                             title="Open interactive 5-question chapter study & quiz"
                           >
                             <span>Study & 5 Qs Quiz</span>
