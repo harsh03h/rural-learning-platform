@@ -514,6 +514,7 @@ export function App() {
             isAiSaathiOpen={isAiSaathiOpen}
             studentStats={studentStats}
             onOpenXpRewards={() => setIsXpModalOpen(true)}
+            onOpenRewardCert={() => setIsRewardCertOpen(true)}
             selectedGrade={selectedGrade}
             onSelectGrade={handleSelectGrade}
             onDownloadBatch={handleDownloadBatch}
@@ -610,6 +611,7 @@ export function App() {
         lang={lang}
       />
       <XpRewardsModal
+        onOpenRewardCert={() => setIsRewardCertOpen(true)}
         isOpen={isXpModalOpen}
         onClose={() => setIsXpModalOpen(false)}
         lang={lang}

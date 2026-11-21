@@ -39,7 +39,8 @@ export function XpRewardsModal({
   lang = 'en', 
   studentStats = { streakDays: 4, pointsXP: 350 },
   currentUser,
-  onClaimReward
+  onClaimReward,
+  onOpenRewardCert
 }) {
   if (!isOpen) return null;
 
@@ -308,7 +309,11 @@ export function XpRewardsModal({
                 <button
                   onClick={() => {
                     handleClaim('cert', 'GyanSetu Merit Certificate');
-                    setIsCertModalOpen(true);
+                    if (onOpenRewardCert) {
+                      onOpenRewardCert();
+                    } else {
+                      setIsCertModalOpen(true);
+                    }
                   }}
                   className="px-4 py-2 bg-gradient-to-r from-emerald-700 to-emerald-800 hover:from-emerald-800 hover:to-emerald-900 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition active:scale-95 shrink-0 self-start sm:self-auto cursor-pointer shadow-xs"
                 >
@@ -448,16 +453,7 @@ export function XpRewardsModal({
         </div>
       </div>
 
-      {/* Embedded Reward Certificate Preview & Print Modal */}
-      {isCertModalOpen && (
-        <RewardCertificateModal
-          isOpen={isCertModalOpen}
-          onClose={() => setIsCertModalOpen(false)}
-          currentUser={currentUser}
-          studentStats={studentStats}
-          lang={lang}
-        />
-      )}
+
     </div>
   );
 }

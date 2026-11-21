@@ -61,7 +61,7 @@ export function RewardCertificateModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto certificate-print-overlay">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto certificate-print-overlay">
       <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-4xl w-full p-3 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-800 my-4 sm:my-8 flex flex-col space-y-4">
         
         {/* Modal Top Control Bar (Hidden during printing) */}

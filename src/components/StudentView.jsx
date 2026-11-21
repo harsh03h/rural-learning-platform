@@ -406,9 +406,10 @@ export function StudentView({
         {/* Bento Stats Column */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3.5">
           {/* Day Streak & XP Card (Interactive Rewards Hub Button) */}
-          <div 
+          <button 
+            type="button"
             onClick={onOpenXpRewards}
-            className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-upsaffron-400 hover:shadow-md transition active:scale-[0.99] cursor-pointer group"
+            className="w-full text-left bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex items-center justify-between hover:border-upsaffron-400 hover:shadow-md transition active:scale-[0.99] cursor-pointer group"
             title="Click to view XP Level, Rewards & Uses"
           >
             <div className="flex items-center gap-3">
@@ -430,7 +431,7 @@ export function StudentView({
               <div className="text-base font-black text-upsaffron-600 leading-tight">+{studentStats.pointsXP}</div>
               <div className="text-[10px] text-slate-400 font-bold group-hover:text-upsaffron-600 transition">XP Points & Uses →</div>
             </div>
-          </div>
+          </button>
 
           {/* Rural Data Saver & Offline Card */}
           <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex items-center justify-between">
@@ -492,7 +493,20 @@ export function StudentView({
             }`}
           >
             <BarChart3 className="w-3.5 h-3.5" />
-            <span>Mastery & Grade Progression</span>
+            <span>Mastery & Progression</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onOpenXpRewards}
+            className="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shrink-0 bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 border border-amber-300/80 dark:border-amber-700/80 shadow-2xs cursor-pointer active:scale-95"
+            title="Open XP Points, Rewards & Merit Certificates Hub"
+          >
+            <Trophy className="w-3.5 h-3.5 text-upsaffron-600" />
+            <span>Rewards & Certificates</span>
+            <span className="text-[10px] font-black bg-upsaffron-500 text-white px-1.5 py-0.2 rounded-full">
+              🎁
+            </span>
           </button>
         </div>
 
@@ -1071,7 +1085,10 @@ export function StudentView({
 
             <div className="flex flex-wrap items-center gap-2.5 shrink-0 self-start sm:self-auto relative z-10">
               <button
-                onClick={onOpenRewardCert || onOpenXpRewards}
+                onClick={() => {
+                  if (onOpenRewardCert) onOpenRewardCert();
+                  else if (onOpenXpRewards) onOpenXpRewards();
+                }}
                 className="px-4 py-2.5 rounded-2xl bg-amber-950/40 hover:bg-amber-950/60 text-white border border-amber-300/40 font-bold text-xs transition active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-xs"
                 title="View & print official GyanSetu Academic Merit Certificate"
               >
