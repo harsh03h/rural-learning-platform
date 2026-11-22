@@ -161,8 +161,8 @@ export function LessonModal({
   const earnedXP = score * 20;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn notes-modal-overlay">
-      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-4 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto flex flex-col notes-modal-container">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn notes-modal-overlay">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-3.5 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto flex flex-col notes-modal-container">
         
         {/* Modal Top Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 no-print">
@@ -219,40 +219,40 @@ export function LessonModal({
         </div>
 
         {/* Modern Segmented Navigation Tabs */}
-        <div className="flex gap-2 my-4 p-1 bg-slate-100/80 dark:bg-slate-800/80 rounded-2xl text-xs font-bold w-fit border border-slate-200/60 dark:border-slate-700 no-print">
+        <div className="flex gap-1.5 sm:gap-2 my-3 sm:my-4 p-1 bg-slate-100/80 dark:bg-slate-800/80 rounded-2xl text-xs font-bold w-full sm:w-fit overflow-x-auto no-scrollbar border border-slate-200/60 dark:border-slate-700 no-print">
           <button
             onClick={() => setActiveTab('lesson')}
-            className={`px-3.5 sm:px-4 py-2 rounded-xl transition flex items-center gap-1.5 sm:gap-2 ${
+            className={`flex-1 sm:flex-initial shrink-0 px-3 sm:px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
               activeTab === 'lesson'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'
             }`}
           >
-            <BookOpen className="w-3.5 h-3.5" />
+            <BookOpen className="w-3.5 h-3.5 shrink-0" />
             <span>Lesson Reader</span>
           </button>
 
           <button
             onClick={() => setActiveTab('notes')}
-            className={`px-3.5 sm:px-4 py-2 rounded-xl transition flex items-center gap-1.5 sm:gap-2 ${
+            className={`flex-1 sm:flex-initial shrink-0 px-3 sm:px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
               activeTab === 'notes'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'
             }`}
           >
-            <FileText className="w-3.5 h-3.5 text-amber-500" />
+            <FileText className="w-3.5 h-3.5 text-amber-500 shrink-0" />
             <span>Chapter Notes 📝</span>
           </button>
 
           <button
             onClick={() => setActiveTab('quiz')}
-            className={`px-4 py-2 rounded-xl transition flex items-center gap-2 ${
+            className={`flex-1 sm:flex-initial shrink-0 px-3 sm:px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
               activeTab === 'quiz'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'
             }`}
           >
-            <HelpCircle className="w-3.5 h-3.5" />
+            <HelpCircle className="w-3.5 h-3.5 shrink-0" />
             <span>Practice Quiz</span>
             <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
               activeTab === 'quiz' ? 'bg-upsaffron-500 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
