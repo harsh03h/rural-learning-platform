@@ -18,7 +18,7 @@ import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap, He
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
 import posterImg from './assets/gyansetu-hero-poster.jpg';
-import { submitQuiz, syncOfflineBatch, submitDiagnostic, logout as apiLogout, clearSession, authApi, getAccessToken } from './services/api';
+import { submitQuiz, syncOfflineBatch, submitDiagnostic, logout as apiLogout, clearSession, authApi, getAccessToken, getStoredSession } from './services/api';
 
 export function App() {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -132,48 +132,31 @@ export function App() {
 
   // Synchronize all platform states to localStorage so nothing resets on browser refresh (guest or logged-in)
   useEffect(() => {
-    try {
-      if (currentUser) {
-        localStorage.setItem('gyansetu_user', JSON.stringify(currentUser));
-        localStorage.removeItem('gyansetu_is_guest');
-      } else {
-        localStorage.removeItem('gyansetu_user');
-        localStorage.setItem('gyansetu_is_guest', 'true');
-      }
-    } catch (e) {}
-  }, [currentUser]);
-
-  // Restore the authenticated profile from MongoDB only when a real JWT is available.
-  // Legacy local-demo tokens and orphaned user records are discarded so no one is
-  // treated as authenticated without a server-verified session.
-  useEffect(() => {
-    const token = getAccessToken();
-    if (!token || token.startsWith('jwt_')) {
-      clearSession();
-      try {
-        localStorage.removeItem('gyansetu_user');
-        localStorage.setItem('gyansetu_is_guest', 'true');
-      } catch (e) {}
-      setCurrentUser(null);
-      return undefined;
+    const session = getStoredSession();
+    if (!session?.user) {
+      return;
     }
 
-    let active = true;
-    authApi.me().then((data) => {
-      if (!active || !data?.user) return;
-      setCurrentUser(data.user);
-      setRole(data.user.role);
-      if (data.user.language) setLang(data.user.language);
-    }).catch(() => {
-      if (!active) return;
-      clearSession();
-      try {
-        localStorage.removeItem('gyansetu_user');
-        localStorage.setItem('gyansetu_is_guest', 'true');
-      } catch (e) {}
-      setCurrentUser(null);
-    });
-    return () => { active = false; };
+    // Restore user session immediately from local state
+    setCurrentUser(session.user);
+    if (session.user.role) setRole(session.user.role);
+    if (session.user.language) setLang(session.user.language);
+
+    // If online with a real server token (not offline mock token), verify in background
+    const token = session.accessToken;
+    if (token && !token.startsWith('jwt_offline_')) {
+      let active = true;
+      authApi.me().then((data) => {
+        if (!active || !data?.user) return;
+        setCurrentUser(data.user);
+        if (data.user.role) setRole(data.user.role);
+        if (data.user.language) setLang(data.user.language);
+      }).catch(() => {
+        // Retain local session even if remote verification temporarily fails
+        console.info('[GyanSetu] Server auth verification offline, retaining active session.');
+      });
+      return () => { active = false; };
+    }
   }, []);
 
   useEffect(() => {

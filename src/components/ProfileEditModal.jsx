@@ -111,7 +111,7 @@ const ACADEMIC_GOAL_OPTIONS = [
 export function ProfileEditModal({ 
   isOpen, 
   onClose, 
-  currentUser, 
+  currentUser = {}, 
   onSaveProfile, 
   lang,
   studentStats = { streakDays: 4, pointsXP: 350 },
@@ -127,37 +127,37 @@ export function ProfileEditModal({
   const [avatarCategory, setAvatarCategory] = useState('scholars');
 
   // Form States initialized from currentUser
-  const [name, setName] = useState(currentUser.name || 'Rohan Verma');
-  const [avatar, setAvatar] = useState(currentUser.avatar || '🎓');
-  const [studentId, setStudentId] = useState(currentUser.id || 'STU-004');
-  const [gender, setGender] = useState(currentUser.gender || 'Male');
-  const [village, setVillage] = useState(currentUser.village || 'Bilaspur, Rampur');
+  const [name, setName] = useState(currentUser?.name || 'Rohan Verma');
+  const [avatar, setAvatar] = useState(currentUser?.avatar || '🎓');
+  const [studentId, setStudentId] = useState(currentUser?.id || 'STU-004');
+  const [gender, setGender] = useState(currentUser?.gender || 'Male');
+  const [village, setVillage] = useState(currentUser?.village || 'Bilaspur, Rampur');
   
   // Academic States
-  const [grade, setGrade] = useState(currentUser.grade || 'Class 7A');
-  const [rollNo, setRollNo] = useState(currentUser.rollNo || '24');
-  const [school, setSchool] = useState(currentUser.school || 'Model Senior Secondary School Rampur');
-  const [favoriteSubject, setFavoriteSubject] = useState(currentUser.favoriteSubject || 'Mathematics');
-  const [academicGoal, setAcademicGoal] = useState(currentUser.academicGoal || 'Score 90%+ in Board Exams');
-  const [deviceAccess, setDeviceAccess] = useState(currentUser.deviceAccess || 'School Mesh Tablet');
+  const [grade, setGrade] = useState(currentUser?.grade || 'Class 7A');
+  const [rollNo, setRollNo] = useState(currentUser?.rollNo || '24');
+  const [school, setSchool] = useState(currentUser?.school || 'Model Senior Secondary School Rampur');
+  const [favoriteSubject, setFavoriteSubject] = useState(currentUser?.favoriteSubject || 'Mathematics');
+  const [academicGoal, setAcademicGoal] = useState(currentUser?.academicGoal || 'Score 90%+ in Board Exams');
+  const [deviceAccess, setDeviceAccess] = useState(currentUser?.deviceAccess || 'School Mesh Tablet');
   
   // Teacher/Admin Specific
-  const [designation, setDesignation] = useState(currentUser.designation || 'Senior TGT Teacher');
-  const [qualification, setQualification] = useState(currentUser.qualification || 'M.Sc. Mathematics, B.Ed.');
-  const [assignedClasses, setAssignedClasses] = useState(currentUser.assignedClasses || 'Classes 6 to 10');
+  const [designation, setDesignation] = useState(currentUser?.designation || 'Senior TGT Teacher');
+  const [qualification, setQualification] = useState(currentUser?.qualification || 'M.Sc. Mathematics, B.Ed.');
+  const [assignedClasses, setAssignedClasses] = useState(currentUser?.assignedClasses || 'Classes 6 to 10');
 
   // Guardian & Contact States
-  const [parentName, setParentName] = useState(currentUser.parentName || 'Suresh Verma');
-  const [parentRelation, setParentRelation] = useState(currentUser.parentRelation || 'Father');
-  const [phone, setPhone] = useState(currentUser.phone || '+91 98765 43210');
-  const [email, setEmail] = useState(currentUser.email || 'rohan.student@gyansetu.edu.in');
-  const [smsAlerts, setSmsAlerts] = useState(currentUser.smsAlerts ?? true);
-  const [whatsappAlerts, setWhatsappAlerts] = useState(currentUser.whatsappAlerts ?? true);
+  const [parentName, setParentName] = useState(currentUser?.parentName || 'Suresh Verma');
+  const [parentRelation, setParentRelation] = useState(currentUser?.parentRelation || 'Father');
+  const [phone, setPhone] = useState(currentUser?.phone || '+91 98765 43210');
+  const [email, setEmail] = useState(currentUser?.email || 'rohan.student@gyansetu.edu.in');
+  const [smsAlerts, setSmsAlerts] = useState(currentUser?.smsAlerts ?? true);
+  const [whatsappAlerts, setWhatsappAlerts] = useState(currentUser?.whatsappAlerts ?? true);
 
   // Language & Accessibility States
-  const [selectedLanguage, setSelectedLanguage] = useState(currentUser.language || lang || 'en');
-  const [audioNarration, setAudioNarration] = useState(currentUser.audioNarration ?? true);
-  const [dataSaver, setDataSaver] = useState(currentUser.dataSaver ?? true);
+  const [selectedLanguage, setSelectedLanguage] = useState(currentUser?.language || lang || 'en');
+  const [audioNarration, setAudioNarration] = useState(currentUser?.audioNarration ?? true);
+  const [dataSaver, setDataSaver] = useState(currentUser?.dataSaver ?? true);
 
   // Sync state if currentUser changes
   useEffect(() => {
@@ -193,7 +193,7 @@ export function ProfileEditModal({
     if (!name.trim()) return;
 
     const updatedUser = {
-      ...currentUser,
+      ...(currentUser || {}),
       name: name.trim(),
       avatar,
       id: studentId.trim(),
@@ -236,7 +236,7 @@ export function ProfileEditModal({
   const isParent = currentUser?.role === 'parent';
   const isAdmin = currentUser?.role === 'admin';
 
-  if (!isOpen || !currentUser) return null;
+  if (!isOpen || !currentUser || !currentUser.name) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/70 backdrop-blur-md animate-fadeIn">
@@ -257,7 +257,7 @@ export function ProfileEditModal({
                   isParent ? 'bg-amber-100 text-amber-900 border-amber-300' :
                   'bg-purple-100 text-purple-900 border-purple-300'
                 }`}>
-                  {currentUser.role}
+                  {currentUser?.role}
                 </span>
               </h2>
               <p className="text-xs text-slate-500">
@@ -309,7 +309,7 @@ export function ProfileEditModal({
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="text-base font-black tracking-tight text-white">{name || 'Your Full Name'}</h3>
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-upsaffron-500/20 text-upsaffron-300 border border-upsaffron-400/40 uppercase">
-                      {currentUser.role}
+                      {currentUser?.role}
                     </span>
                   </div>
 
