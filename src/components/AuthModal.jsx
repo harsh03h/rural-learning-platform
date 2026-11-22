@@ -204,12 +204,22 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
     const identifier = loginIdentifier.trim();
 
     if (!identifier) {
-      setAuthError('Enter your registered email, phone number, or name.');
+      setAuthError(selectedRole === 'parent' 
+        ? 'Enter your registered guardian mobile number.' 
+        : 'Enter your registered email, phone number, or name.');
       return;
     }
-    if (!loginPassword) {
-      setAuthError('Enter your password to sign in.');
-      return;
+
+    if (selectedRole === 'parent') {
+      if (!otpSent && !loginPassword) {
+        setOtpSent(true);
+        setOtpVal('1234');
+      }
+    } else {
+      if (!loginPassword) {
+        setAuthError('Enter your password or security PIN to sign in.');
+        return;
+      }
     }
 
     setAuthBusy(true);
@@ -217,7 +227,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
     try {
       const result = await login({
         identifier,
-        password: loginPassword,
+        password: selectedRole === 'parent' ? (loginPassword || otpVal || '1234') : loginPassword,
         role: selectedRole,
         rememberMe,
       });
@@ -241,12 +251,8 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
       setAuthError('Enter a mobile number for this account.');
       return;
     }
-    if (regPassword.length < 6) {
-      setAuthError('Choose a password with at least 6 characters.');
-      return;
-    }
-    if (registerRole === 'teacher') {
-      setAuthError('Faculty accounts are provisioned by the school admin. Please use a quick-demo account.');
+    if (regPassword.length < 4) {
+      setAuthError('Choose a PIN or password with at least 4 characters.');
       return;
     }
 
@@ -257,12 +263,17 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
         phone: regPhone.trim(),
         password: regPassword,
         role: registerRole,
-        grade: registerRole === 'student' ? regGrade : undefined,
+        grade: registerRole === 'student' ? regGrade : (registerRole === 'parent' ? regGrade : undefined),
         classGrade: registerRole === 'student' ? regGrade : undefined,
-        rollNo: registerRole === 'student' ? regRollNo.trim() : undefined,
+        rollNo: registerRole === 'student' ? (regRollNo.trim() || '24') : undefined,
         language: regLanguage,
         school: regSchool.trim(),
+        village: regVillage.trim(),
+        avatar: regAvatar,
         childName: registerRole === 'parent' ? regWardName.trim() : undefined,
+        parentRelation: registerRole === 'parent' ? regParentRelation : undefined,
+        designation: registerRole === 'teacher' ? regDesignation.trim() : undefined,
+        facultyCode: registerRole === 'teacher' ? regFacultyCode.trim() : undefined,
         subjects: registerRole === 'student' ? ['Mathematics', 'Science', 'English', 'Hindi'] : undefined,
       });
       completeLogin(result);
@@ -405,7 +416,11 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
                     <button
                       key={r.id}
                       type="button"
-                      onClick={() => setSelectedRole(r.id)}
+                      onClick={() => {
+                        setSelectedRole(r.id);
+                        setAuthError('');
+                        setOtpSent(false);
+                      }}
                       className={`py-2 rounded-xl transition flex flex-col items-center gap-0.5 ${
                         selectedRole === r.id 
                           ? 'bg-upnavy-900 text-white shadow-sm ring-1 ring-upnavy-800' 
@@ -559,7 +574,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
                     </div>
                   </div>
 
-                  {otpSent && (
+                  {otpSent ? (
                     <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 space-y-1.5 animate-fadeIn">
                       <div className="flex items-center justify-between">
                         <label className="block font-bold text-emerald-950 text-[11px]">
@@ -577,6 +592,39 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
                       <span className="text-[10px] text-emerald-700 block">
                         Simulation for low-tech keypad phones without continuous internet.
                       </span>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block font-bold text-slate-700">
+                          Guardian PIN / Password (or use SMS OTP above)
+                        </label>
+                        <button
+                          type="button"
+                          onClick={() => { setOtpSent(true); setOtpVal('1234'); }}
+                          className="text-[11px] font-bold text-upsaffron-700 hover:underline"
+                        >
+                          Use SMS OTP instead
+                        </button>
+                      </div>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                        <input
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder="Enter PIN if registered, or click Send SMS OTP"
+                          className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-upsaffron-500 transition"
+                          value={loginPassword}
+                          onChange={e => setLoginPassword(e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-3 text-slate-400 hover:text-slate-600 transition"
+                          title={showPassword ? 'Hide password' : 'Show password'}
+                        >
+                          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>

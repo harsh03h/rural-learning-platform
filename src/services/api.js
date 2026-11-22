@@ -144,6 +144,53 @@ async function refreshAccessToken() {
 // Authentication
 // ---------------------------------------------------------------------------
 
+export const DEMO_ACCOUNTS = {
+  student: {
+    id: 'stu-4',
+    name: 'Rohan Verma',
+    role: 'student',
+    grade: 'Class 7A',
+    rollNo: '24',
+    school: 'Model Senior Secondary School Rampur',
+    avatar: '🎓',
+    village: 'Bilaspur, Rampur',
+    language: 'en',
+    identifiers: ['rohan24', 'stu-004', 'stu-4', 'rohan verma', 'rohan', 'student']
+  },
+  teacher: {
+    id: 'teach-1',
+    name: 'Vikram Sharma',
+    role: 'teacher',
+    designation: 'Senior TGT Mathematics',
+    school: 'Model Senior Secondary School Rampur',
+    avatar: '👨‍🏫',
+    village: 'Bilaspur Campus',
+    language: 'en',
+    identifiers: ['fac-02', 'fac-09', 'teach-1', 'sharma.maths', 'vikram sharma', 'vikram', 'teacher']
+  },
+  parent: {
+    id: 'par-1',
+    name: 'Kailash Verma',
+    role: 'parent',
+    phone: '+91 98765 43210',
+    wardName: 'Rohan Verma',
+    wardGrade: 'Class 7A',
+    avatar: '📱',
+    language: 'hi',
+    identifiers: ['9876543210', '+91 98765 43210', 'par-1', 'kailash verma', 'kailash', 'parent']
+  },
+  admin: {
+    id: 'adm-1',
+    name: 'Dr. Anita Deshmukh',
+    role: 'admin',
+    designation: 'Principal & Director of Academics',
+    school: 'Model Senior Secondary School Rampur',
+    avatar: '🏛️',
+    language: 'en',
+    identifiers: ['admin', 'adm-1', 'dr.anita', 'anita deshmukh', 'principal']
+  }
+};
+
 export async function login({ identifier, username, email, password, role, rememberMe = true }) {
   try {
     const data = await request('/auth/login', {
@@ -153,36 +200,77 @@ export async function login({ identifier, username, email, password, role, remem
     setSession(data);
     return data;
   } catch (err) {
+    // If the server responded with 401 Unauthorized or 400 Bad Request, re-throw the real credential error
+    if (err.status === 401 || err.status === 400) {
+      throw new Error(err.message || 'Invalid username, phone, or password.');
+    }
+
     console.info('[GyanSetu API] Server auth unreachable, executing rural offline authentication fallback.');
     const registeredUsers = JSON.parse(safeStorage()?.getItem('gyansetu_registered_users') || '[]');
     const idVal = (identifier || username || email || '').toLowerCase().trim();
+    const cleanDigits = idVal.replace(/\D/g, '');
+
+    // 1. Check against registered users
     const matched = registeredUsers.find(u => 
-      u.email?.toLowerCase() === idVal || 
-      (u.phone && idVal && u.phone.replace(/\D/g, '') === idVal.replace(/\D/g, '')) ||
-      u.name?.toLowerCase() === idVal
+      (u.email && u.email.toLowerCase() === idVal) || 
+      (u.phone && cleanDigits && u.phone.replace(/\D/g, '') === cleanDigits) ||
+      (u.name && u.name.toLowerCase() === idVal) ||
+      (u.rollNo && String(u.rollNo).trim() === idVal) ||
+      (u.facultyCode && u.facultyCode.toLowerCase() === idVal)
     );
 
-    const cleanName = identifier || username || (role === 'student' ? 'Rohan Verma' : role === 'teacher' ? 'Vikram Sharma' : role === 'parent' ? 'Kailash Verma' : 'Dr. Anita Deshmukh');
-    const user = matched || {
-      id: `user-${Date.now()}`,
-      name: cleanName,
-      role: role || 'student',
-      grade: role === 'student' ? 'Class 7A' : undefined,
-      rollNo: role === 'student' ? (identifier?.replace(/\D/g, '') || '24') : undefined,
-      school: 'Model Senior Secondary School Rampur',
-      avatar: role === 'student' ? '🎓' : role === 'teacher' ? '👨‍🏫' : role === 'parent' ? '📱' : '🏛️',
-      language: 'en',
-      village: 'Bilaspur, Rampur'
-    };
+    if (matched) {
+      if (matched.password && password && matched.password !== password) {
+        throw new Error('Incorrect password / security PIN. Please check your credentials and try again.');
+      }
+      if (role && matched.role && matched.role !== role) {
+        const roleName = matched.role.charAt(0).toUpperCase() + matched.role.slice(1);
+        throw new Error(`This account is registered as a ${roleName}. Please switch role to ${roleName} to sign in.`);
+      }
 
-    const session = {
-      accessToken: `jwt_offline_${Date.now()}`,
-      refreshToken: `jwt_refresh_${Date.now()}`,
-      user,
-      offline: true
-    };
-    setSession(session);
-    return session;
+      const session = {
+        accessToken: `jwt_offline_${Date.now()}`,
+        refreshToken: `jwt_refresh_${Date.now()}`,
+        user: matched,
+        offline: true
+      };
+      setSession(session);
+      return session;
+    }
+
+    // 2. Check against known demo accounts
+    let demoMatch = null;
+    for (const [key, demo] of Object.entries(DEMO_ACCOUNTS)) {
+      if (
+        demo.identifiers.includes(idVal) ||
+        (cleanDigits && demo.phone && demo.phone.replace(/\D/g, '') === cleanDigits) ||
+        (role === key && (idVal === demo.id || idVal === demo.name.toLowerCase()))
+      ) {
+        demoMatch = demo;
+        break;
+      }
+    }
+
+    if (!demoMatch && role && DEMO_ACCOUNTS[role]) {
+      const demo = DEMO_ACCOUNTS[role];
+      if (demo.identifiers.some(ident => idVal.includes(ident)) || idVal === role) {
+        demoMatch = demo;
+      }
+    }
+
+    if (demoMatch) {
+      const session = {
+        accessToken: `jwt_offline_${Date.now()}`,
+        refreshToken: `jwt_refresh_${Date.now()}`,
+        user: { ...demoMatch },
+        offline: true
+      };
+      setSession(session);
+      return session;
+    }
+
+    // 3. Neither registered account nor demo match found
+    throw new Error('No registered account found with these details. Please create a new account or use 1-Click Demo.');
   }
 }
 
@@ -193,53 +281,11 @@ export async function quickLogin(role) {
     return data;
   } catch (err) {
     console.info('[GyanSetu API] Server auth unreachable, executing offline quick login for role:', role);
-    const demoMap = {
-      student: {
-        id: 'stu-4',
-        name: 'Rohan Verma',
-        role: 'student',
-        grade: 'Class 7A',
-        rollNo: '24',
-        school: 'Model Senior Secondary School Rampur',
-        avatar: '🎓',
-        village: 'Bilaspur, Rampur',
-        language: 'en'
-      },
-      teacher: {
-        id: 'teach-1',
-        name: 'Vikram Sharma',
-        role: 'teacher',
-        designation: 'Senior TGT Mathematics',
-        school: 'Model Senior Secondary School Rampur',
-        avatar: '👨‍🏫',
-        village: 'Bilaspur Campus',
-        language: 'en'
-      },
-      parent: {
-        id: 'par-1',
-        name: 'Kailash Verma',
-        role: 'parent',
-        phone: '+91 98765 43210',
-        wardName: 'Rohan Verma',
-        wardGrade: 'Class 7A',
-        avatar: '📱',
-        language: 'hi'
-      },
-      admin: {
-        id: 'adm-1',
-        name: 'Dr. Anita Deshmukh',
-        role: 'admin',
-        designation: 'Principal & Director of Academics',
-        school: 'Model Senior Secondary School Rampur',
-        avatar: '🏛️',
-        language: 'en'
-      }
-    };
-    const user = demoMap[role] || demoMap.student;
+    const user = DEMO_ACCOUNTS[role] || DEMO_ACCOUNTS.student;
     const session = {
       accessToken: `jwt_offline_${Date.now()}`,
       refreshToken: `jwt_refresh_${Date.now()}`,
-      user,
+      user: { ...user },
       offline: true
     };
     setSession(session);
@@ -253,24 +299,43 @@ export async function register(payload) {
     setSession(data);
     return data;
   } catch (err) {
+    if (err.status === 400 || err.status === 409) {
+      throw new Error(err.message || 'Registration failed. An account with this phone or email already exists.');
+    }
+
     console.info('[GyanSetu API] Server auth unreachable, saving registered account to local offline storage.');
     const newUser = {
       id: `reg-${Date.now()}`,
       name: payload.name || 'Student Learner',
       phone: payload.phone || '+91 98765 43210',
-      email: payload.email,
+      email: payload.email || '',
+      password: payload.password || '',
       role: payload.role || 'student',
-      grade: payload.grade || payload.classGrade || 'Class 7A',
-      rollNo: payload.rollNo || String(Math.floor(Math.random() * 40 + 1)),
+      grade: payload.grade || payload.classGrade || (payload.role === 'student' ? 'Class 7A' : undefined),
+      rollNo: payload.rollNo || (payload.role === 'student' ? String(Math.floor(Math.random() * 40 + 1)) : undefined),
       school: payload.school || 'Model Senior Secondary School Rampur',
       village: payload.village || 'Bilaspur, Rampur',
       language: payload.language || 'en',
-      avatar: payload.avatar || (payload.role === 'teacher' ? '👨‍🏫' : payload.role === 'parent' ? '📱' : '🎓')
+      avatar: payload.avatar || (payload.role === 'teacher' ? '👨‍🏫' : payload.role === 'parent' ? '📱' : '🎓'),
+      designation: payload.designation || (payload.role === 'teacher' ? 'Senior TGT Teacher' : undefined),
+      facultyCode: payload.facultyCode || (payload.role === 'teacher' ? 'FAC-09' : undefined),
+      wardName: payload.childName || payload.wardName || (payload.role === 'parent' ? 'Rohan Verma' : undefined),
+      parentRelation: payload.parentRelation || (payload.role === 'parent' ? 'Guardian' : undefined),
+      isCustomRegistered: true,
+      createdAt: new Date().toISOString()
     };
 
     const storage = safeStorage();
     if (storage) {
       const existing = JSON.parse(storage.getItem('gyansetu_registered_users') || '[]');
+      const phoneDigits = (newUser.phone || '').replace(/\D/g, '');
+      const duplicate = existing.find(u => 
+        (phoneDigits && u.phone && u.phone.replace(/\D/g, '') === phoneDigits) ||
+        (newUser.email && u.email && u.email.toLowerCase() === newUser.email.toLowerCase())
+      );
+      if (duplicate) {
+        throw new Error('An account with this mobile number or email is already registered. Please sign in instead.');
+      }
       existing.push(newUser);
       storage.setItem('gyansetu_registered_users', JSON.stringify(existing));
     }

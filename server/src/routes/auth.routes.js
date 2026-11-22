@@ -20,16 +20,19 @@ const registerSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().email().optional(),
   phone: z.string().trim().regex(/^\+?[0-9\s-]{8,16}$/).optional(),
-  password: z.string().min(6).max(128),
-  role: z.enum(['student', 'parent']).default('student'),
+  password: z.string().min(4).max(128),
+  role: z.enum(['student', 'teacher', 'parent']).default('student'),
   grade: z.string().trim().max(40).optional(),
   classGrade: z.string().trim().max(40).optional(),
   rollNo: z.string().trim().max(20).optional(),
   language: z.enum(['hi', 'en', 'mr', 'bn', 'te', 'ta', 'gu', 'kn', 'pa', 'od']).default('hi'),
   subjects: z.array(z.string().trim()).max(12).optional(),
   school: z.string().trim().max(160).optional(),
+  designation: z.string().trim().max(120).optional(),
+  facultyCode: z.string().trim().max(40).optional(),
   childId: z.string().trim().optional(),
   childName: z.string().trim().optional(),
+  avatar: z.string().max(20).optional(),
 });
 
 const loginSchema = z.object({
@@ -130,10 +133,10 @@ router.post('/register', authLimiter, validateBody(registerSchema), asyncHandler
     ...data,
     email: data.email?.toLowerCase(),
     passwordHash: await hashPassword(data.password),
-    grade: data.grade || data.classGrade || 'Class 7',
-    classGrade: data.classGrade || data.grade || 'Class 7',
-    subjects: data.subjects || ['Mathematics', 'Science', 'English', 'Hindi'],
-    avatar: data.role === 'parent' ? '📱' : '🎓',
+    grade: data.grade || data.classGrade || (data.role === 'student' ? 'Class 7' : undefined),
+    classGrade: data.classGrade || data.grade || (data.role === 'student' ? 'Class 7' : undefined),
+    subjects: data.subjects || (data.role === 'student' ? ['Mathematics', 'Science', 'English', 'Hindi'] : undefined),
+    avatar: data.avatar || (data.role === 'teacher' ? '👨‍🏫' : data.role === 'parent' ? '📱' : '🎓'),
     isDemo: false,
   });
 

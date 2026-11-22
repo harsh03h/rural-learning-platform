@@ -485,10 +485,26 @@ export function App() {
           setRole(r);
           if (currentUser) {
             const rolePersonas = {
-              student: { name: currentUser.isCustomRegistered ? currentUser.name : (currentUser.role === 'student' ? currentUser.name : 'Rohan Verma'), avatar: '🎓', grade: currentUser.grade || 'Class 7A' },
-              teacher: { name: 'Vikram Sharma', avatar: '👨‍🏫', designation: 'Senior TGT Teacher' },
-              parent: { name: 'Kailash Verma', avatar: '📱', wardName: 'Rohan Verma' },
-              admin: { name: 'Dr. Anita Deshmukh', avatar: '🏛️', designation: 'Principal & Director of Academics' }
+              student: { 
+                name: currentUser.isCustomRegistered && currentUser.role === 'student' ? currentUser.name : (currentUser.role === 'student' ? currentUser.name : 'Rohan Verma'), 
+                avatar: currentUser.isCustomRegistered && currentUser.role === 'student' ? (currentUser.avatar || '🎓') : '🎓', 
+                grade: currentUser.grade || 'Class 7A' 
+              },
+              teacher: { 
+                name: currentUser.isCustomRegistered && currentUser.role === 'teacher' ? currentUser.name : 'Vikram Sharma', 
+                avatar: currentUser.isCustomRegistered && currentUser.role === 'teacher' ? (currentUser.avatar || '👨‍🏫') : '👨‍🏫', 
+                designation: currentUser.designation || 'Senior TGT Teacher' 
+              },
+              parent: { 
+                name: currentUser.isCustomRegistered && currentUser.role === 'parent' ? currentUser.name : 'Kailash Verma', 
+                avatar: currentUser.isCustomRegistered && currentUser.role === 'parent' ? (currentUser.avatar || '📱') : '📱', 
+                wardName: currentUser.wardName || 'Rohan Verma' 
+              },
+              admin: { 
+                name: 'Dr. Anita Deshmukh', 
+                avatar: '🏛️', 
+                designation: 'Principal & Director of Academics' 
+              }
             };
             const persona = rolePersonas[r] || rolePersonas.student;
             setCurrentUser(prev => ({
