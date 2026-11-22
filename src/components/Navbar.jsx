@@ -275,14 +275,22 @@ export function Navbar({
             )}
           </button>
 
-          {/* User Profile / Sign In (Clean, uncluttered, no clipping) */}
+          {/* User Profile / Login (Clean, uncluttered, no clipping) */}
           <div className="relative shrink-0" ref={menuRef}>
             {currentUser ? (
               <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                 <button
+                  onClick={onOpenAuthModal}
+                  className="hidden sm:flex px-2 sm:px-2.5 py-1 rounded-full text-xs font-bold bg-upsaffron-50 hover:bg-upsaffron-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-upsaffron-700 dark:text-upsaffron-300 border border-upsaffron-200 dark:border-slate-700 transition active:scale-95 items-center gap-1 shrink-0 cursor-pointer shadow-2xs"
+                  title="Login with another account or switch role"
+                >
+                  <LogIn className="w-3 h-3 text-upsaffron-600 dark:text-upsaffron-400" />
+                  <span>Login</span>
+                </button>
+                <button
                   onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                   className="flex items-center gap-1 sm:gap-1.5 p-0.5 sm:p-1 pr-1.5 sm:pr-2.5 sm:pl-2 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 rounded-full transition text-xs text-upnavy-900 dark:text-slate-100 font-semibold cursor-pointer active:scale-95 shrink-0"
-                  title="Open user profile menu"
+                  title="Open user profile menu and options"
                 >
                   <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-upnavy-100 text-upnavy-900 flex items-center justify-center font-bold text-[10px] sm:text-xs shadow-2xs border border-upnavy-200 shrink-0">
                     {currentUser.avatar}
@@ -294,10 +302,11 @@ export function Navbar({
             ) : (
               <button
                 onClick={onOpenAuthModal}
-                className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1 sm:gap-1.5 shrink-0"
+                className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1 sm:gap-1.5 shrink-0 cursor-pointer"
+                title="Login to GyanSetu"
               >
                 <LogIn className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                <span>Sign In</span>
+                <span>Login / Sign In</span>
               </button>
             )}
 
@@ -480,19 +489,21 @@ export function Navbar({
                       </span>
                     </button>
 
-                    {/* Switch / Another Account */}
+                    {/* Dedicated Login / Switch Account Option */}
                     <button
                       onClick={() => {
                         setIsProfileMenuOpen(false);
                         onOpenAuthModal();
                       }}
-                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center justify-between transition group cursor-pointer"
+                      className="w-full text-left px-3 py-2.5 rounded-xl bg-upsaffron-50 hover:bg-upsaffron-100 dark:bg-upsaffron-950/40 dark:hover:bg-upsaffron-950/60 text-upsaffron-950 dark:text-upsaffron-200 font-bold text-xs flex items-center justify-between transition border border-upsaffron-200/90 dark:border-upsaffron-800/80 active:scale-[0.99] cursor-pointer group shadow-2xs"
                     >
-                      <span className="flex items-center gap-2">
-                        <LogIn className="w-3.5 h-3.5 text-slate-500 group-hover:text-upsaffron-600 transition" />
-                        <span>{lang === 'hi' ? 'अन्य खाते में लॉगिन करें' : 'Switch / Another Account'}</span>
+                      <span className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-upsaffron-200/80 dark:bg-upsaffron-900 text-upsaffron-800 dark:text-upsaffron-300 flex items-center justify-center group-hover:scale-105 transition-transform">
+                          <LogIn className="w-3.5 h-3.5" />
+                        </div>
+                        <span>{lang === 'hi' ? 'लॉगिन / दूसरा खाता (Login)' : 'Login / Switch Account'}</span>
                       </span>
-                      <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                      <ChevronRight className="w-3.5 h-3.5 text-upsaffron-600 dark:text-upsaffron-400 group-hover:translate-x-0.5 transition-transform" />
                     </button>
 
                     {/* Proper High-Visibility Logout Button */}

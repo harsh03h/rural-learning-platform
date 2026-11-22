@@ -29,6 +29,7 @@ import {
   Zap,
   HeartHandshake,
   LogOut,
+  LogIn,
   Sun,
   Moon
 } from 'lucide-react';
@@ -116,8 +117,7 @@ export function ProfileEditModal({
   lang,
   studentStats = { streakDays: 4, pointsXP: 350 },
   onLogout,
-
-
+  onOpenLoginModal,
   theme = 'light',
   setTheme
 }) {
@@ -916,22 +916,36 @@ export function ProfileEditModal({
 
         {/* Modal Sticky Bottom Action Footer */}
         <div className="pt-3.5 border-t border-slate-100 mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
-          {onLogout ? (
-            <button
-              type="button"
-              onClick={() => {
-                onClose();
-                onLogout();
+          <div className="flex items-center gap-2 flex-wrap">
+            {onOpenLoginModal && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenLoginModal();
+                }}
+                className="px-3.5 py-2.5 rounded-xl text-xs font-bold text-upsaffron-800 hover:text-upsaffron-900 bg-upsaffron-50 hover:bg-upsaffron-100 border border-upsaffron-200/90 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-2xs"
+                title="Login with another account"
+              >
+                <LogIn className="w-3.5 h-3.5 text-upsaffron-600" />
+                <span>{lang === 'hi' ? 'लॉगिन / दूसरा खाता' : 'Login / Switch Account'}</span>
+              </button>
+            )}
 
-
-
-              }}
-              className="px-4 py-2.5 rounded-xl text-xs font-bold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-2xs"
-            >
-              <LogOut className="w-3.5 h-3.5 text-rose-600" />
-              <span>{lang === 'hi' ? 'खाते से लॉगआउट करें' : 'Sign Out / Logout'}</span>
-            </button>
-          ) : <div />}
+            {onLogout && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onLogout();
+                }}
+                className="px-3.5 py-2.5 rounded-xl text-xs font-bold text-rose-700 hover:text-rose-800 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer shadow-2xs"
+              >
+                <LogOut className="w-3.5 h-3.5 text-rose-600" />
+                <span>{lang === 'hi' ? 'खाते से लॉगआउट करें' : 'Sign Out / Logout'}</span>
+              </button>
+            )}
+          </div>
 
           <div className="flex items-center justify-end gap-2">
             <button

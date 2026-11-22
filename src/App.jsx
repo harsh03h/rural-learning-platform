@@ -545,10 +545,10 @@ export function App() {
             </div>
             <button
               onClick={() => setIsAuthModalOpen(true)}
-              className="px-4 py-1.5 rounded-xl bg-upsaffron-600 hover:bg-upsaffron-500 text-white font-bold text-xs flex items-center gap-1.5 shrink-0 transition active:scale-95 shadow-xs self-start sm:self-auto"
+              className="px-4 py-1.5 rounded-xl bg-upsaffron-600 hover:bg-upsaffron-500 text-white font-bold text-xs flex items-center gap-1.5 shrink-0 transition active:scale-95 shadow-xs self-start sm:self-auto cursor-pointer"
             >
               <LogIn className="w-3.5 h-3.5" />
-              <span>Sign In / Switch</span>
+              <span>Login / Sign In</span>
             </button>
           </div>
         )}
@@ -580,6 +580,7 @@ export function App() {
             onOpenAiSaathi={() => setIsAiSaathiOpen(true)}
             isAiSaathiOpen={isAiSaathiOpen}
             studentStats={studentStats}
+            onOpenLogin={() => setIsAuthModalOpen(true)}
             onOpenXpRewards={() => setIsXpModalOpen(true)}
             onOpenRewardCert={() => setIsRewardCertOpen(true)}
             selectedGrade={selectedGrade}
@@ -590,15 +591,15 @@ export function App() {
         )}
 
         {role === 'teacher' && (
-          <TeacherView lang={lang} onLogout={handleLogout} />
+          <TeacherView lang={lang} onLogout={handleLogout} onLogin={() => setIsAuthModalOpen(true)} />
         )}
 
         {role === 'parent' && (
-          <ParentView lang={lang} onLogout={handleLogout} />
+          <ParentView lang={lang} onLogout={handleLogout} onLogin={() => setIsAuthModalOpen(true)} />
         )}
 
         {role === 'admin' && (
-          <AdminView lang={lang} onLogout={handleLogout} />
+          <AdminView lang={lang} onLogout={handleLogout} onLogin={() => setIsAuthModalOpen(true)} />
         )}
       </main>
 
@@ -619,6 +620,7 @@ export function App() {
         lang={lang}
         studentStats={studentStats}
         onLogout={handleLogout}
+        onOpenLoginModal={() => setIsAuthModalOpen(true)}
         theme={theme}
         onToggleTheme={handleToggleTheme}
         setTheme={setTheme}

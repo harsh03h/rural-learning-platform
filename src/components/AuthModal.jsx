@@ -336,7 +336,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
               }`}
             >
               <LogIn className="w-3.5 h-3.5 shrink-0" />
-              <span>{lang === 'hi' ? 'साइन इन (Sign In)' : 'Sign In'}</span>
+              <span>{lang === 'hi' ? 'लॉगिन (Login)' : 'Login'}</span>
             </button>
             <button
               type="button"
@@ -710,7 +710,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
                 className="w-full py-3 rounded-2xl bg-gradient-to-r from-upsaffron-600 via-upsaffron-600 to-amber-600 hover:from-upsaffron-500 hover:to-amber-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-upsaffron-600/30 transition active:scale-95 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <LogIn className="w-4 h-4" />
-                <span>{authBusy ? (lang === 'hi' ? 'कृपया प्रतीक्षा करें...' : 'Signing in...') : (lang === 'hi' ? 'ज्ञानसेतु में प्रवेश करें' : 'Sign In to GyanSetu')}</span>
+                <span>{authBusy ? (lang === 'hi' ? 'कृपया प्रतीक्षा करें...' : 'Logging in...') : (lang === 'hi' ? 'ज्ञानसेतु में लॉगिन करें' : 'Login to GyanSetu')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
@@ -1092,7 +1092,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
                   onClick={() => setAuthMode('login')}
                   className="font-bold text-upsaffron-700 hover:text-upsaffron-800 hover:underline"
                 >
-                  Sign In
+                  Login
                 </button>
               </div>
 

@@ -21,7 +21,8 @@ import {
   Check,
   School,
   GraduationCap,
-  LogOut
+  LogOut,
+  LogIn
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { translations, supportedLanguages } from '../data/mockData';
@@ -77,7 +78,7 @@ const ENROLLED_CHILDREN = [
   }
 ];
 
-export function ParentView({ lang, onLogout }) {
+export function ParentView({ lang, onLogout, onLogin }) {
   const t = translations[lang] || translations['en'];
   const [selectedChildId, setSelectedChildId] = useState('rohan');
   const [selectedParentLang, setSelectedParentLang] = useState(lang || 'hi');
@@ -248,6 +249,17 @@ export function ParentView({ lang, onLogout }) {
             <Share2 className="w-4 h-4 text-emerald-600" />
             <span>{copyStatus ? 'Copied!' : 'Share on WhatsApp'}</span>
           </button>
+
+          {onLogin && (
+            <button
+              onClick={onLogin}
+              className="px-3.5 py-2.5 bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 font-bold text-xs rounded-2xl transition active:scale-95 flex items-center gap-1.5 border border-upsaffron-200 cursor-pointer shadow-2xs"
+              title="Login with parent or student account"
+            >
+              <LogIn className="w-3.5 h-3.5 text-upsaffron-600" />
+              <span>Login</span>
+            </button>
+          )}
 
           {onLogout && (
             <button

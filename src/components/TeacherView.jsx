@@ -26,7 +26,8 @@ import {
   School,
   CheckCheck,
   Compass,
-  LogOut
+  LogOut,
+  LogIn
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { translations } from '../data/mockData';
@@ -628,7 +629,7 @@ const CLASS_ANALYTICS = {
   ]
 };
 
-export function TeacherView({ lang, onLogout }) {
+export function TeacherView({ lang, onLogout, onLogin }) {
   const t = translations[lang] || translations['en'];
   const [selectedClass, setSelectedClass] = useState('Class 7A');
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'generator' | 'analytics'
@@ -979,6 +980,16 @@ export function TeacherView({ lang, onLogout }) {
             <Send className="w-3.5 h-3.5" />
             <span>Broadcast SMS to Parents</span>
           </button>
+          {onLogin && (
+            <button
+              onClick={onLogin}
+              className="px-3.5 py-2.5 bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 font-bold text-xs rounded-2xl transition active:scale-95 flex items-center gap-1.5 border border-upsaffron-200 cursor-pointer shadow-2xs"
+              title="Login with another account or switch role"
+            >
+              <LogIn className="w-3.5 h-3.5 text-upsaffron-600" />
+              <span>Login</span>
+            </button>
+          )}
           {onLogout && (
             <button
               onClick={onLogout}

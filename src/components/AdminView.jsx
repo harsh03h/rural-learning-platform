@@ -47,12 +47,13 @@ import {
   Mail,
   MapPin,
   LogOut,
+  LogIn,
   Star
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { translations } from '../data/mockData';
 
-export function AdminView({ lang = 'en', onLogout }) {
+export function AdminView({ lang = 'en', onLogout, onLogin }) {
   const t = translations[lang] || translations['en'];
 
   // Global Toast
@@ -654,6 +655,16 @@ export function AdminView({ lang = 'en', onLogout }) {
             <Radio className="w-3.5 h-3.5 text-upnavy-700" />
             <span>Wi-Fi Mesh Active (0 KB cellular)</span>
           </div>
+          {onLogin && (
+            <button
+              onClick={onLogin}
+              className="px-3.5 py-2 bg-upsaffron-50 hover:bg-upsaffron-100 text-upsaffron-800 font-bold text-xs rounded-2xl transition active:scale-95 flex items-center gap-1.5 border border-upsaffron-200 cursor-pointer shadow-2xs"
+              title="Login with administrator credentials"
+            >
+              <LogIn className="w-3.5 h-3.5 text-upsaffron-600" />
+              <span>Login</span>
+            </button>
+          )}
           {onLogout && (
             <button
               onClick={onLogout}

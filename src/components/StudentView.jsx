@@ -32,7 +32,8 @@ import {
   Clock,
   Lightbulb,
   FolderDown,
-  FileText
+  FileText,
+  LogIn
 } from 'lucide-react';
 import { translations, sampleCourses, getLocalized, supportedLanguages } from '../data/mockData';
 import confetti from 'canvas-confetti';
@@ -262,6 +263,7 @@ export function StudentView({
   studentStats,
   currentUser,
   isAiSaathiOpen,
+  onOpenLogin,
   onOpenXpRewards,
   onOpenRewardCert,
   selectedGrade: propSelectedGrade,
@@ -487,10 +489,22 @@ export function StudentView({
                 Classes 6 to 10 Platform
               </span>
               {isGuest ? (
-                <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-300 flex items-center gap-1">
-                  <span>💾</span>
-                  <span>{lang === 'hi' ? 'प्रगति डिवाइस पर सुरक्षित' : 'Progress Saved on Device'}</span>
-                </span>
+                <>
+                  <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-300 flex items-center gap-1">
+                    <span>💾</span>
+                    <span>{lang === 'hi' ? 'प्रगति डिवाइस पर सुरक्षित' : 'Progress Saved on Device'}</span>
+                  </span>
+                  {onOpenLogin && (
+                    <button
+                      onClick={onOpenLogin}
+                      className="text-[11px] font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white px-3 py-1 rounded-full transition active:scale-95 flex items-center gap-1.5 shadow-2xs cursor-pointer"
+                      title="Login with your student account"
+                    >
+                      <LogIn className="w-3 h-3" />
+                      <span>{lang === 'hi' ? 'लॉगिन' : 'Login'}</span>
+                    </button>
+                  )}
+                </>
               ) : (
                 <span className="text-xs text-slate-500 font-medium truncate max-w-xs sm:max-w-md">
                   {studentSchool}
