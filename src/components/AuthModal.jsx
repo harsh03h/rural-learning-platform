@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from '../data/mockData';
+import { login, quickLogin, register, setSession } from '../services/api';
 
 const REGISTER_AVATARS = {
   scholars: [
@@ -61,8 +62,6 @@ const CLASS_OPTIONS = [
 ];
 
 export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsGuest }) {
-  if (!isOpen) return null;
-
   const [authMode, setAuthMode] = useState('login'); // 'login' | 'register'
   const [selectedRole, setSelectedRole] = useState('student'); // 'student' | 'teacher' | 'parent' | 'admin'
   const [registerRole, setRegisterRole] = useState('student'); // 'student' | 'teacher' | 'parent'
@@ -77,6 +76,8 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
   const [otpSent, setOtpSent] = useState(false);
   const [otpVal, setOtpVal] = useState('');
   const [showForgotNotice, setShowForgotNotice] = useState(false);
+  const [authBusy, setAuthBusy] = useState(false);
+  const [authError, setAuthError] = useState('');
 
   // Registration Form States
   const [regFullName, setRegFullName] = useState('');
@@ -169,100 +170,112 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
     }
   ];
 
-  const handleQuickLogin = (demoUser) => {
-    localStorage.setItem('gyansetu_jwt', `jwt_demo_${Date.now()}`);
-    localStorage.setItem('gyansetu_user', JSON.stringify(demoUser.data));
+  const completeLogin = (result) => {
+    // Authentication is server-verified only. A missing token is an error,
+    // never a reason to create an uncontrolled local session.
+    if (!result?.accessToken || !result?.user) {
+      throw new Error('Authentication did not return a valid session. Please try again.');
+    }
+    setSession({
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
+      user: result.user,
+    });
     try {
       confetti({ particleCount: 50, spread: 60, origin: { y: 0.3 } });
     } catch (e) {}
-    onLoginSuccess(demoUser.data);
+    onLoginSuccess(result.user);
     onClose();
   };
 
-  const handleCustomLogin = (e) => {
+  const handleQuickLogin = async (demoUser) => {
+    setAuthBusy(true);
+    setAuthError('');
+    try {
+      const result = await quickLogin(demoUser.role);
+      completeLogin(result);
+    } catch (error) {
+      setAuthError(error.message || 'Demo sign-in is unavailable. Please try again.');
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  const handleCustomLogin = async (e) => {
     e.preventDefault();
-    let finalName = loginIdentifier.trim();
-    if (!finalName) {
-      finalName = selectedRole === 'student' ? 'Student Learner' :
-                  selectedRole === 'teacher' ? 'Faculty Member' :
-                  selectedRole === 'parent' ? 'Registered Guardian' : 'School Administrator';
+    const identifier = loginIdentifier.trim();
+
+    if (!identifier) {
+      setAuthError('Enter your registered email, phone number, or name.');
+      return;
+    }
+    if (!loginPassword) {
+      setAuthError('Enter your password to sign in.');
+      return;
     }
 
-    const userObj = {
-      id: `user-${Date.now()}`,
-      name: finalName,
-      role: selectedRole,
-      grade: selectedRole === 'student' ? loginGrade : undefined,
-      rollNo: selectedRole === 'student' ? (loginIdentifier.replace(/\D/g, '') || '24') : undefined,
-      school: 'Model Senior Secondary School Rampur',
-      avatar: selectedRole === 'student' ? '🎓' : selectedRole === 'teacher' ? '👨‍🏫' : selectedRole === 'parent' ? '📱' : '🏛️',
-      language: lang || 'en',
-      village: 'Bilaspur, Rampur'
-    };
-
-    localStorage.setItem('gyansetu_jwt', `jwt_token_${Date.now()}`);
-    localStorage.setItem('gyansetu_user', JSON.stringify(userObj));
+    setAuthBusy(true);
+    setAuthError('');
     try {
-      confetti({ particleCount: 50, spread: 60, origin: { y: 0.3 } });
-    } catch (e) {}
-    onLoginSuccess(userObj);
-    onClose();
+      const result = await login({
+        identifier,
+        password: loginPassword,
+        role: selectedRole,
+        rememberMe,
+      });
+      completeLogin(result);
+    } catch (error) {
+      setAuthError(error.message || 'No registered account matched these details.');
+    } finally {
+      setAuthBusy(false);
+    }
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    if (!regFullName.trim()) return;
+    setAuthError('');
 
-    let newUser = {};
-    if (registerRole === 'student') {
-      newUser = {
-        id: regStudentId.trim() || `stu-${Date.now()}`,
-        name: regFullName.trim(),
-        role: 'student',
-        grade: regGrade,
-        rollNo: regRollNo.trim() || Math.floor(Math.random() * 40 + 1).toString(),
-        school: regSchool.trim(),
-        village: regVillage.trim(),
-        language: regLanguage,
-        phone: regPhone.trim() || '+91 98765 43210',
-        avatar: regAvatar
-      };
-    } else if (registerRole === 'teacher') {
-      newUser = {
-        id: regFacultyCode.trim() || `fac-${Date.now()}`,
-        name: regFullName.trim(),
-        role: 'teacher',
-        designation: regDesignation.trim(),
-        school: regSchool.trim(),
-        village: regVillage.trim(),
-        language: regLanguage,
-        phone: regPhone.trim() || '+91 98765 43210',
-        avatar: regAvatar || '👨‍🏫'
-      };
-    } else {
-      newUser = {
-        id: `par-${Date.now()}`,
-        name: regFullName.trim(),
-        role: 'parent',
-        relationship: regParentRelation,
-        wardName: regWardName.trim(),
-        wardGrade: regGrade,
-        school: regSchool.trim(),
-        village: regVillage.trim(),
-        language: regLanguage,
-        phone: regPhone.trim() || '+91 98765 43210',
-        avatar: regAvatar || '📱'
-      };
+    if (!regFullName.trim()) {
+      setAuthError('Enter your full name.');
+      return;
+    }
+    if (!regPhone.trim()) {
+      setAuthError('Enter a mobile number for this account.');
+      return;
+    }
+    if (regPassword.length < 6) {
+      setAuthError('Choose a password with at least 6 characters.');
+      return;
+    }
+    if (registerRole === 'teacher') {
+      setAuthError('Faculty accounts are provisioned by the school admin. Please use a quick-demo account.');
+      return;
     }
 
-    localStorage.setItem('gyansetu_jwt', `jwt_registered_${Date.now()}`);
-    localStorage.setItem('gyansetu_user', JSON.stringify(newUser));
+    setAuthBusy(true);
     try {
-      confetti({ particleCount: 80, spread: 70, origin: { y: 0.35 } });
-    } catch (e) {}
-    onLoginSuccess(newUser);
-    onClose();
+      const result = await register({
+        name: regFullName.trim(),
+        phone: regPhone.trim(),
+        password: regPassword,
+        role: registerRole,
+        grade: registerRole === 'student' ? regGrade : undefined,
+        classGrade: registerRole === 'student' ? regGrade : undefined,
+        rollNo: registerRole === 'student' ? regRollNo.trim() : undefined,
+        language: regLanguage,
+        school: regSchool.trim(),
+        childName: registerRole === 'parent' ? regWardName.trim() : undefined,
+        subjects: registerRole === 'student' ? ['Mathematics', 'Science', 'English', 'Hindi'] : undefined,
+      });
+      completeLogin(result);
+    } catch (error) {
+      setAuthError(error.message || 'Registration failed. If this number is already registered, sign in instead.');
+    } finally {
+      setAuthBusy(false);
+    }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-upnavy-950/80 backdrop-blur-md animate-fadeIn">
@@ -305,7 +318,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
           <div className="mt-3.5 p-1 bg-upnavy-900/90 rounded-2xl border border-upnavy-700/80 flex gap-1 relative z-10">
             <button
               type="button"
-              onClick={() => setAuthMode('login')}
+              onClick={() => { setAuthMode('login'); setAuthError(''); }}
               className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
                 authMode === 'login'
                   ? 'bg-upsaffron-600 text-white shadow-md shadow-upsaffron-600/30'
@@ -317,7 +330,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
             </button>
             <button
               type="button"
-              onClick={() => setAuthMode('register')}
+              onClick={() => { setAuthMode('register'); setAuthError(''); }}
               className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
                 authMode === 'register'
                   ? 'bg-upsaffron-600 text-white shadow-md shadow-upsaffron-600/30'
@@ -332,7 +345,12 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
 
         {/* Scrollable Form Body */}
         <div className="p-4 sm:p-6 pb-8 sm:pb-12 overflow-y-auto space-y-4 sm:space-y-5 flex-1 text-xs">
-          
+          {authError && (
+            <div className="rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-[11px] px-3 py-2">
+              {authError}
+            </div>
+          )}
+
           {/* 1-Click Quick Evaluator Demo Section */}
           <div className="p-3.5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/40 to-amber-50/80 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-amber-950/40 border border-amber-200/90 dark:border-amber-700/50 shadow-2xs">
             <div className="flex items-center justify-between mb-2">
@@ -350,8 +368,9 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
                 <button
                   key={idx}
                   type="button"
+                  disabled={authBusy}
                   onClick={() => handleQuickLogin(acc)}
-                  className="p-2.5 rounded-2xl bg-white hover:bg-upsaffron-50/80 border border-amber-200/90 hover:border-upsaffron-300 text-left transition flex items-center gap-2.5 hover:shadow-sm active:scale-95 group cursor-pointer"
+                  className="p-2.5 rounded-2xl bg-white hover:bg-upsaffron-50/80 border border-amber-200/90 hover:border-upsaffron-300 text-left transition flex items-center gap-2.5 hover:shadow-sm active:scale-95 group cursor-pointer disabled:opacity-60"
                 >
                   <span className="text-2xl group-hover:scale-110 transition shrink-0">{acc.icon}</span>
                   <div className="overflow-hidden space-y-0.5 flex-1">
@@ -640,10 +659,11 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
               {/* Login Submit Button */}
               <button
                 type="submit"
-                className="w-full py-3 rounded-2xl bg-gradient-to-r from-upsaffron-600 via-upsaffron-600 to-amber-600 hover:from-upsaffron-500 hover:to-amber-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-upsaffron-600/30 transition active:scale-95 cursor-pointer"
+                disabled={authBusy}
+                className="w-full py-3 rounded-2xl bg-gradient-to-r from-upsaffron-600 via-upsaffron-600 to-amber-600 hover:from-upsaffron-500 hover:to-amber-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-upsaffron-600/30 transition active:scale-95 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <LogIn className="w-4 h-4" />
-                <span>{lang === 'hi' ? 'ज्ञानसेतु में प्रवेश करें' : 'Sign In to GyanSetu'}</span>
+                <span>{authBusy ? (lang === 'hi' ? 'कृपया प्रतीक्षा करें...' : 'Signing in...') : (lang === 'hi' ? 'ज्ञानसेतु में प्रवेश करें' : 'Sign In to GyanSetu')}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
@@ -1010,10 +1030,11 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
               {/* Submit Registration Button */}
               <button
                 type="submit"
-                className="w-full py-3 rounded-2xl bg-gradient-to-r from-upsaffron-600 via-upsaffron-600 to-amber-600 hover:from-upsaffron-500 hover:to-amber-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-upsaffron-600/30 transition active:scale-95 cursor-pointer"
+                disabled={authBusy}
+                className="w-full py-3 rounded-2xl bg-gradient-to-r from-upsaffron-600 via-upsaffron-600 to-amber-600 hover:from-upsaffron-500 hover:to-amber-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-upsaffron-600/30 transition active:scale-95 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <UserCheck className="w-4 h-4" />
-                <span>Create Account & Launch Learning</span>
+                <span>{authBusy ? 'Creating account...' : 'Create Account & Launch Learning'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
