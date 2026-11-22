@@ -108,6 +108,7 @@ export function XpRewardsModal({
               onClick={onClose} 
               className="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-white/10 transition shrink-0 active:scale-95"
               title="Close"
+              aria-label="Close"
             >
               <X className="w-5 h-5" />
             </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   School, 
   Users, 
@@ -64,6 +64,24 @@ export function AdminView({ lang = 'en', onLogout }) {
 
   // Sub-navigation tabs
   const [activeTab, setActiveTab] = useState('features'); // 'features' | 'classes' | 'students' | 'curriculum' | 'faculty' | 'mesh' | 'fleet' | 'accreditation'
+
+  // Close any modal with Escape key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsAccreditationModalOpen(false);
+        setIsAddFeatureModalOpen(false);
+        setIsAddClassModalOpen(false);
+        setIsAddStudentModalOpen(false);
+        setIsAddModuleModalOpen(false);
+        setIsAddFacultyModalOpen(false);
+        setIsNoticeModalOpen(false);
+        setIsEditProfileModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // ==========================================
   // 1. INSTITUTIONAL PROFILE STATE (EDITABLE)
@@ -572,7 +590,7 @@ export function AdminView({ lang = 'en', onLogout }) {
   });
 
   return (
-    <div className="space-y-6 pb-28 max-w-6xl mx-auto">
+    <div className="space-y-6 pb-28 max-w-6xl mx-auto w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2.5 animate-fadeIn">
@@ -1931,7 +1949,8 @@ export function AdminView({ lang = 'en', onLogout }) {
               </div>
               <button
                 onClick={() => setIsEditProfileModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2062,7 +2081,8 @@ export function AdminView({ lang = 'en', onLogout }) {
               </div>
               <button
                 onClick={() => setIsAddFeatureModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2183,7 +2203,8 @@ export function AdminView({ lang = 'en', onLogout }) {
                   setIsAddClassModalOpen(false);
                   setEditingClass(null);
                 }}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2314,7 +2335,8 @@ export function AdminView({ lang = 'en', onLogout }) {
                   setIsAddStudentModalOpen(false);
                   setEditingStudent(null);
                 }}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2440,7 +2462,8 @@ export function AdminView({ lang = 'en', onLogout }) {
               </div>
               <button
                 onClick={() => setIsAddModuleModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2543,7 +2566,8 @@ export function AdminView({ lang = 'en', onLogout }) {
               </div>
               <button
                 onClick={() => setIsAddFacultyModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2621,7 +2645,8 @@ export function AdminView({ lang = 'en', onLogout }) {
               </div>
               <button
                 onClick={() => setIsNoticeModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition cursor-pointer"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2665,7 +2690,12 @@ export function AdminView({ lang = 'en', onLogout }) {
       {/* MODAL 8: ACCREDITATION CERTIFICATE (PRINTABLE ROYAL ORNATE EDITION) */}
       {/* ========================================================= */}
       {isAccreditationModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto certificate-print-overlay">
+        <div 
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsAccreditationModalOpen(false);
+          }}
+          className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto certificate-print-overlay"
+        >
           <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-4 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4 animate-in fade-in zoom-in-95 my-4 sm:my-8 flex flex-col">
             
             {/* Top Toolbar (No-print) */}
@@ -2687,15 +2717,16 @@ export function AdminView({ lang = 'en', onLogout }) {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => window.print()}
-                  className="px-4 py-1.5 bg-upnavy-900 hover:bg-upnavy-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition active:scale-95 shadow-xs"
+                  className="px-4 py-1.5 bg-upnavy-900 hover:bg-upnavy-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition active:scale-95 shadow-xs cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5 text-upsaffron-400" />
                   <span>Print A4 Certificate</span>
                 </button>
                 <button
                   onClick={() => setIsAccreditationModalOpen(false)}
-                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center transition"
-                  aria-label="Close modal"
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center transition cursor-pointer active:scale-95"
+                  aria-label="Close accreditation modal"
+                  title="Close"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -2703,7 +2734,7 @@ export function AdminView({ lang = 'en', onLogout }) {
             </div>
 
             {/* THE ORNATE ACCREDITATION CERTIFICATE DOCUMENT */}
-            <div className="certificate-print-container w-full rounded-2xl sm:rounded-3xl border-4 sm:border-8 border-upnavy-950 p-3 sm:p-5 bg-gradient-to-b from-[#fffefc] via-[#fcf9f2] to-[#fbf6e9] shadow-xl text-slate-900 relative">
+            <div className="certificate-print-container w-full rounded-2xl sm:rounded-3xl border-4 sm:border-8 border-upnavy-950 p-3 sm:p-5 bg-gradient-to-b from-[#fffefc] via-[#fcf9f2] to-[#fbf6e9] shadow-xl text-slate-900 relative overflow-hidden">
               <div className="border-2 sm:border-3 border-amber-600/70 p-4 sm:p-7 rounded-xl sm:rounded-2xl relative bg-transparent flex flex-col justify-between space-y-5">
                 
                 {/* 4 Corner Ornaments */}
@@ -2713,14 +2744,14 @@ export function AdminView({ lang = 'en', onLogout }) {
                 <div className="absolute bottom-2 right-2 text-amber-600 font-serif text-lg sm:text-2xl select-none">❖</div>
 
                 {/* Header */}
-                <div className="text-center space-y-1.5 relative z-10">
+                <div className="text-center space-y-1.5 relative z-10 pt-2 sm:pt-4">
                   <div className="text-[10px] font-black tracking-[0.25em] text-amber-800 uppercase">
                     Autonomous Rural Academic Accreditation Council
                   </div>
-                  <h2 className="text-xl sm:text-3xl font-serif font-black text-upnavy-950 tracking-tight uppercase">
+                  <h2 className="text-lg sm:text-2xl md:text-3xl font-serif font-black text-upnavy-950 tracking-tight uppercase leading-snug px-2">
                     Certificate of Institutional Accreditation
                   </h2>
-                  <p className="text-xs text-slate-600 font-serif italic">
+                  <p className="text-xs text-slate-600 font-serif italic max-w-xl mx-auto">
                     Recognizing compliance with Quality Education, Rural Saturation & Digital Infrastructure Guidelines
                   </p>
                   <div className="flex items-center justify-center gap-1 text-amber-500 text-xs pt-0.5">
@@ -2810,10 +2841,17 @@ export function AdminView({ lang = 'en', onLogout }) {
             </div>
 
             {/* Bottom Actions (No-print) */}
-            <div className="flex items-center justify-end gap-2.5 no-print pt-1">
+            <div className="flex items-center justify-end gap-2.5 no-print pt-2 border-t border-slate-100 dark:border-slate-800">
+              <button
+                onClick={() => setIsAccreditationModalOpen(false)}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl transition cursor-pointer active:scale-95"
+              >
+                Close Window
+              </button>
+
               <button
                 onClick={() => window.print()}
-                className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl flex items-center gap-2 transition"
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl flex items-center gap-2 transition cursor-pointer active:scale-95"
               >
                 <Printer className="w-3.5 h-3.5" />
                 <span>Print Certificate</span>
@@ -2824,7 +2862,7 @@ export function AdminView({ lang = 'en', onLogout }) {
                   setIsAccreditationModalOpen(false);
                   showToast('✓ Official accreditation compliance report downloaded successfully.');
                 }}
-                className="px-5 py-2.5 bg-upnavy-950 hover:bg-upnavy-900 text-white font-bold text-xs rounded-xl flex items-center gap-2 transition active:scale-95 shadow-xs"
+                className="px-5 py-2 bg-upnavy-950 hover:bg-upnavy-900 text-white font-bold text-xs rounded-xl flex items-center gap-2 transition active:scale-95 shadow-xs cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5 text-upsaffron-400" />
                 <span>Download Official PDF</span>

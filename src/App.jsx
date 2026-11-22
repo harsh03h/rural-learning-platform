@@ -461,10 +461,10 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f4f6f9] dark:bg-slate-950 text-upnavy-950 dark:text-slate-100 font-sans transition-colors duration-200">
+    <div className="min-h-screen flex flex-col bg-[#f4f6f9] dark:bg-slate-950 text-upnavy-950 dark:text-slate-100 font-sans transition-colors duration-200 w-full max-w-full overflow-x-hidden min-w-0">
       {/* Toast Notification - Sleek, non-bouncing, stable notification positioned below sticky header */}
       {toastMessage && (
-        <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700/80 text-xs flex items-center gap-2.5 animate-fadeIn transition-all">
+        <div className="fixed bottom-6 left-4 sm:left-6 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700/80 text-xs flex items-center gap-2.5 animate-fadeIn transition-all pointer-events-none">
           <CheckCircle className="w-4 h-4 text-upsaffron-400 shrink-0" />
           <span className="font-semibold text-slate-100">{toastMessage}</span>
         </div>
@@ -484,10 +484,17 @@ export function App() {
         setRole={(r) => {
           setRole(r);
           if (currentUser) {
+            const rolePersonas = {
+              student: { name: currentUser.isCustomRegistered ? currentUser.name : (currentUser.role === 'student' ? currentUser.name : 'Rohan Verma'), avatar: '🎓', grade: currentUser.grade || 'Class 7A' },
+              teacher: { name: 'Vikram Sharma', avatar: '👨‍🏫', designation: 'Senior TGT Teacher' },
+              parent: { name: 'Kailash Verma', avatar: '📱', wardName: 'Rohan Verma' },
+              admin: { name: 'Dr. Anita Deshmukh', avatar: '🏛️', designation: 'Principal & Director of Academics' }
+            };
+            const persona = rolePersonas[r] || rolePersonas.student;
             setCurrentUser(prev => ({
               ...prev,
-              role: r,
-              avatar: r === 'student' ? '🎓' : r === 'teacher' ? '👨‍🏫' : r === 'parent' ? '📱' : '🏛️'
+              ...persona,
+              role: r
             }));
           }
         }}
@@ -510,7 +517,7 @@ export function App() {
       />
 
       {/* Main Body Content by Active Role */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 pt-4 sm:pt-5 pb-16 sm:pb-24">
+      <main className="flex-1 max-w-7xl mx-auto w-full max-w-full px-2.5 sm:px-6 pt-3 sm:pt-5 pb-16 sm:pb-24 overflow-x-hidden min-w-0">
         {/* Modern Compact Guest Announcement Strip */}
         {!currentUser && (
           <div className="mb-5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-upnavy-900/95 via-upnavy-800/95 to-upnavy-950/95 text-white border border-upnavy-700/50 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
@@ -626,6 +633,7 @@ export function App() {
         onClose={() => setIsAiSaathiOpen(false)}
         lang={lang}
         onSpeakText={handleSpeakText}
+        currentUser={currentUser}
       />
 
       <SystemArchitectureModal
@@ -690,9 +698,9 @@ export function App() {
           <div className="flex items-center gap-3 text-[11px]">
             <button 
               onClick={() => setIsDownloadsOpen(true)} 
-              className="hover:underline text-slate-600 dark:text-slate-300 hover:text-upsaffron-600 font-medium transition"
+              className="hover:underline text-slate-600 dark:text-slate-300 hover:text-upsaffron-600 font-medium transition cursor-pointer"
             >
-              Offline Cache (&lt;50KB)
+              Offline Device Storage ({downloadedIds.length} Saved)
             </button>
             <span className="text-slate-300 dark:text-slate-700">•</span>
             <button 

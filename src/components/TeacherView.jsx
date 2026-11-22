@@ -32,7 +32,7 @@ import confetti from 'canvas-confetti';
 import { translations } from '../data/mockData';
 import { generateTeacherQuestions } from '../services/api';
 
-export const ASSIGNED_CLASSES = [
+const ASSIGNED_CLASSES = [
   {
     id: "class-7a",
     name: "Class 7A",
@@ -107,7 +107,7 @@ export const ASSIGNED_CLASSES = [
   }
 ];
 
-export const INITIAL_ALL_STUDENTS = [
+const INITIAL_ALL_STUDENTS = [
   // Class 7A Students
   {
     id: "stu-1",
@@ -925,7 +925,7 @@ export function TeacherView({ lang, onLogout }) {
   const classRemedialCount = classStudents.filter(s => s.overallScore < 50).length;
 
   return (
-    <div className="space-y-6 pb-28 max-w-6xl mx-auto animate-fadeIn">
+    <div className="space-y-6 pb-28 max-w-6xl mx-auto animate-fadeIn w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Toast Feedback */}
       {feedbackToast && (
         <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2 animate-fadeIn">
@@ -956,7 +956,7 @@ export function TeacherView({ lang, onLogout }) {
           <p className="text-xs sm:text-sm text-slate-500 flex items-center gap-2 flex-wrap">
             <span>Model Senior Secondary School Rampur</span>
             <span>•</span>
-            <span className="text-slate-400">Teaching 5 Assigned Classes</span>
+            <span className="text-slate-400">Teaching {ASSIGNED_CLASSES.length} Assigned Classes</span>
             <span>•</span>
             <span className="text-emerald-600 font-semibold">Academic Session 2026-27</span>
           </p>
@@ -1124,13 +1124,13 @@ export function TeacherView({ lang, onLogout }) {
       </div>
 
       {/* 4. Segmented Navigation Tab Bar */}
-      <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl max-w-full overflow-x-auto scrollbar-none border border-slate-200/60">
+      <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-800/90 rounded-2xl max-w-full w-full min-w-0 overflow-x-auto scrollbar-none border border-slate-200/60 dark:border-slate-700">
         <button
           onClick={() => setActiveTab('overview')}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
             activeTab === 'overview'
               ? 'bg-upnavy-800 text-white shadow-xs'
-              : 'text-slate-600 hover:text-upnavy-950'
+              : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'
           }`}
         >
           <Users className="w-3.5 h-3.5" />
@@ -1142,7 +1142,7 @@ export function TeacherView({ lang, onLogout }) {
           className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
             activeTab === 'generator'
               ? 'bg-upnavy-800 text-white shadow-xs'
-              : 'text-slate-600 hover:text-upnavy-950'
+              : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'
           }`}
         >
           <Sparkles className="w-3.5 h-3.5 text-upsaffron-400" />
@@ -1154,7 +1154,7 @@ export function TeacherView({ lang, onLogout }) {
           className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
             activeTab === 'analytics'
               ? 'bg-upnavy-800 text-white shadow-xs'
-              : 'text-slate-600 hover:text-upnavy-950'
+              : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'
           }`}
         >
           <Layers className="w-3.5 h-3.5" />

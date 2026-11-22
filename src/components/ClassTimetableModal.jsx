@@ -17,7 +17,7 @@ import {
   Share2
 } from 'lucide-react';
 
-export const WEEKLY_SCHEDULES = {
+const WEEKLY_SCHEDULES = {
   'Class 6': {
     badge: 'Middle School Foundation',
     themeColor: 'from-purple-900 to-indigo-950',
@@ -94,7 +94,7 @@ export const WEEKLY_SCHEDULES = {
  * Generates an immaculate, standalone, high-resolution A4 printable HTML document.
  * Includes official headers, period timings, student info, timetable table, guidelines, and signatures.
  */
-export function generatePrintableTimetableHtml({ schedule, selectedGrade, currentUser, lang }) {
+function generatePrintableTimetableHtml({ schedule, selectedGrade, currentUser, lang }) {
   const isHi = lang === 'hi';
   const studentName = currentUser?.name || (isHi ? 'अतिथि शिक्षार्थी' : 'Student Learner');
   const studentRoll = currentUser?.rollNo || (currentUser ? '24' : 'N/A');
@@ -719,6 +719,7 @@ export function ClassTimetableModal({
               onClick={onClose}
               className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition active:scale-95 cursor-pointer"
               title="Close modal"
+              aria-label="Close"
             >
               <X className="w-5 h-5" />
             </button>

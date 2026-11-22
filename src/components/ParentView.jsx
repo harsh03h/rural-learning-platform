@@ -198,7 +198,7 @@ export function ParentView({ lang, onLogout }) {
   };
 
   return (
-    <div className="space-y-6 pb-28 max-w-5xl mx-auto animate-fadeIn">
+    <div className="space-y-6 pb-28 max-w-5xl mx-auto animate-fadeIn w-full max-w-full min-w-0 overflow-x-hidden">
       {/* Toast Notification */}
       {feedbackToast && (
         <div className="fixed top-28 sm:top-20 left-1/2 -translate-x-1/2 sm:left-auto sm:right-6 sm:translate-x-0 z-50 w-[92%] max-w-sm sm:w-auto bg-upnavy-950/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl border border-upnavy-700 text-xs flex items-center gap-2 animate-fadeIn">

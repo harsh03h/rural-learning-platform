@@ -71,24 +71,24 @@ export function Navbar({
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
+    <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-xs transition-all w-full max-w-full overflow-x-hidden">
       {/* GyanSetu EdTech Aesthetic Accent Line */}
       <div className="h-1 w-full bg-gradient-to-r from-upsaffron-600 via-amber-400 to-upnavy-800" />
       
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
+      <div className="w-full max-w-7xl mx-auto px-2 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1 sm:gap-4 min-w-0">
         
         {/* Left: Brand + Role Navigation Pills */}
-        <div className="flex items-center gap-3 sm:gap-6">
+        <div className="flex items-center gap-2 sm:gap-6 shrink-0">
           {/* Logo */}
-          <div className="flex items-center gap-2 sm:gap-2.5 cursor-pointer shrink-0" onClick={() => setRole('student')}>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-upnavy-900 via-upnavy-800 to-upnavy-700 flex items-center justify-center text-upsaffron-400 shadow-sm shadow-upnavy-900/30 border border-upnavy-700/40">
-              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
+          <div className="flex items-center gap-1 sm:gap-2.5 cursor-pointer shrink-0" onClick={() => setRole('student')}>
+            <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-upnavy-900 via-upnavy-800 to-upnavy-700 flex items-center justify-center text-upsaffron-400 shadow-sm shadow-upnavy-900/30 border border-upnavy-700/40 shrink-0">
+              <BookOpen className="w-3.5 h-3.5 sm:w-5 sm:h-5 stroke-[2.2]" />
             </div>
             <div>
-              <span className="text-base sm:text-lg font-black tracking-tight text-upnavy-950 dark:text-white font-sans leading-none block">
+              <span className="text-sm sm:text-lg font-black tracking-tight text-upnavy-950 dark:text-white font-sans leading-none block">
                 Gyan<span className="text-upsaffron-600">Setu</span>
               </span>
-              <span className="hidden sm:block text-[10px] text-slate-500 font-semibold tracking-tight">
+              <span className="hidden md:block text-[10px] text-slate-500 font-semibold tracking-tight">
                 Classes 6–10 EdTech
               </span>
             </div>
@@ -140,17 +140,18 @@ export function Navbar({
         </div>
 
         {/* Right: Modern Compact Utilities */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2 shrink min-w-0">
           {/* Active Class Grade Selector Dropdown */}
-          <div className="relative" ref={classMenuRef}>
+          <div className="relative shrink-0" ref={classMenuRef}>
             <button
               onClick={() => setIsClassMenuOpen(!isClassMenuOpen)}
-              className="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-upnavy-900 dark:text-slate-100 border border-slate-200/90 dark:border-slate-700 flex items-center gap-1.5 transition active:scale-95 shadow-2xs"
+              className="px-1.5 sm:px-2.5 py-1 rounded-full text-xs font-bold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-upnavy-900 dark:text-slate-100 border border-slate-200/90 dark:border-slate-700 flex items-center gap-0.5 sm:gap-1.5 transition active:scale-95 shadow-2xs shrink-0"
               title="Switch Class Curriculum (Classes 6 to 10)"
             >
               <School className="w-3.5 h-3.5 text-upsaffron-600 shrink-0" />
-              <span>{selectedGrade || 'Class 7'}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
+              <span className="hidden md:inline">{selectedGrade || 'Class 7'}</span>
+              <span className="md:hidden font-mono text-[11px] font-bold">{selectedGrade ? selectedGrade.replace('Class ', 'C') : 'C7'}</span>
+              <ChevronDown className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-slate-400 shrink-0" />
             </button>
 
             {isClassMenuOpen && (
@@ -192,7 +193,7 @@ export function Navbar({
           </div>
 
           {/* Unified Compact Network & Data Status Capsule (Consolidates Sync, Offline, and Low Data) */}
-          <div className="hidden sm:flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-0.5 rounded-full border border-slate-200/80 dark:border-slate-700 text-xs">
+          <div className="hidden lg:flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-0.5 rounded-full border border-slate-200/80 dark:border-slate-700 text-xs">
             <button
               onClick={() => setIsOffline(!isOffline)}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full font-semibold transition active:scale-95 ${
@@ -232,13 +233,13 @@ export function Navbar({
           </div>
 
           {/* Minimal Language Select (Compact Flag + Code) */}
-          <div className="relative inline-flex items-center">
-            <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 transition cursor-pointer">
+          <div className="relative inline-flex items-center shrink-0">
+            <div className="flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-1 rounded-full text-xs font-semibold bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 transition cursor-pointer shrink-0">
               <Globe className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value)}
-                className="bg-transparent text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer pr-0.5"
+                className="bg-transparent text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer pr-0.5 max-w-[40px] md:max-w-none"
                 aria-label="Select Language"
               >
                 {supportedLanguages.map((l) => (
@@ -250,10 +251,10 @@ export function Navbar({
             </div>
           </div>
 
-          {/* Help & Support Desk Circular Icon Button */}
+          {/* Help & Support Desk Circular Icon Button (Shown on desktop/tablet, available in menu on mobile) */}
           <button
             onClick={onOpenHelp}
-            className="w-8 h-8 rounded-full flex items-center justify-center bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 transition active:scale-95 shadow-2xs shrink-0 cursor-pointer"
+            className="hidden lg:flex w-8 h-8 rounded-full items-center justify-center bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 transition active:scale-95 shadow-2xs shrink-0 cursor-pointer"
             title="GyanSetu Help & Support Desk (1800 180 5321)"
             aria-label="Help & Support Desk"
           >
@@ -263,39 +264,39 @@ export function Navbar({
           {/* Dark / Light Mode Circular Icon Button */}
           <button
             onClick={onToggleTheme}
-            className="w-8 h-8 rounded-full flex items-center justify-center bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 border border-slate-200/80 dark:border-slate-700 transition active:scale-95 shadow-2xs shrink-0 cursor-pointer"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 border border-slate-200/80 dark:border-slate-700 transition active:scale-95 shadow-2xs shrink-0 cursor-pointer"
             title={theme === 'dark' ? (lang === 'hi' ? 'लाइट मोड (डिफ़ॉल्ट)' : 'Switch to Light Mode (Default)') : (lang === 'hi' ? 'डार्क मोड' : 'Switch to Dark Mode')}
             aria-label="Toggle Dark and Light Mode"
           >
             {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400 fill-amber-400/20" />
+              <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 fill-amber-400/20" />
             ) : (
-              <Moon className="w-4 h-4 text-upnavy-800" />
+              <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-upnavy-800" />
             )}
           </button>
 
           {/* User Profile / Sign In (Clean, uncluttered, no clipping) */}
           <div className="relative shrink-0" ref={menuRef}>
             {currentUser ? (
-              <div className="flex items-center gap-1 sm:gap-1.5">
+              <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
                 <button
                   onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                  className="flex items-center gap-1.5 p-1 pr-2.5 sm:pl-2 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 rounded-full transition text-xs text-upnavy-900 dark:text-slate-100 font-semibold cursor-pointer active:scale-95"
+                  className="flex items-center gap-1 sm:gap-1.5 p-0.5 sm:p-1 pr-1.5 sm:pr-2.5 sm:pl-2 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 rounded-full transition text-xs text-upnavy-900 dark:text-slate-100 font-semibold cursor-pointer active:scale-95 shrink-0"
                   title="Open user profile menu"
                 >
-                  <div className="w-6 h-6 rounded-full bg-upnavy-100 text-upnavy-900 flex items-center justify-center font-bold text-xs shadow-2xs border border-upnavy-200 shrink-0">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-upnavy-100 text-upnavy-900 flex items-center justify-center font-bold text-[10px] sm:text-xs shadow-2xs border border-upnavy-200 shrink-0">
                     {currentUser.avatar}
                   </div>
-                  <span className="hidden sm:inline font-bold">{currentUser.name.split(' ')[0]}</span>
-                  <ChevronDown className="w-3 h-3 text-slate-400" />
+                  <span className="hidden md:inline font-bold">{currentUser.name.split(' ')[0]}</span>
+                  <ChevronDown className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-slate-400" />
                 </button>
               </div>
             ) : (
               <button
                 onClick={onOpenAuthModal}
-                className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1.5 shrink-0"
+                className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-xs font-bold bg-upsaffron-600 hover:bg-upsaffron-700 text-white shadow-sm shadow-upsaffron-600/30 transition active:scale-95 flex items-center gap-1 sm:gap-1.5 shrink-0"
               >
-                <LogIn className="w-3.5 h-3.5" />
+                <LogIn className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>Sign In</span>
               </button>
             )}
@@ -521,50 +522,42 @@ export function Navbar({
       </div>
 
       {/* Mobile Role Switcher (Shown only on small screens) */}
-      <div className="md:hidden border-t border-slate-200/80 dark:border-slate-800 px-2.5 py-1.5 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md flex items-center justify-between text-xs gap-2">
-        <div className="flex items-center gap-1 bg-slate-200/70 dark:bg-slate-800/80 p-0.5 rounded-full flex-1">
+      <div className="md:hidden border-t border-slate-200/80 dark:border-slate-800 px-2 py-1 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md flex items-center justify-between text-xs gap-1.5 w-full max-w-full overflow-hidden">
+        <div className="flex items-center gap-0.5 sm:gap-1 bg-slate-200/70 dark:bg-slate-800/80 p-0.5 rounded-full flex-1 min-w-0">
           <button
             onClick={() => setRole('student')}
-            className={`flex-1 py-1 rounded-full font-bold text-center text-[11px] transition ${role === 'student' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
+            className={`flex-1 py-1 px-1 rounded-full font-bold text-center text-[10px] sm:text-[11px] truncate transition ${role === 'student' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
           >
             {lang === 'hi' ? 'छात्र' : 'Student'}
           </button>
           <button
             onClick={() => setRole('teacher')}
-            className={`flex-1 py-1 rounded-full font-bold text-center text-[11px] transition ${role === 'teacher' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
+            className={`flex-1 py-1 px-1 rounded-full font-bold text-center text-[10px] sm:text-[11px] truncate transition ${role === 'teacher' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
           >
             {lang === 'hi' ? 'शिक्षक' : 'Teacher'}
           </button>
           <button
             onClick={() => setRole('parent')}
-            className={`flex-1 py-1 rounded-full font-bold text-center text-[11px] transition ${role === 'parent' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
+            className={`flex-1 py-1 px-1 rounded-full font-bold text-center text-[10px] sm:text-[11px] truncate transition ${role === 'parent' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
           >
             {lang === 'hi' ? 'अभिभावक' : 'Parent'}
           </button>
           <button
             onClick={() => setRole('admin')}
-            className={`flex-1 py-1 rounded-full font-bold text-center text-[11px] transition ${role === 'admin' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
+            className={`flex-1 py-1 px-1 rounded-full font-bold text-center text-[10px] sm:text-[11px] truncate transition ${role === 'admin' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
           >
             {lang === 'hi' ? 'व्यवस्थापक' : 'Admin'}
           </button>
         </div>
         
-        <div className="flex items-center gap-1.5 shrink-0">
-          {isOffline && (
+        {isOffline && (
+          <div className="flex items-center gap-1.5 shrink-0">
             <span className="text-[10px] bg-rose-100 dark:bg-rose-950/50 text-rose-800 dark:text-rose-300 font-bold px-2 py-0.5 rounded-full border border-rose-200 dark:border-rose-800 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
               Offline
             </span>
-          )}
-          <button
-            onClick={onToggleTheme}
-            className="p-1.5 rounded-full text-slate-700 dark:text-amber-300 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 shrink-0 flex items-center justify-center transition active:scale-95 cursor-pointer"
-            title={theme === 'dark' ? (lang === 'hi' ? 'लाइट मोड' : 'Switch to Light Mode') : (lang === 'hi' ? 'डार्क मोड' : 'Switch to Dark Mode')}
-            aria-label="Toggle Theme"
-          >
-            {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
-          </button>
-        </div>
+          </div>
+        )}
       </div>
     </header>
   );

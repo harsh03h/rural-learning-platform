@@ -38,7 +38,7 @@ import { translations, sampleCourses, getLocalized, supportedLanguages } from '.
 import confetti from 'canvas-confetti';
 import { ClassTimetableModal } from './ClassTimetableModal';
 
-export const CLASS_METADATA = {
+const CLASS_METADATA = {
   'Class 6': {
     label: 'Class 6',
     stage: 'Middle School',
@@ -91,7 +91,7 @@ export const CLASS_METADATA = {
   }
 };
 
-export const REMEDIAL_ROADMAP_BY_GRADE = {
+const REMEDIAL_ROADMAP_BY_GRADE = {
   'Class 6': [
     {
       title: "Whole Numbers & Number Line (Class 6)",
@@ -471,12 +471,12 @@ export function StudentView({
   };
 
   return (
-    <div className="space-y-7 pb-36 sm:pb-28 max-w-6xl mx-auto">
+    <div className="space-y-7 pb-36 sm:pb-28 max-w-6xl mx-auto w-full max-w-full min-w-0 overflow-x-hidden">
       {/* 1. Modern Hero Section with Bento Stat Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Main Welcome Hero Card */}
         <div className="lg:col-span-2 bg-gradient-to-br from-white via-white to-slate-50/70 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800/80 rounded-3xl p-6 sm:p-8 border border-slate-200/90 dark:border-slate-800 shadow-xs relative overflow-hidden flex flex-col justify-between">
-          <div className="absolute -top-16 -right-16 w-60 h-60 bg-upsaffron-500/10 dark:bg-upsaffron-500/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-16 right-0 w-60 h-60 bg-upsaffron-500/10 dark:bg-upsaffron-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="space-y-3 relative z-10">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-bold text-upnavy-900 bg-upnavy-100/90 px-3 py-1 rounded-full border border-upnavy-200 flex items-center gap-1.5">
@@ -680,8 +680,8 @@ export function StudentView({
       </div>
 
       {/* 2. Modern Segmented Tab Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
-        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl max-w-full overflow-x-auto scrollbar-none">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3 w-full max-w-full min-w-0 overflow-hidden">
+        <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl max-w-full w-full sm:w-auto min-w-0 overflow-x-auto scrollbar-none">
           <button
             onClick={() => setActiveTab('courses')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
@@ -725,9 +725,9 @@ export function StudentView({
         {/* Retake Diagnostic Shortcut */}
         <button
           onClick={onOpenDiagnostic}
-          className="text-xs font-bold text-upnavy-900 hover:text-upsaffron-600 flex items-center gap-1.5 transition self-start sm:self-auto bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs"
+          className="text-xs font-bold text-upnavy-900 dark:text-slate-100 hover:text-upsaffron-600 dark:hover:text-amber-400 flex items-center gap-1.5 transition self-start sm:self-auto bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xs"
         >
-          <Compass className="w-3.5 h-3.5 text-upsaffron-600" />
+          <Compass className="w-3.5 h-3.5 text-upsaffron-600 dark:text-upsaffron-400" />
           <span>{lang === 'hi' ? 'दक्षता स्तर जांच परीक्षा दें' : 'Diagnostic Test (Grades 6–10)'}</span>
         </button>
       </div>
@@ -736,28 +736,28 @@ export function StudentView({
       {activeTab === 'courses' && (
         <div id="curriculum-section" className="space-y-4 animate-fadeIn scroll-mt-24">
           {/* A. DEDICATED CLASS SWITCHER BAR (CLASSES 6 TO 10) */}
-          <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200/80 shadow-xs space-y-3">
+          <div className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-lg bg-upnavy-900 text-upsaffron-400 flex items-center justify-center shrink-0">
                   <School className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <h3 className="text-xs sm:text-sm font-black text-upnavy-950 uppercase tracking-wide">
+                  <h3 className="text-xs sm:text-sm font-black text-upnavy-950 dark:text-slate-100 uppercase tracking-wide">
                     Curriculum by Class (Grades 6 to 10)
                   </h3>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     Aligned with NCERT & State Board syllabus for middle and secondary students
                   </p>
                 </div>
               </div>
 
-              <div className="text-xs text-slate-600 font-semibold bg-slate-50 px-3 py-1 rounded-xl border border-slate-200/60 self-start sm:self-auto">
+              <div className="text-xs text-slate-600 dark:text-slate-300 font-semibold bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-xl border border-slate-200/60 dark:border-slate-700 self-start sm:self-auto">
                 <span>Active: </span>
-                <strong className="text-upnavy-900">
+                <strong className="text-upnavy-900 dark:text-amber-400">
                   {selectedGrade === 'all' ? 'All Grades (6 to 10)' : `${selectedGrade}`}
                 </strong>
-                <span className="text-slate-400 font-normal"> ({filteredCourses.length} Courses available)</span>
+                <span className="text-slate-400 dark:text-slate-400 font-normal"> ({filteredCourses.length} Courses available)</span>
               </div>
             </div>
 
@@ -876,19 +876,19 @@ export function StudentView({
           </div>
 
           {/* B. Subject Filter Bar for Active Class with Dynamic Chapter Counts */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs">
-            <div className="flex items-center gap-1.5 text-xs overflow-x-auto max-w-full pb-1 sm:pb-0 scrollbar-none">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-slate-900 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs w-full max-w-full min-w-0 overflow-hidden">
+            <div className="flex items-center gap-1.5 text-xs overflow-x-auto max-w-full w-full min-w-0 pb-1 sm:pb-0 scrollbar-none px-0.5">
               <button
                 onClick={() => setSelectedSubject('all')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   selectedSubject === 'all' 
                     ? 'bg-upnavy-800 text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-slate-100'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <span>All {selectedGrade} Subjects</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedSubject === 'all' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                  selectedSubject === 'all' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}>
                   {getSubjectCount('all')}
                 </span>
@@ -896,15 +896,15 @@ export function StudentView({
 
               <button
                 onClick={() => setSelectedSubject('math')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   selectedSubject === 'math' 
                     ? 'bg-upnavy-800 text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-slate-100'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <span>📐 Mathematics</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedSubject === 'math' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                  selectedSubject === 'math' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}>
                   {getSubjectCount('math')}
                 </span>
@@ -912,15 +912,15 @@ export function StudentView({
 
               <button
                 onClick={() => setSelectedSubject('science')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   selectedSubject === 'science' 
                     ? 'bg-upnavy-800 text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-slate-100'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <span>🔬 Science</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedSubject === 'science' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                  selectedSubject === 'science' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}>
                   {getSubjectCount('science')}
                 </span>
@@ -928,15 +928,15 @@ export function StudentView({
 
               <button
                 onClick={() => setSelectedSubject('english')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   selectedSubject === 'english' 
                     ? 'bg-upnavy-800 text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-slate-100'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <span>📖 English</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedSubject === 'english' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                  selectedSubject === 'english' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}>
                   {getSubjectCount('english')}
                 </span>
@@ -944,15 +944,15 @@ export function StudentView({
 
               <button
                 onClick={() => setSelectedSubject('social')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   selectedSubject === 'social' 
                     ? 'bg-upnavy-800 text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-slate-100'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <span>🌍 Social Science</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedSubject === 'social' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                  selectedSubject === 'social' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}>
                   {getSubjectCount('social')}
                 </span>
@@ -960,15 +960,15 @@ export function StudentView({
 
               <button
                 onClick={() => setSelectedSubject('hindi')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   selectedSubject === 'hindi' 
                     ? 'bg-upnavy-800 text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-slate-100'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <span>🇮🇳 Hindi</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedSubject === 'hindi' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                  selectedSubject === 'hindi' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}>
                   {getSubjectCount('hindi')}
                 </span>
@@ -976,15 +976,15 @@ export function StudentView({
 
               <button
                 onClick={() => setSelectedSubject('computer')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1.5 cursor-pointer ${
                   selectedSubject === 'computer' 
                     ? 'bg-upnavy-800 text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-slate-100'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <span>💻 Digital Literacy</span>
                 <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
-                  selectedSubject === 'computer' ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                  selectedSubject === 'computer' ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                 }`}>
                   {getSubjectCount('computer')}
                 </span>
@@ -993,10 +993,10 @@ export function StudentView({
 
             <button
               onClick={() => setFilterOfflineOnly(!filterOfflineOnly)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition shrink-0 self-start sm:self-auto ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 border transition shrink-0 self-start sm:self-auto cursor-pointer ${
                 filterOfflineOnly
-                  ? 'bg-upsaffron-100 text-upsaffron-900 border-upsaffron-300'
-                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                  ? 'bg-upsaffron-100 dark:bg-upsaffron-950/60 text-upsaffron-900 dark:text-upsaffron-300 border-upsaffron-300 dark:border-upsaffron-800'
+                  : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
               }`}
             >
               <Download className="w-3.5 h-3.5" />

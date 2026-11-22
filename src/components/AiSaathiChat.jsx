@@ -3,18 +3,36 @@ import { Sparkles, Send, Bot, User, X, MessageSquare, Volume2, Lightbulb } from 
 import { prebuiltAiDoubtAnswers, getLocalized, translations, supportedLanguages } from '../data/mockData';
 import { askAiDoubt } from '../services/api';
 
-export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
+export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText, currentUser }) {
   const t = translations[lang] || translations['en'];
   const langConfig = supportedLanguages.find(l => l.code === lang);
+
+  const studentFirstName = currentUser?.name?.split(' ')[0] || (lang === 'hi' ? 'विद्यार्थी' : 'Learner');
+
+  const getWelcomeText = () => {
+    return lang === 'en' 
+      ? `Hello ${studentFirstName}! I am your 'Gyan Saathi' AI Tutor. Ask me any doubt in Math or Science, and I will explain with simple village & real-world examples.`
+      : `नमस्ते ${studentFirstName}! मैं आपका 'ज्ञान साथी' AI ट्यूटर हूँ। गणित या विज्ञान में कोई भी सवाल पूछें, मैं सरल भाषा और गांव के उदाहरणों के साथ समझाऊंगा।`;
+  };
 
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      text: lang === 'en' 
-        ? "Hello Rohan! I am your 'Gyan Saathi' AI Tutor. Ask me any doubt in Math or Science, and I will explain with simple village & real-world examples."
-        : `नमस्ते रोहन! मैं आपका 'ज्ञान साथी' AI ट्यूटर हूँ। गणित या विज्ञान में कोई भी सवाल पूछें, मैं सरल भाषा और गांव के उदाहरणों के साथ समझाऊंगा।`
+      text: getWelcomeText()
     }
   ]);
+
+  // Update greeting if user or language changes
+  useEffect(() => {
+    if (messages.length === 1 && messages[0].sender === 'bot') {
+      setMessages([
+        {
+          sender: 'bot',
+          text: getWelcomeText()
+        }
+      ]);
+    }
+  }, [currentUser?.name, lang]);
   const [inputVal, setInputVal] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
@@ -105,7 +123,8 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
         </div>
         <button 
           onClick={onClose}
-          className="text-slate-300 hover:text-white p-1 rounded-xl hover:bg-upnavy-800 transition"
+          className="text-slate-300 hover:text-white p-1 rounded-xl hover:bg-upnavy-800 transition cursor-pointer"
+          aria-label="Close"
         >
           <X className="w-4 h-4" />
         </button>
@@ -131,7 +150,7 @@ export function AiSaathiChat({ isOpen, onClose, lang, onSpeakText }) {
               <p className="whitespace-pre-line">{m.text}</p>
               {m.sender === 'bot' && (
                 <button
-                  onClick={() => onSpeakText(m.text)}
+                  onClick={() => onSpeakText?.(m.text)}
                   className="mt-2.5 text-[10px] text-upnavy-900 hover:text-upsaffron-600 font-bold flex items-center gap-1.5 bg-upnavy-50 px-2.5 py-1 rounded-lg border border-upnavy-200 transition"
                 >
                   <Volume2 className="w-3 h-3 text-upsaffron-600" />

@@ -134,8 +134,8 @@ export function RewardCertificateModal({
             <button
               onClick={onClose}
               className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-rose-100 dark:bg-slate-800 dark:hover:bg-rose-950/50 text-slate-600 hover:text-rose-600 dark:text-slate-300 dark:hover:text-rose-400 border border-slate-200 dark:border-slate-700 flex items-center justify-center transition active:scale-90 cursor-pointer shrink-0"
-              aria-label="Close Certificate Preview"
               title="Close Certificate (Esc)"
+              aria-label="Close"
             >
               <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>

@@ -9,7 +9,7 @@ export function DiagnosticModal({ isOpen, onClose, lang, onSaveResults }) {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const question = diagnosticQuestions[currentIdx];
+  const question = diagnosticQuestions[currentIdx] || diagnosticQuestions[0];
 
   const handleSelectOption = (optIdx) => {
     setSelectedAnswers({
@@ -73,23 +73,24 @@ export function DiagnosticModal({ isOpen, onClose, lang, onSaveResults }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
       <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-xl w-full p-4 sm:p-8 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
+        <div className="sticky top-0 bg-white dark:bg-slate-900 z-10 flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-6 pt-1">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-upsaffron-50 text-upsaffron-700 border border-upsaffron-200 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-2xl bg-upsaffron-50 dark:bg-upsaffron-950/60 text-upsaffron-700 dark:text-upsaffron-300 border border-upsaffron-200 dark:border-upsaffron-800 flex items-center justify-center font-bold">
               <Brain className="w-5 h-5 text-upsaffron-600" />
             </div>
             <div>
-              <h2 className="text-lg font-black text-upnavy-950">
+              <h2 className="text-lg font-black text-upnavy-950 dark:text-slate-100">
                 Diagnostic Baseline Assessment
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Evaluating Foundational Math & Science Prerequisites (Classes 6 to 10)
               </p>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition"
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+            aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
@@ -176,8 +177,8 @@ export function DiagnosticModal({ isOpen, onClose, lang, onSaveResults }) {
             </p>
 
             {/* Topic Results Breakdown Grid */}
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 mb-5 text-left">
-              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">
+            <div className="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 mb-5 text-left">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-300 mb-3">
                 Topic-Wise Mastery Status
               </h4>
               <div className="space-y-2.5">
@@ -194,23 +195,24 @@ export function DiagnosticModal({ isOpen, onClose, lang, onSaveResults }) {
                   }).length;
                   const pct = Math.round((correctCount / qs.length) * 100);
                   const isWeak = pct < 50;
+                  const isDeveloping = pct >= 50 && pct < 75;
 
                   return (
-                    <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200">
+                    <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
                       <div>
-                        <div className="font-bold text-xs text-slate-900">{tObj.topic}</div>
-                        <div className="text-[11px] text-slate-400">
+                        <div className="font-bold text-xs text-slate-900 dark:text-slate-100">{tObj.topic}</div>
+                        <div className="text-[11px] text-slate-400 dark:text-slate-400">
                           {correctCount} of {qs.length} correct ({pct}%)
                         </div>
                       </div>
                       <span className={`text-xs font-bold px-3 py-1 rounded-full ${
                         isWeak 
-                          ? 'bg-rose-100 text-rose-800 border border-rose-200' 
-                          : pct >= 80 
-                            ? 'bg-upnavy-100 text-upnavy-900 border border-upnavy-200' 
-                            : 'bg-amber-100 text-amber-800 border border-amber-200'
+                          ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800' 
+                          : isDeveloping 
+                            ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800' 
+                            : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                       }`}>
-                        {isWeak ? 'Weak Focus (Needs Remedial)' : 'Mastered Prerequisite'}
+                        {isWeak ? 'Weak Focus (Needs Remedial)' : isDeveloping ? 'Developing Prerequisite' : 'Mastered Prerequisite'}
                       </span>
                     </div>
                   );
@@ -218,18 +220,40 @@ export function DiagnosticModal({ isOpen, onClose, lang, onSaveResults }) {
               </div>
             </div>
 
-            {/* AI Recommendation Alert */}
-            <div className="p-4 rounded-2xl bg-upnavy-50/80 border border-upnavy-200 text-left mb-6 flex gap-3">
-              <Sparkles className="w-5 h-5 text-upsaffron-600 shrink-0 mt-0.5" />
-              <div>
-                <p className="text-xs font-bold text-upnavy-950 mb-0.5">
-                  AI Personalized Remedial Recommendation:
-                </p>
-                <p className="text-xs text-upnavy-800">
-                  "Revise Fractions Chapter 1 before advancing to Percentages to ensure foundational arithmetic fluency."
-                </p>
-              </div>
-            </div>
+            {/* AI Dynamic Recommendation Alert */}
+            {(() => {
+              const needsReview = diagnosticQuestions.reduce((acc, q) => {
+                if (!acc.some(item => item.topic === q.topic)) {
+                  acc.push({ topic: q.topic });
+                }
+                return acc;
+              }, []).filter(tObj => {
+                const qs = diagnosticQuestions.filter(q => q.topic === tObj.topic);
+                const correctCount = qs.filter(q => {
+                  const qIdx = diagnosticQuestions.findIndex(dq => dq.id === q.id);
+                  return selectedAnswers[qIdx] === q.correct;
+                }).length;
+                return (correctCount / qs.length) < 0.75;
+              }).map(t => t.topic);
+
+              const recText = needsReview.length === 0
+                ? "Outstanding baseline! You have demonstrated 100% mastery of foundational prerequisites across Math and Science. You are ready to tackle high-difficulty board problems."
+                : `Focus first on foundational review of ${needsReview.join(' and ')} to build core fluency before advancing to higher-order numericals.`;
+
+              return (
+                <div className="p-4 rounded-2xl bg-upnavy-50/80 dark:bg-slate-800/80 border border-upnavy-200 dark:border-slate-700 text-left mb-6 flex gap-3">
+                  <Sparkles className="w-5 h-5 text-upsaffron-600 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-xs font-bold text-upnavy-950 dark:text-slate-100 mb-0.5">
+                      AI Personalized Remedial Recommendation:
+                    </p>
+                    <p className="text-xs text-upnavy-800 dark:text-slate-300">
+                      "{recText}"
+                    </p>
+                  </div>
+                </div>
+              );
+            })()}
 
             <div className="flex gap-3 justify-center">
               <button

@@ -813,6 +813,7 @@ export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
                 onClick={() => setIsPrintPreviewOpen(false)}
                 className="sm:hidden p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 transition cursor-pointer"
                 title="Close Preview"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -832,6 +833,7 @@ export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
                 onClick={() => setIsPrintPreviewOpen(false)}
                 className="hidden sm:flex p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition cursor-pointer"
                 title="Close Preview"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>

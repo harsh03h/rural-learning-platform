@@ -26,7 +26,7 @@ export function DownloadsModal({ isOpen, onClose, lang, downloadedIds, onRemoveD
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer" aria-label="Close">
             <X className="w-5 h-5" />
           </button>
         </div>

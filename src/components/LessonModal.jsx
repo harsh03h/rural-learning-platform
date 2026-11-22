@@ -166,7 +166,7 @@ export function LessonModal({
       <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-3.5 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-y-auto flex flex-col notes-modal-container">
         
         {/* Modal Top Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 no-print">
+        <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 no-print sticky top-0 bg-white dark:bg-slate-900 z-10 pt-1">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-upnavy-50 dark:bg-slate-800 text-upnavy-800 dark:text-upsaffron-400 border border-upnavy-200/80 dark:border-slate-700 flex items-center justify-center font-bold shrink-0">
               <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -329,11 +329,47 @@ export function LessonModal({
                       <p className="text-slate-400">Numerator is the shaded slice (1), Denominator is total equal parts (4).</p>
                     </div>
                   </div>
-                ) : (
+                ) : (chapter.topicKey?.includes('Chemical') || chapter.title?.en?.includes('Chemical')) ? (
+                  <div className="py-2 flex flex-col items-center justify-center gap-2 text-center">
+                    <div className="p-3 bg-indigo-950/70 rounded-xl border border-indigo-500/40 text-indigo-200 text-xs font-mono">
+                      2H₂ (Hydrogen) + O₂ (Oxygen) → 2H₂O (Water)
+                    </div>
+                    <p className="text-[11px] text-slate-300 font-semibold">
+                      Law of Conservation of Mass: Reactants (4 H, 2 O) = Products (4 H, 2 O)
+                    </p>
+                  </div>
+                ) : (chapter.topicKey?.includes('Electricity') || chapter.title?.en?.includes('Electricity')) ? (
+                  <div className="py-2 flex flex-col items-center justify-center gap-2 text-center">
+                    <div className="p-3 bg-amber-950/70 rounded-xl border border-amber-500/40 text-amber-200 text-xs font-mono">
+                      🔋 Potential (V) = ⚡ Current (I) × 🛑 Resistance (R)
+                    </div>
+                    <p className="text-[11px] text-slate-300 font-semibold">
+                      Ohm's Law: Direct proportional relationship between voltage and current
+                    </p>
+                  </div>
+                ) : (chapter.topicKey?.includes('Number') || chapter.title?.en?.includes('Number') || chapter.topicKey?.includes('Integers')) ? (
+                  <div className="py-2 flex flex-col items-center justify-center gap-2 text-center">
+                    <div className="p-3 bg-cyan-950/70 rounded-xl border border-cyan-500/40 text-cyan-200 text-xs font-mono">
+                      ← Negative (-3, -2, -1) | 0 (Neutral) | Positive (+1, +2, +3) →
+                    </div>
+                    <p className="text-[11px] text-slate-300 font-semibold">
+                      Real Number Line Representation & Magnitude Comparison
+                    </p>
+                  </div>
+                ) : (chapter.topicKey?.includes('Photo') || chapter.title?.en?.includes('Photo') || chapter.topicKey?.includes('Plant')) ? (
                   <div className="py-3 flex items-center justify-center gap-4 text-center">
                     <div className="p-3 bg-emerald-950/60 rounded-xl border border-emerald-500/30 text-emerald-200 text-xs">
-                      ☀️ Sun + 💧 Soil Water + 🍃 Chlorophyll = 🌾 Glucose + 💨 Oxygen
+                      ☀️ Sun + 💧 Soil Water + 🍃 Chlorophyll → 🌾 Glucose + 💨 Oxygen
                     </div>
+                  </div>
+                ) : (
+                  <div className="py-2 flex flex-col items-center justify-center gap-2 text-center">
+                    <div className="p-3 bg-slate-800/90 rounded-xl border border-slate-700 text-slate-200 text-xs">
+                      🔬 Concept Hypothesis → 📐 Deductive Reasoning → 🧪 Verified Proof
+                    </div>
+                    <p className="text-[11px] text-slate-400">
+                      NCERT Experiential Learning Framework
+                    </p>
                   </div>
                 )}
               </div>
@@ -706,10 +742,15 @@ export function LessonModal({
                       <button
                         disabled={!isAllAnswered}
                         onClick={handleQuizSubmit}
-                        className="px-5 py-2 rounded-xl bg-upsaffron-600 hover:bg-upsaffron-700 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-black flex items-center gap-1.5 transition active:scale-95 shadow-sm shadow-upsaffron-600/30"
+                        className={`px-5 py-2 rounded-xl text-white text-xs font-black flex items-center gap-1.5 transition active:scale-95 shadow-sm ${
+                          isAllAnswered 
+                            ? 'bg-upsaffron-600 hover:bg-upsaffron-700 shadow-upsaffron-600/30 cursor-pointer' 
+                            : 'bg-slate-400 dark:bg-slate-700 opacity-60 cursor-not-allowed'
+                        }`}
+                        title={isAllAnswered ? "Submit answers and receive XP" : `Please answer all 5 questions (${answeredCount}/${totalQuestions} answered)`}
                       >
                         <Sparkles className="w-3.5 h-3.5" />
-                        <span>Submit 5 Questions</span>
+                        <span>{isAllAnswered ? (lang === 'hi' ? '5 प्रश्न जमा करें (Submit)' : 'Submit 5 Questions') : (lang === 'hi' ? `सभी प्रश्न हल करें (${answeredCount}/${totalQuestions})` : `Answer All Questions (${answeredCount}/${totalQuestions})`)}</span>
                       </button>
                     ) : (
                       <button
