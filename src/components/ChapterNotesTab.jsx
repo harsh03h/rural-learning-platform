@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FileText, 
   Download, 
@@ -18,7 +18,9 @@ import {
   ChevronUp,
   Layers,
   Eye,
-  BookMarked
+  BookMarked,
+  X,
+  ShieldCheck
 } from 'lucide-react';
 import { getNotesForChapter, formatNotesAsDocumentText } from '../data/chapterNotesBank';
 
@@ -27,8 +29,20 @@ export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
   const [viewMode, setViewMode] = useState('stepper'); // 'stepper' | 'continuous'
   const [downloadedTxt, setDownloadedTxt] = useState(false);
   const [revealedSolutions, setRevealedSolutions] = useState({});
+  const [isPrintPreviewOpen, setIsPrintPreviewOpen] = useState(false);
 
   const notes = getNotesForChapter(chapter, lang);
+
+  useEffect(() => {
+    const handleAfterPrint = () => {
+      document.body.classList.remove('printing-notes-active');
+    };
+    window.addEventListener('afterprint', handleAfterPrint);
+    return () => {
+      window.removeEventListener('afterprint', handleAfterPrint);
+      document.body.classList.remove('printing-notes-active');
+    };
+  }, []);
 
   if (!notes) {
     return (
@@ -58,8 +72,13 @@ export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
     setTimeout(() => setDownloadedTxt(false), 2500);
   };
 
-  const handlePrintNotes = () => {
+  const handleTriggerPrint = () => {
+    document.body.classList.add('printing-notes-active');
     window.print();
+    // Fallback safety timeout to clear class if afterprint doesn't fire
+    setTimeout(() => {
+      document.body.classList.remove('printing-notes-active');
+    }, 1500);
   };
 
   const toggleSolution = (key) => {
@@ -69,480 +88,460 @@ export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
     }));
   };
 
-  // Helper to render individual page content cleanly
-  const renderSinglePage = (page) => {
+  /**
+   * Renders the authentic, high-prestige NCERT A4 Printable Academic Study Guide Page.
+   * Used for both on-screen print preview and the physical/PDF print engine.
+   */
+  const renderA4PrintablePage = (page, isPreview = false) => {
     if (!page) return null;
 
     return (
       <div 
-        key={page.pageNumber} 
-        className="notes-print-page bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-xs space-y-6 relative overflow-hidden"
+        key={`a4-page-${page.pageNumber}`}
+        className={`notes-printable-page-a4 bg-white text-slate-900 border-2 border-slate-900 rounded-md p-6 sm:p-8 flex flex-col justify-between ${
+          isPreview ? 'shadow-2xl max-w-[210mm] mx-auto min-h-[297mm] my-6 transition-transform' : ''
+        }`}
+        style={{ boxSizing: 'border-box' }}
       >
-        {/* Official Page Header (Appears on print & screen) */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3.5 border-b border-slate-100 dark:border-slate-800/80 text-xs">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-upsaffron-600 to-amber-500 text-white flex items-center justify-center font-black text-[11px] shadow-2xs shrink-0">
-              GS
+        {/* TOP OFFICIAL ACADEMIC LETTERHEAD */}
+        <div className="border-b-2 border-slate-900 pb-2.5 mb-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-xl bg-upnavy-950 text-white flex flex-col items-center justify-center font-black text-xs border border-amber-500 shrink-0 shadow-xs">
+                <span className="text-[11px] leading-tight text-amber-400">ज्ञान</span>
+                <span className="text-[8px] leading-none text-slate-200">सेतु</span>
+              </div>
+              <div>
+                <div className="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-950">
+                  GyanSetu Rural Digital Learning Initiative
+                </div>
+                <div className="text-[9px] font-bold text-amber-700 dark:text-amber-700 uppercase tracking-wider">
+                  Autonomous Academic Council • Certified Under National Curriculum Framework
+                </div>
+              </div>
             </div>
-            <div className="font-bold text-upnavy-950 dark:text-slate-200 text-[11px] sm:text-xs">
-              GyanSetu Academic Council • {notes.grade} {notes.subject.toUpperCase()}
+
+            <div className="text-right shrink-0">
+              <div className="text-[10px] font-mono font-black text-slate-900">
+                DOC REF: GS-2026-{notes.subject.toUpperCase()}-CH0{page.pageNumber}
+              </div>
+              <div className="inline-block bg-slate-950 text-white font-mono text-[9px] font-black px-2 py-0.5 rounded mt-0.5">
+                PAGE {page.pageNumber} OF 5
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            <span className="font-mono text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-upsaffron-100 dark:bg-upsaffron-950 text-upsaffron-900 dark:text-upsaffron-300 border border-upsaffron-300/80 dark:border-upsaffron-800/60">
-              {isHi ? `पृष्ठ ${page.pageNumber} / 5` : `Page ${page.pageNumber} of 5`}
-            </span>
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 hidden sm:inline">
-              NCERT Curriculum
-            </span>
-          </div>
-        </div>
 
-        {/* Page Title & Subtitle */}
-        <div className="space-y-1">
-          <span className="text-[10px] font-black uppercase tracking-wider text-upsaffron-700 dark:text-upsaffron-400 bg-amber-50 dark:bg-amber-950/40 px-2.5 py-0.5 rounded-md border border-amber-200 dark:border-amber-900/40">
-            {page.badge}
-          </span>
-          <h2 className="text-base sm:text-xl font-black text-upnavy-950 dark:text-white leading-tight">
-            {page.title}
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            {page.subtitle}
-          </p>
-        </div>
-
-        {/* PAGE 1 CONTENT: Foundations & Prerequisites */}
-        {page.pageKey === 'foundations' && (
-          <div className="space-y-5">
-            {/* 1. Academic Overview */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60 space-y-2.5">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-upnavy-950 dark:text-upsaffron-400">
-                <BookOpen className="w-4 h-4 text-upsaffron-600" />
-                <span>{isHi ? '1.1 अध्याय की विस्तृत पृष्ठभूमि एवं विषय प्रवेश' : '1.1 Academic Context & Chapter Overview'}</span>
-              </div>
-              {(page.academicOverview || []).map((para, idx) => (
-                <p key={idx} className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {para}
-                </p>
-              ))}
+          {/* Secondary Title Bar with Double Rule */}
+          <div className="mt-2.5 pt-2 border-t border-slate-300 flex items-center justify-between text-xs">
+            <div className="font-extrabold text-slate-900 uppercase tracking-tight">
+              {notes.grade} • {notes.subject.toUpperCase()} • {notes.title}
             </div>
+            <div className="text-[10px] font-bold text-slate-600 uppercase tracking-wider hidden sm:block">
+              NCERT Comprehensive Academic Study Guide
+            </div>
+          </div>
+          <div className="h-0.5 bg-gradient-to-r from-upsaffron-600 via-amber-500 to-upsaffron-600 mt-1 rounded-full" />
+        </div>
 
-            {/* 2. Target Learning Objectives */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-900/40 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-amber-950 dark:text-amber-300">
-                <Sparkles className="w-4 h-4 text-amber-600" />
-                <span>{isHi ? '1.2 अपेक्षित अधिगम प्रतिफल (Learning Outcomes)' : '1.2 Target NCERT Learning Objectives & Competencies'}</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {(page.learningObjectives || []).map((obj, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-300 leading-relaxed bg-white/80 dark:bg-slate-800/60 p-2.5 rounded-xl border border-amber-100 dark:border-slate-700">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>{obj}</span>
-                  </div>
+        {/* PAGE SPECIFIC ACADEMIC CONTENT */}
+        <div className="flex-1 space-y-4 text-xs leading-relaxed">
+          {/* Page Badge & Title */}
+          <div className="border-l-4 border-upsaffron-600 pl-3 py-0.5 space-y-0.5">
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-800">
+              {page.badge}
+            </div>
+            <h2 className="text-base sm:text-lg font-black text-slate-950 uppercase">
+              {page.title}
+            </h2>
+            <p className="text-[11px] font-medium text-slate-600 italic">
+              {page.subtitle}
+            </p>
+          </div>
+
+          {/* PAGE 1: Foundations & Prerequisites */}
+          {page.pageKey === 'foundations' && (
+            <div className="space-y-3.5">
+              {/* Overview */}
+              <div className="p-3.5 rounded-lg border border-slate-300 bg-slate-50/70 space-y-1.5">
+                <div className="font-black text-slate-950 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <BookOpen className="w-3.5 h-3.5 text-amber-700" />
+                  <span>1.1 Academic Context & In-Depth Chapter Overview</span>
+                </div>
+                {(page.academicOverview || []).map((para, idx) => (
+                  <p key={idx} className="text-slate-800 text-[11px] leading-relaxed">
+                    {para}
+                  </p>
                 ))}
               </div>
-            </div>
 
-            {/* 3. Prerequisite Knowledge Bridge */}
-            {page.prerequisites && (
-              <div className="p-4 sm:p-5 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-200/80 dark:border-indigo-900/40 space-y-2.5">
-                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-indigo-950 dark:text-indigo-300">
-                  <BookMarked className="w-4 h-4 text-indigo-600" />
-                  <span>{isHi ? '1.3 पूर्व ज्ञान सेतु (Prerequisites Bridge)' : '1.3 Foundational Prerequisite Concepts'}</span>
+              {/* Objectives */}
+              <div className="p-3 rounded-lg border border-amber-300 bg-amber-50/50 space-y-2">
+                <div className="font-black text-amber-950 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                  <span>1.2 Target NCERT Learning Objectives & Competencies</span>
                 </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400">
-                  {page.prerequisites.intro}
-                </p>
-                <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-                  {(page.prerequisites.items || []).map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="font-bold text-indigo-600 shrink-0">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* 4. Real-World Relevance */}
-            <div className="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-900/40 flex items-start gap-3">
-              <Compass className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-              <div className="space-y-1">
-                <div className="text-xs font-black uppercase tracking-wider text-emerald-950 dark:text-emerald-300">
-                  {isHi ? '1.4 समाज एवं ग्रामीण जीवन में प्रासंगिकता' : '1.4 Practical & Rural Community Relevance'}
-                </div>
-                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {page.realWorldRelevance}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* PAGE 2 CONTENT: Deep Conceptual Theory & Mechanisms */}
-        {page.pageKey === 'theory' && (
-          <div className="space-y-5">
-            {/* 1. Deep Theory Breakdown */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/60 space-y-2">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-upnavy-950 dark:text-upsaffron-400">
-                <Layers className="w-4 h-4 text-upsaffron-600" />
-                <span>{isHi ? '2.1 गहन सैद्धांतिक विश्लेषण एवं मूल सिद्धांत' : '2.1 In-Depth Conceptual Theory & Core Principles'}</span>
-              </div>
-              {(page.deepTheory || []).map((t, idx) => (
-                <p key={idx} className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {t}
-                </p>
-              ))}
-            </div>
-
-            {/* 2. Theorems / Core Laws */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-upnavy-950 dark:text-upsaffron-400">
-                <BookmarkCheck className="w-4 h-4 text-amber-500" />
-                <span>{isHi ? '2.2 मौलिक नियम, प्रमेय एवं सूत्र' : '2.2 Fundamental Theorems, Laws & Rules'}</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {(page.theorems || []).map((th, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-1.5 shadow-2xs">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-black text-upnavy-950 dark:text-white">
-                        {th.name}
-                      </span>
-                      <span className="text-[10px] font-bold text-upsaffron-800 dark:text-upsaffron-300 bg-upsaffron-50 dark:bg-upsaffron-950/80 px-2 py-0.5 rounded-full border border-upsaffron-200 dark:border-upsaffron-800">
-                        {th.ruleType}
-                      </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {(page.learningObjectives || []).map((obj, idx) => (
+                    <div key={idx} className="flex items-start gap-1.5 text-[10.5px] text-slate-800 bg-white/90 p-2 rounded border border-amber-200">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" />
+                      <span>{obj}</span>
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-                      {th.statement}
+                  ))}
+                </div>
+              </div>
+
+              {/* Prerequisites & Rural Context */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {page.prerequisites && (
+                  <div className="p-3 rounded-lg border border-slate-300 bg-white space-y-1.5">
+                    <div className="font-black text-slate-900 uppercase tracking-wider text-[10.5px] flex items-center gap-1.5">
+                      <BookMarked className="w-3.5 h-3.5 text-indigo-700" />
+                      <span>1.3 Prerequisite Knowledge Bridge</span>
+                    </div>
+                    <p className="text-[10px] text-slate-600">
+                      {page.prerequisites.intro}
                     </p>
+                    <ul className="space-y-1 text-[10px] text-slate-800">
+                      {(page.prerequisites.items || []).map((it, idx) => (
+                        <li key={idx} className="flex items-start gap-1.5">
+                          <span className="font-bold text-amber-700">•</span>
+                          <span>{it}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                ))}
+                )}
+
+                <div className="p-3 rounded-lg border border-emerald-300 bg-emerald-50/50 space-y-1.5">
+                  <div className="font-black text-emerald-950 uppercase tracking-wider text-[10.5px] flex items-center gap-1.5">
+                    <Compass className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>1.4 Practical & Rural Community Relevance</span>
+                  </div>
+                  <p className="text-[10.5px] text-slate-800 leading-relaxed">
+                    {page.realWorldRelevance}
+                  </p>
+                </div>
               </div>
             </div>
+          )}
 
-            {/* 3. Step-by-Step Mechanisms */}
-            {page.mechanism && (
-              <div className="p-4 sm:p-5 rounded-2xl bg-sky-50/50 dark:bg-sky-950/20 border border-sky-200/80 dark:border-sky-900/40 space-y-3">
-                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-sky-950 dark:text-sky-300">
-                  <CheckCircle2 className="w-4 h-4 text-sky-600" />
-                  <span>{page.mechanism.title}</span>
+          {/* PAGE 2: Conceptual Theory & Mechanisms */}
+          {page.pageKey === 'theory' && (
+            <div className="space-y-3.5">
+              {/* Theory text */}
+              <div className="p-3 rounded-lg border border-slate-300 bg-slate-50/60 space-y-1">
+                <div className="font-black text-slate-950 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <Layers className="w-3.5 h-3.5 text-amber-700" />
+                  <span>2.1 Conceptual Theory & Core Scientific Principles</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {(page.mechanism.steps || []).map((st) => (
-                    <div key={st.num} className="p-3 rounded-xl bg-white/90 dark:bg-slate-800/80 border border-sky-100 dark:border-slate-700 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 h-5 rounded-full bg-sky-600 text-white text-[10px] font-black flex items-center justify-center shrink-0">
-                          {st.num}
-                        </span>
-                        <span className="text-xs font-bold text-upnavy-950 dark:text-white">
-                          {st.title}
+                {(page.deepTheory || []).map((t, idx) => (
+                  <p key={idx} className="text-slate-800 text-[11px] leading-relaxed">
+                    {t}
+                  </p>
+                ))}
+              </div>
+
+              {/* Theorems */}
+              <div className="space-y-1.5">
+                <div className="font-black text-slate-950 uppercase tracking-wider text-[11px]">
+                  2.2 Fundamental Laws, Theorems & Axioms
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {(page.theorems || []).map((th, idx) => (
+                    <div key={idx} className="p-2.5 rounded-lg border border-slate-300 bg-white space-y-1">
+                      <div className="flex items-center justify-between text-[10.5px]">
+                        <span className="font-black text-slate-900">{th.name}</span>
+                        <span className="text-[9px] font-bold font-mono px-1.5 py-0.2 bg-amber-100 text-amber-900 rounded border border-amber-300">
+                          {th.ruleType}
                         </span>
                       </div>
-                      <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 pl-7">
-                        {st.desc}
+                      <p className="text-[10px] text-slate-700 leading-relaxed">
+                        {th.statement}
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
-            )}
 
-            {/* 4. Comparative Matrix Table */}
-            {page.comparativeTable && (
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-upnavy-950 dark:text-upsaffron-400">
-                  <FileText className="w-4 h-4 text-amber-500" />
-                  <span>{isHi ? '2.3 तुलनात्मक सारणी एवं वर्गीकरण' : '2.3 Comparative Analysis & Classification Matrix'}</span>
-                </div>
-                <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr className="bg-slate-100/80 dark:bg-slate-800 text-upnavy-950 dark:text-white font-bold border-b border-slate-200 dark:border-slate-700">
-                        {(page.comparativeTable.headers || []).map((h, idx) => (
-                          <th key={idx} className="p-2.5 sm:p-3 whitespace-nowrap">
-                            {h}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
-                      {(page.comparativeTable.rows || []).map((row, rIdx) => (
-                        <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
-                          {row.map((cell, cIdx) => (
-                            <td key={cIdx} className={`p-2.5 sm:p-3 ${cIdx === 0 ? 'font-bold text-upnavy-950 dark:text-slate-200' : ''}`}>
-                              {cell}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* PAGE 3 CONTENT: Solved NCERT Exemplar Problems */}
-        {page.pageKey === 'exemplars' && (
-          <div className="space-y-4">
-            {(page.exemplars || []).map((ex) => (
-              <div 
-                key={ex.id}
-                className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-3 shadow-2xs"
-              >
-                <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-2">
-                  <span className="text-xs font-black uppercase tracking-wider text-upsaffron-800 dark:text-upsaffron-300 bg-upsaffron-100 dark:bg-upsaffron-950/80 px-2.5 py-0.5 rounded-full border border-upsaffron-300 dark:border-upsaffron-800">
-                    {ex.marksBadge}
-                  </span>
-                  <span className="text-[11px] text-slate-500 font-bold">
-                    NCERT Problem #{ex.id}
-                  </span>
-                </div>
-
-                <div className="space-y-1">
-                  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                    {isHi ? 'प्रश्न विवरण:' : 'Problem Statement:'}
+              {/* Mechanisms */}
+              {page.mechanism && (
+                <div className="p-3 rounded-lg border border-sky-300 bg-sky-50/40 space-y-2">
+                  <div className="font-black text-sky-950 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-sky-700" />
+                    <span>2.3 {page.mechanism.title}</span>
                   </div>
-                  <p className="text-xs sm:text-sm font-bold text-upnavy-950 dark:text-white leading-relaxed">
-                    {ex.question}
-                  </p>
-                </div>
-
-                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                  <span className="font-bold text-upnavy-950 dark:text-slate-200">
-                    {isHi ? 'दिया गया डेटा एवं प्रासंगिक सूत्र:' : 'Given Data & Parameters:'}
-                  </span>
-                  <div>{ex.given}</div>
-                </div>
-
-                {/* Step-by-Step Solution */}
-                <div className="space-y-2 pt-1">
-                  <div className="text-xs font-black uppercase tracking-wider text-upnavy-950 dark:text-upsaffron-400">
-                    {isHi ? 'चरणबद्ध समाधान (Step-by-Step Solution):' : 'Step-by-Step Solution:'}
-                  </div>
-                  <div className="space-y-1.5 pl-2 border-l-2 border-upsaffron-400/80 dark:border-upsaffron-600">
-                    {(ex.steps || []).map((st, idx) => (
-                      <div key={idx} className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                        <span className="font-bold text-upnavy-950 dark:text-white mr-1.5">{st.step}:</span>
-                        <span>{st.text}</span>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {(page.mechanism.steps || []).map((st) => (
+                      <div key={st.num} className="p-2 rounded bg-white border border-sky-200 space-y-1 text-[10px]">
+                        <div className="flex items-center gap-1.5 font-bold text-slate-900">
+                          <span className="w-4 h-4 rounded-full bg-sky-700 text-white text-[9px] font-black flex items-center justify-center shrink-0">
+                            {st.num}
+                          </span>
+                          <span className="truncate">{st.title}</span>
+                        </div>
+                        <p className="text-slate-600 text-[9.5px] leading-tight">
+                          {st.desc}
+                        </p>
                       </div>
                     ))}
                   </div>
                 </div>
+              )}
 
-                {/* Verified Final Answer & Examiner Tip */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/80">
-                  <div className="px-3 py-1.5 rounded-xl bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 text-xs font-bold border border-emerald-300 dark:border-emerald-800 flex items-center gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>{ex.finalAnswer}</span>
+              {/* Comparative Table */}
+              {page.comparativeTable && (
+                <div className="space-y-1">
+                  <div className="font-black text-slate-950 uppercase tracking-wider text-[10.5px]">
+                    2.4 Comparative Analysis & Classification Matrix
                   </div>
-                  <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                    <Lightbulb className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                    <span>{ex.examinerTip}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* PAGE 4 CONTENT: High-Yield Formula Sheet & Exam Traps */}
-        {page.pageKey === 'cheatsheet' && (
-          <div className="space-y-5">
-            {/* 1. Master Formula Grid */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-upnavy-950 dark:text-upsaffron-400">
-                <Sparkles className="w-4 h-4 text-amber-500" />
-                <span>{isHi ? '4.1 त्वरित सूत्र एवं पारिभाषिक शब्दावली तालिका' : '4.1 Master Formula & Definitions Grid'}</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {(page.formulaGrid || []).map((f, idx) => (
-                  <div key={idx} className="p-3.5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-1.5 shadow-2xs">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-black text-upnavy-950 dark:text-white">
-                        {f.term}
-                      </span>
-                      <span className="text-[10px] font-mono font-bold text-upsaffron-800 dark:text-upsaffron-300 bg-upsaffron-50 dark:bg-upsaffron-950 px-2 py-0.5 rounded-full border border-upsaffron-200 dark:border-upsaffron-800">
-                        #{idx + 1}
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
-                      {f.definition}
-                    </p>
-                    <div className="text-[10px] text-slate-400 font-mono">
-                      {f.notation}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 2. Quick Summary Matrix */}
-            {page.quickSummaryTable && (
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-upnavy-950 dark:text-upsaffron-400">
-                  <FileText className="w-4 h-4 text-upsaffron-600" />
-                  <span>{isHi ? '4.2 त्वरित पुनरावलोकन मैट्रिक्स' : '4.2 Quick Revision Matrix'}</span>
-                </div>
-                <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr className="bg-slate-100 dark:bg-slate-800 text-upnavy-950 dark:text-white font-bold border-b border-slate-200 dark:border-slate-700">
-                        {(page.quickSummaryTable.headers || []).map((h, idx) => (
-                          <th key={idx} className="p-2.5 whitespace-nowrap">{h}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
-                      {(page.quickSummaryTable.rows || []).map((r, rIdx) => (
-                        <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
-                          {r.map((c, cIdx) => (
-                            <td key={cIdx} className={`p-2.5 ${cIdx === 0 ? 'font-bold' : ''}`}>{c}</td>
+                  <div className="overflow-x-auto rounded border border-slate-300">
+                    <table className="w-full text-left text-[10px] border-collapse">
+                      <thead>
+                        <tr className="bg-slate-100 text-slate-950 font-bold border-b border-slate-300">
+                          {(page.comparativeTable.headers || []).map((h, idx) => (
+                            <th key={idx} className="p-1.5 sm:p-2 border-r border-slate-200 last:border-0">{h}</th>
                           ))}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200 text-slate-800">
+                        {(page.comparativeTable.rows || []).map((r, rIdx) => (
+                          <tr key={rIdx} className="hover:bg-slate-50/50">
+                            {r.map((c, cIdx) => (
+                              <td key={cIdx} className={`p-1.5 sm:p-2 border-r border-slate-200 last:border-0 ${cIdx === 0 ? 'font-bold' : ''}`}>
+                                {c}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* PAGE 3: Solved NCERT Exemplar Problems */}
+          {page.pageKey === 'exemplars' && (
+            <div className="space-y-3">
+              {(page.exemplars || []).map((ex) => (
+                <div key={ex.id} className="p-3 rounded-lg border border-slate-300 bg-white space-y-2">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-900 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+                      {ex.marksBadge}
+                    </span>
+                    <span className="text-[9.5px] font-mono font-bold text-slate-500">
+                      NCERT EXEMPLAR PROBLEM #{ex.id}
+                    </span>
+                  </div>
+
+                  <p className="font-bold text-slate-950 text-[11px] leading-snug">
+                    {ex.question}
+                  </p>
+
+                  <div className="p-2 rounded bg-slate-50 border border-slate-200 text-[10px] text-slate-700">
+                    <strong>Given / Parameters:</strong> {ex.given}
+                  </div>
+
+                  {/* Solution steps */}
+                  <div className="space-y-1 pl-2 border-l-2 border-amber-600 text-[10px]">
+                    {(ex.steps || []).map((st, idx) => (
+                      <div key={idx} className="text-slate-800">
+                        <strong className="text-slate-950 mr-1">{st.step}:</strong>
+                        <span>{st.text}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Final answer and tip */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-slate-200 text-[10px]">
+                    <div className="px-2.5 py-1 rounded bg-emerald-100 text-emerald-950 font-bold border border-emerald-300 flex items-center gap-1.5">
+                      <Check className="w-3.5 h-3.5 text-emerald-700" />
+                      <span>{ex.finalAnswer}</span>
+                    </div>
+                    <div className="text-[9.5px] text-slate-600 italic flex items-center gap-1">
+                      <Lightbulb className="w-3 h-3 text-amber-600 shrink-0" />
+                      <span>{ex.examinerTip}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* PAGE 4: High-Yield Formula Sheet & Exam Traps */}
+          {page.pageKey === 'cheatsheet' && (
+            <div className="space-y-3.5">
+              {/* Formula Grid */}
+              <div className="space-y-1.5">
+                <div className="font-black text-slate-950 uppercase tracking-wider text-[11px]">
+                  4.1 Master Formula & Definitions Matrix
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {(page.formulaGrid || []).map((f, idx) => (
+                    <div key={idx} className="p-2.5 rounded-lg border border-slate-300 bg-white space-y-1">
+                      <div className="flex items-center justify-between text-[10.5px]">
+                        <span className="font-black text-slate-900">{f.term}</span>
+                        <span className="font-mono text-[9px] text-slate-500">#{idx + 1}</span>
+                      </div>
+                      <p className="text-[10px] text-slate-700 font-medium">
+                        {f.definition}
+                      </p>
+                      <div className="text-[9px] font-mono text-slate-500">
+                        {f.notation}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            )}
 
-            {/* 3. Common Board Exam Traps & Pitfalls */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-rose-900 dark:text-rose-300">
-                <AlertTriangle className="w-4 h-4 text-rose-600" />
-                <span>{isHi ? '4.3 बोर्ड परीक्षा की सामान्य गलतियाँ एवं सावधानियाँ' : '4.3 High-Yield Board Exam Pitfalls & Traps'}</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {(page.examTraps || []).map((trap, idx) => (
-                  <div key={idx} className="p-3.5 rounded-2xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/40 space-y-2">
-                    <div className="text-xs font-black text-rose-950 dark:text-rose-300">
-                      ⚠️ {trap.title}
+              {/* Summary Table */}
+              {page.quickSummaryTable && (
+                <div className="space-y-1">
+                  <div className="font-black text-slate-950 uppercase tracking-wider text-[10.5px]">
+                    4.2 Quick Revision Matrix
+                  </div>
+                  <div className="overflow-x-auto rounded border border-slate-300">
+                    <table className="w-full text-left text-[10px] border-collapse">
+                      <thead>
+                        <tr className="bg-slate-100 text-slate-950 font-bold border-b border-slate-300">
+                          {(page.quickSummaryTable.headers || []).map((h, idx) => (
+                            <th key={idx} className="p-1.5 border-r border-slate-200 last:border-0">{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200 text-slate-800">
+                        {(page.quickSummaryTable.rows || []).map((r, rIdx) => (
+                          <tr key={rIdx}>
+                            {r.map((c, cIdx) => (
+                              <td key={cIdx} className={`p-1.5 border-r border-slate-200 last:border-0 ${cIdx === 0 ? 'font-bold' : ''}`}>{c}</td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Exam Traps */}
+              <div className="space-y-1.5">
+                <div className="font-black text-rose-950 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+                  <span>4.3 High-Yield Board Exam Pitfalls & Traps</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {(page.examTraps || []).map((tr, idx) => (
+                    <div key={idx} className="p-2.5 rounded-lg border border-rose-300 bg-rose-50/50 space-y-1 text-[10px]">
+                      <div className="font-black text-rose-950">⚠️ {tr.title}</div>
+                      <div className="text-slate-800">
+                        <strong className="text-rose-700">Mistake:</strong> {tr.mistake}
+                      </div>
+                      <div className="text-slate-800">
+                        <strong className="text-emerald-700">Fix:</strong> {tr.fix}
+                      </div>
+                      <div className="text-[9px] text-slate-500 italic pt-0.5">{tr.why}</div>
                     </div>
-                    <div className="text-[11px] text-slate-700 dark:text-slate-300 space-y-1">
-                      <div><strong className="text-rose-700 dark:text-rose-400">{isHi ? 'गलती: ' : 'Mistake: '}</strong>{trap.mistake}</div>
-                      <div><strong className="text-emerald-700 dark:text-emerald-400">{isHi ? 'सही विधि: ' : 'Fix: '}</strong>{trap.fix}</div>
-                      <div className="text-[10px] text-slate-500 italic pt-1">{trap.why}</div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mnemonic */}
+              {page.mnemonic && (
+                <div className="p-2.5 rounded-lg border border-amber-300 bg-amber-50/60 flex items-start gap-2 text-[10.5px]">
+                  <Lightbulb className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="text-amber-950">{page.mnemonic.title}: </strong>
+                    <span className="text-slate-800 font-medium">{page.mnemonic.text}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* PAGE 5: Self-Assessment Practice Drill & Real-World Rural Impact */}
+          {page.pageKey === 'practice' && (
+            <div className="space-y-3.5">
+              {/* Practice Questions */}
+              <div className="space-y-2">
+                <div className="font-black text-slate-950 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <Award className="w-3.5 h-3.5 text-amber-700" />
+                  <span>5.1 Self-Assessment Practice Drill & Model Answers</span>
+                </div>
+                {(page.drillQuestions || []).map((dq) => (
+                  <div key={dq.id} className="p-2.5 rounded-lg border border-slate-300 bg-white space-y-1 text-[10.5px]">
+                    <div className="flex items-center justify-between">
+                      <span className="font-black text-amber-900 bg-amber-100 px-1.5 py-0.2 rounded border border-amber-300 text-[9.5px]">
+                        {dq.level}
+                      </span>
+                    </div>
+                    <p className="font-bold text-slate-950 leading-snug">
+                      {dq.question}
+                    </p>
+                    <div className="p-2 rounded bg-emerald-50 border border-emerald-200 text-emerald-950 text-[10px]">
+                      <strong>Model Solution & Working:</strong> {dq.solution}
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
 
-            {/* 4. Memory Recall Mnemonic */}
-            {page.mnemonic && (
-              <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 flex items-start gap-3">
-                <Lightbulb className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                <div className="space-y-0.5 text-xs">
-                  <span className="font-black text-amber-950 dark:text-amber-200 uppercase tracking-wider">
-                    {page.mnemonic.title}
-                  </span>
-                  <p className="text-slate-700 dark:text-slate-300 font-medium">
-                    {page.mnemonic.text}
-                  </p>
+              {/* Rural Case Study */}
+              {page.ruralCaseStudy && (
+                <div className="p-3 rounded-lg border border-amber-300 bg-amber-50/50 space-y-1 text-[10.5px]">
+                  <div className="font-black text-amber-950 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <Compass className="w-3.5 h-3.5 text-amber-700" />
+                    <span>5.2 {page.ruralCaseStudy.title}</span>
+                  </div>
+                  <div className="text-slate-800 space-y-1 text-[10px]">
+                    <div><strong>Context:</strong> {page.ruralCaseStudy.context}</div>
+                    <div><strong>Action:</strong> {page.ruralCaseStudy.solution}</div>
+                    <div className="text-emerald-900 font-bold"><strong>Community Impact:</strong> {page.ruralCaseStudy.impact}</div>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
+              )}
 
-        {/* PAGE 5 CONTENT: Self-Assessment Practice Drill & Rural Applications */}
-        {page.pageKey === 'practice' && (
-          <div className="space-y-5">
-            {/* 1. Self-Assessment Practice Drill Questions */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-upnavy-950 dark:text-upsaffron-400">
-                <Award className="w-4 h-4 text-upsaffron-600" />
-                <span>{isHi ? '5.1 आत्म-मूल्यांकन अभ्यास प्रश्न (Self-Assessment Drill)' : '5.1 Self-Assessment Practice Drill Questions'}</span>
-              </div>
-              <div className="space-y-3">
-                {(page.drillQuestions || []).map((dq) => {
-                  const isExpanded = revealedSolutions[dq.id];
-                  return (
-                    <div 
-                      key={dq.id} 
-                      className="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-2.5 shadow-2xs"
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-black text-upsaffron-800 dark:text-upsaffron-300 bg-upsaffron-50 dark:bg-upsaffron-950 px-2.5 py-0.5 rounded-full border border-upsaffron-200 dark:border-upsaffron-800">
-                          {dq.level}
-                        </span>
-                        <button
-                          onClick={() => toggleSolution(dq.id)}
-                          className="text-xs text-upsaffron-700 dark:text-upsaffron-400 hover:text-upsaffron-900 font-bold flex items-center gap-1 cursor-pointer no-print"
-                        >
-                          <span>{isExpanded ? (isHi ? 'उत्तर छिपाएं' : 'Hide Solution') : (isHi ? 'उत्तर देखें' : 'Reveal Solution')}</span>
-                          {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                        </button>
-                      </div>
-
-                      <p className="text-xs sm:text-sm font-bold text-upnavy-950 dark:text-white leading-relaxed">
-                        {dq.question}
-                      </p>
-
-                      <div className="text-[11px] text-slate-500 italic">
-                        {dq.hint}
-                      </div>
-
-                      {/* Expandable Solution on Screen / Visible on Print */}
-                      <div className={`pt-2 border-t border-slate-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 ${isExpanded ? 'block' : 'hidden print:block'}`}>
-                        <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-950 dark:text-emerald-200 font-medium">
-                          {dq.solution}
-                        </div>
-                      </div>
+              {/* Official Academic Seal & Signatures */}
+              <div className="p-3 rounded-lg border-2 border-slate-900 bg-white flex flex-col sm:flex-row items-center justify-between gap-4 pt-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-14 h-14 rounded-full border-2 border-amber-600 bg-amber-50 flex flex-col items-center justify-center text-center p-1 shrink-0">
+                    <ShieldCheck className="w-5 h-5 text-amber-700" />
+                    <span className="text-[7px] font-black uppercase leading-none mt-0.5 text-amber-900">VERIFIED</span>
+                    <span className="text-[6px] font-mono text-amber-700">2026-27</span>
+                  </div>
+                  <div className="text-[10px]">
+                    <div className="font-black text-slate-950 uppercase">
+                      Curriculum Verified & Certified
                     </div>
-                  );
-                })}
+                    <div className="text-slate-600 text-[9px]">
+                      National Curriculum Framework Autonomous Academic Council
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-6 text-center text-[9px] shrink-0">
+                  <div className="border-t border-slate-400 pt-1 w-24">
+                    <div className="font-serif italic font-bold text-slate-800">Sunita Deshmukh</div>
+                    <div className="text-[8px] text-slate-500">Dr. Sunita Deshmukh</div>
+                    <div className="text-[7px] text-slate-400">Head of Academic Council</div>
+                  </div>
+                  <div className="border-t border-slate-400 pt-1 w-24">
+                    <div className="font-serif italic font-bold text-slate-800">Rajeshwar Rao</div>
+                    <div className="text-[8px] text-slate-500">Prof. Rajeshwar Rao</div>
+                    <div className="text-[7px] text-slate-400">Director of Curriculum</div>
+                  </div>
+                </div>
               </div>
             </div>
+          )}
+        </div>
 
-            {/* 2. Real-World Rural India Case Study */}
-            {page.ruralCaseStudy && (
-              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-upsaffron-500/10 to-amber-500/10 dark:from-slate-800 dark:to-slate-800 border border-amber-200/90 dark:border-slate-700 space-y-2.5">
-                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-amber-950 dark:text-upsaffron-300">
-                  <Compass className="w-4 h-4 text-amber-600" />
-                  <span>{page.ruralCaseStudy.title}</span>
-                </div>
-                <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-                  <p><strong>{isHi ? 'पृष्ठभूमि: ' : 'Background: '}</strong>{page.ruralCaseStudy.context}</p>
-                  <p><strong>{isHi ? 'अनुप्रयोग: ' : 'Application: '}</strong>{page.ruralCaseStudy.solution}</p>
-                  <p className="text-emerald-800 dark:text-emerald-300 font-bold">
-                    <strong>{isHi ? 'प्रभाव: ' : 'Community Impact: '}</strong>{page.ruralCaseStudy.impact}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* 3. Next Action / Milestone */}
-            {page.nextAction && (
-              <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs no-print">
-                <div className="space-y-0.5">
-                  <div className="font-black text-upnavy-950 dark:text-white">
-                    🎯 {page.nextAction.callout}
-                  </div>
-                  <div className="text-[11px] text-slate-600 dark:text-slate-400">
-                    {page.nextAction.description}
-                  </div>
-                </div>
-                {onJumpToQuiz && (
-                  <button
-                    onClick={onJumpToQuiz}
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-upsaffron-600 to-amber-500 hover:from-upsaffron-500 hover:to-amber-400 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm active:scale-95 transition cursor-pointer shrink-0"
-                  >
-                    <span>{isHi ? '5 प्रश्नों का क्विज़ शुरू करें (+100 XP)' : 'Start 5 Qs Quiz (+100 XP)'}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
-            )}
+        {/* BOTTOM OFFICIAL ACADEMIC FOOTER */}
+        <div className="border-t-2 border-slate-900 pt-2 mt-4 flex items-center justify-between text-[9px] text-slate-600">
+          <div>GyanSetu Rural Digital Learning Initiative • Free Quality Education</div>
+          <div className="font-bold text-slate-900 uppercase">
+            PAGE {page.pageNumber} OF 5 • OFFICIAL STUDY GUIDE
           </div>
-        )}
-
-        {/* Official Page Footer */}
-        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
-          <span>GyanSetu Rural Digital Learning Initiative • Certified Free Academic Resource</span>
-          <span>{isHi ? `पृष्ठ ${page.pageNumber} / 5` : `Page ${page.pageNumber} of 5`}</span>
+          <div>Registry ID: GS-2026-CERTIFIED</div>
         </div>
       </div>
     );
@@ -550,237 +549,290 @@ export function ChapterNotesTab({ chapter, lang = 'en', onJumpToQuiz }) {
 
   return (
     <div className="space-y-5 animate-fadeIn">
-      {/* 1. TOP DOWNLOAD & RESOURCE CENTER HERO BANNER */}
-      <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-upnavy-950 via-upnavy-900 to-upnavy-950 text-white shadow-md border border-slate-800 space-y-4 no-print">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
-                {notes.grade} • {notes.subject.toUpperCase()}
-              </span>
-              <span className="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 px-2.5 py-0.5 rounded-full border border-emerald-400/30 flex items-center gap-1">
-                <Check className="w-3 h-3" />
-                <span>5-Page Academic Study Guide (NCERT)</span>
-              </span>
-            </div>
-            <h2 className="text-base sm:text-xl font-black text-white leading-tight">
-              {notes.title}
-            </h2>
-            <p className="text-xs text-slate-300 line-clamp-2 max-w-2xl">
-              {notes.keyTakeaway}
-            </p>
-          </div>
-
-          {/* Action Toolbar */}
-          <div className="flex flex-wrap items-center gap-2 shrink-0">
-            {/* Primary Print / Download PDF */}
-            <button
-              onClick={handlePrintNotes}
-              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-upsaffron-500 to-amber-500 hover:from-upsaffron-400 hover:to-amber-400 text-white font-extrabold text-xs flex items-center gap-2 shadow-sm active:scale-95 transition cursor-pointer"
-              title="Print clean A4 5-page study notes or save as PDF"
-            >
-              <Printer className="w-4 h-4" />
-              <span>{isHi ? 'प्रिंट / PDF डाउनलोड (5 पृष्ठ)' : 'Download PDF / Print Notes'}</span>
-            </button>
-
-            {/* Save Offline as .TXT */}
-            <button
-              onClick={handleDownloadTxt}
-              className="px-3 py-2 rounded-xl border border-slate-700 bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 text-xs font-bold flex items-center gap-1.5 active:scale-95 transition cursor-pointer"
-              title="Download clean offline text booklet for low-data devices"
-            >
-              {downloadedTxt ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Download className="w-3.5 h-3.5 text-slate-400" />}
-              <span>{downloadedTxt ? 'Saved .txt! ✓' : 'Save Text File'}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* View Switcher Bar */}
-        <div className="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-bold text-slate-400">
-              {isHi ? 'अध्ययन प्रारूप:' : 'Reading Mode:'}
-            </span>
-            <div className="flex bg-slate-900/90 p-1 rounded-xl border border-slate-800">
-              <button
-                onClick={() => setViewMode('stepper')}
-                className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition ${
-                  viewMode === 'stepper' 
-                    ? 'bg-upsaffron-500 text-white shadow-2xs' 
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <Eye className="w-3.5 h-3.5" />
-                <span>{isHi ? 'पृष्ठ-दर-पृष्ठ (Page-by-Page)' : 'Page-by-Page'}</span>
-              </button>
-              <button
-                onClick={() => setViewMode('continuous')}
-                className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition ${
-                  viewMode === 'continuous' 
-                    ? 'bg-upsaffron-500 text-white shadow-2xs' 
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <Layers className="w-3.5 h-3.5" />
-                <span>{isHi ? 'सम्पूर्ण 5 पृष्ठ (Continuous View)' : 'All 5 Pages'}</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="text-[11px] text-slate-400 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>A4 Portrait Layout Ready • 5 Total Sections</span>
-          </div>
-        </div>
+      {/* ========================================================================= */}
+      {/* 1. DEDICATED PRINTABLE A4 MULTI-PAGE DOCUMENT (100% ISOLATED FOR PRINT)   */}
+      {/* ========================================================================= */}
+      <div className="notes-print-document hidden print:block">
+        {pages.map((p) => renderA4PrintablePage(p, false))}
       </div>
 
-      {/* 2. INTERACTIVE 5-PAGE STEPPER (When in stepper mode) */}
-      {viewMode === 'stepper' && (
-        <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 shadow-2xs space-y-3 no-print">
-          {/* Stepper Buttons */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2">
-            {pages.map((p) => {
-              const isActive = p.pageNumber === currentPage;
-              const shortTitles = isHi ? [
-                '1. परिचय',
-                '2. सिद्धांत',
-                '3. हल प्रश्न',
-                '4. सूत्र सूची',
-                '5. अभ्यास'
-              ] : [
-                '1. Foundations',
-                '2. Theory',
-                '3. Exemplars',
-                '4. Formulas',
-                '5. Practice'
-              ];
-              const shortLabel = shortTitles[p.pageNumber - 1] || `Page ${p.pageNumber}`;
+      {/* ========================================================================= */}
+      {/* 2. ON-SCREEN INTERACTIVE NOTES VIEW (HIDDEN DURING PHYSICAL / PDF PRINT)  */}
+      {/* ========================================================================= */}
+      <div className="notes-screen-view print:hidden space-y-5">
+        {/* TOP DOWNLOAD & RESOURCE CENTER HERO BANNER */}
+        <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-upnavy-950 via-upnavy-900 to-upnavy-950 text-white shadow-md border border-slate-800 space-y-4 no-print">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                  {notes.grade} • {notes.subject.toUpperCase()}
+                </span>
+                <span className="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 px-2.5 py-0.5 rounded-full border border-emerald-400/30 flex items-center gap-1">
+                  <Check className="w-3 h-3" />
+                  <span>5-Page Academic Study Guide (NCERT)</span>
+                </span>
+              </div>
+              <h2 className="text-base sm:text-xl font-black text-white leading-tight">
+                {notes.title}
+              </h2>
+              <p className="text-xs text-slate-300 line-clamp-2 max-w-2xl">
+                {notes.keyTakeaway}
+              </p>
+            </div>
 
-              return (
+            {/* Action Toolbar */}
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              {/* Primary Print / Download PDF */}
+              <button
+                onClick={() => setIsPrintPreviewOpen(true)}
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-upsaffron-500 to-amber-500 hover:from-upsaffron-400 hover:to-amber-400 text-white font-extrabold text-xs flex items-center gap-2 shadow-sm active:scale-95 transition cursor-pointer"
+                title="Open clean A4 print preview and PDF export"
+              >
+                <Printer className="w-4 h-4" />
+                <span>{isHi ? 'प्रिंट / PDF पूर्वावलोकन (5 पृष्ठ)' : 'Print / Download PDF (5 Pages)'}</span>
+              </button>
+
+              {/* Save Offline as .TXT */}
+              <button
+                onClick={handleDownloadTxt}
+                className="px-3.5 py-2.5 rounded-xl border border-slate-700 bg-slate-800/90 hover:bg-slate-700/90 text-slate-200 text-xs font-bold flex items-center gap-1.5 active:scale-95 transition cursor-pointer"
+                title="Download clean offline text booklet for low-data devices"
+              >
+                {downloadedTxt ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Download className="w-3.5 h-3.5 text-slate-400" />}
+                <span>{downloadedTxt ? 'Saved .txt! ✓' : 'Save Text File'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* View Switcher Bar */}
+          <div className="pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-bold text-slate-400">
+                {isHi ? 'अध्ययन प्रारूप:' : 'Reading Mode:'}
+              </span>
+              <div className="flex bg-slate-900/90 p-1 rounded-xl border border-slate-800">
                 <button
-                  key={p.pageNumber}
-                  onClick={() => setCurrentPage(p.pageNumber)}
-                  className={`p-2 sm:p-2.5 rounded-xl text-xs font-bold flex flex-col items-center justify-center gap-0.5 border transition cursor-pointer active:scale-95 ${
-                    isActive
-                      ? 'bg-gradient-to-r from-upnavy-900 to-upnavy-800 text-white border-upnavy-700 shadow-xs'
-                      : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
+                  onClick={() => setViewMode('stepper')}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition ${
+                    viewMode === 'stepper' 
+                      ? 'bg-upsaffron-500 text-white shadow-2xs' 
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  <span className={`text-[10px] uppercase tracking-wider ${isActive ? 'text-amber-400' : 'text-slate-400'}`}>
-                    Page {p.pageNumber}
-                  </span>
-                  <span className="truncate w-full text-center">
-                    {shortLabel}
-                  </span>
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>{isHi ? 'पृष्ठ-दर-पृष्ठ' : 'Page-by-Page'}</span>
                 </button>
-              );
-            })}
-          </div>
-
-          {/* Stepper Progress Bar */}
-          <div className="flex items-center gap-3 pt-1">
-            <div className="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gradient-to-r from-upsaffron-500 to-amber-500 transition-all duration-300"
-                style={{ width: `${(currentPage / 5) * 100}%` }}
-              />
+                <button
+                  onClick={() => setViewMode('continuous')}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition ${
+                    viewMode === 'continuous' 
+                      ? 'bg-upsaffron-500 text-white shadow-2xs' 
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Layers className="w-3.5 h-3.5" />
+                  <span>{isHi ? 'सम्पूर्ण 5 पृष्ठ' : 'All 5 Pages'}</span>
+                </button>
+              </div>
             </div>
-            <span className="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400 shrink-0">
-              {isHi ? `पृष्ठ ${currentPage} का 5 (${(currentPage / 5) * 100}%)` : `Page ${currentPage} of 5 (${(currentPage / 5) * 100}%)`}
-            </span>
+
+            <div className="text-[11px] text-slate-400 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>A4 Multi-Page Ready • Strict 1-5 Order Guaranteed</span>
+            </div>
           </div>
         </div>
-      )}
 
-      {/* 3. MAIN CONTENT DISPLAY */}
-      {viewMode === 'stepper' ? (
-        // Single Active Page View on screen; in print mode, all 5 pages print automatically!
-        <div className="space-y-4">
-          {renderSinglePage(activePageObj)}
+        {/* INTERACTIVE 5-PAGE STEPPER (When in stepper mode) */}
+        {viewMode === 'stepper' && (
+          <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 shadow-2xs space-y-3 no-print">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2">
+              {pages.map((p) => {
+                const isActive = p.pageNumber === currentPage;
+                const shortTitles = isHi ? [
+                  '1. परिचय',
+                  '2. सिद्धांत',
+                  '3. हल प्रश्न',
+                  '4. सूत्र सूची',
+                  '5. अभ्यास'
+                ] : [
+                  '1. Foundations',
+                  '2. Theory',
+                  '3. Exemplars',
+                  '4. Formulas',
+                  '5. Practice'
+                ];
+                const shortLabel = shortTitles[p.pageNumber - 1] || `Page ${p.pageNumber}`;
 
-          {/* Hidden on screen but included for clean Print execution */}
-          <div className="hidden print:block space-y-6">
-            {pages.filter(p => p.pageNumber !== currentPage).map(p => renderSinglePage(p))}
+                return (
+                  <button
+                    key={p.pageNumber}
+                    onClick={() => setCurrentPage(p.pageNumber)}
+                    className={`p-2 sm:p-2.5 rounded-xl text-xs font-bold flex flex-col items-center justify-center gap-0.5 border transition cursor-pointer active:scale-95 ${
+                      isActive
+                        ? 'bg-gradient-to-r from-upnavy-900 to-upnavy-800 text-white border-upnavy-700 shadow-xs'
+                        : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
+                    }`}
+                  >
+                    <span className={`text-[10px] uppercase tracking-wider ${isActive ? 'text-amber-400' : 'text-slate-400'}`}>
+                      Page {p.pageNumber}
+                    </span>
+                    <span className="truncate w-full text-center">
+                      {shortLabel}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Stepper Progress Bar */}
+            <div className="flex items-center gap-3 pt-1">
+              <div className="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-upsaffron-500 to-amber-500 transition-all duration-300"
+                  style={{ width: `${(currentPage / 5) * 100}%` }}
+                />
+              </div>
+              <span className="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400 shrink-0">
+                {isHi ? `पृष्ठ ${currentPage} का 5 (${(currentPage / 5) * 100}%)` : `Page ${currentPage} of 5 (${(currentPage / 5) * 100}%)`}
+              </span>
+            </div>
           </div>
+        )}
 
-          {/* Stepper Bottom Navigation Controls */}
-          <div className="flex items-center justify-between gap-3 pt-2 no-print">
-            <button
-              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-              disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border transition ${
-                currentPage === 1
-                  ? 'opacity-40 cursor-not-allowed bg-slate-50 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700'
-                  : 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 active:scale-95 shadow-2xs cursor-pointer'
-              }`}
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>{isHi ? 'पिछला पृष्ठ' : 'Previous Page'}</span>
-            </button>
+        {/* SCREEN CONTENT DISPLAY */}
+        {viewMode === 'stepper' ? (
+          <div className="space-y-4">
+            {renderA4PrintablePage(activePageObj, true)}
 
-            <span className="text-xs font-bold text-slate-500">
-              Page {currentPage} of 5
-            </span>
-
-            {currentPage < 5 ? (
+            {/* Stepper Bottom Navigation Controls */}
+            <div className="flex items-center justify-between gap-3 pt-2 no-print">
               <button
-                onClick={() => setCurrentPage(prev => Math.min(5, prev + 1))}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-upnavy-900 to-upnavy-800 hover:from-upsaffron-600 hover:to-amber-500 text-white text-xs font-bold flex items-center gap-2 shadow-xs active:scale-95 transition cursor-pointer"
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border transition ${
+                  currentPage === 1
+                    ? 'opacity-40 cursor-not-allowed bg-slate-50 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700'
+                    : 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 active:scale-95 shadow-2xs cursor-pointer'
+                }`}
               >
-                <span>{isHi ? 'अगला पृष्ठ' : 'Next Page'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>{isHi ? 'पिछला पृष्ठ' : 'Previous Page'}</span>
               </button>
-            ) : onJumpToQuiz ? (
-              <button
-                onClick={onJumpToQuiz}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-upsaffron-600 to-amber-500 hover:from-upsaffron-500 hover:to-amber-400 text-white text-xs font-bold flex items-center gap-2 shadow-xs active:scale-95 transition cursor-pointer"
-              >
-                <span>{isHi ? '5 प्रश्नों का क्विज़' : '5 Qs Quiz'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            ) : null}
-          </div>
-        </div>
-      ) : (
-        // Continuous 5-Page View (All 5 pages laid out sequentially)
-        <div className="space-y-6">
-          {pages.map((p, idx) => (
-            <React.Fragment key={p.pageNumber}>
-              {renderSinglePage(p)}
-              {idx < pages.length - 1 && (
-                <div className="flex items-center gap-3 my-4 no-print">
-                  <div className="flex-1 border-t-2 border-dashed border-slate-200 dark:border-slate-700" />
-                  <span className="text-[11px] font-mono font-bold text-slate-400 bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700">
-                    ✂️ Page Break • Page {p.pageNumber + 1} of 5 Below
-                  </span>
-                  <div className="flex-1 border-t-2 border-dashed border-slate-200 dark:border-slate-700" />
-                </div>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      )}
 
-      {/* 4. BOTTOM DOWNLOAD CALLOUT BANNER */}
-      <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs no-print">
-        <div className="space-y-0.5">
-          <div className="font-black text-upnavy-950 dark:text-white flex items-center gap-2">
-            <Printer className="w-4 h-4 text-upsaffron-600" />
-            <span>{isHi ? 'पूरे 5 पृष्ठ एक क्लिक में प्रिंट अथवा PDF सेव करें' : 'Print Clean A4 5-Page Booklet or Save as PDF'}</span>
-          </div>
-          <div className="text-[11px] text-slate-500 dark:text-slate-400">
-            {isHi ? 'प्रिंट डायलॉग में "Save as PDF" चुनकर ऑफलाइन उपयोग हेतु 5-पृष्ठों की गाइड सुरक्षित रखें।' : 'Choose "Save as PDF" in your print dialog to save the complete 5-page guide for offline study.'}
-          </div>
-        </div>
+              <span className="text-xs font-bold text-slate-500">
+                Page {currentPage} of 5
+              </span>
 
-        <button
-          onClick={handlePrintNotes}
-          className="px-4 py-2 rounded-xl bg-upnavy-900 hover:bg-upsaffron-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-2xs active:scale-95 transition cursor-pointer shrink-0"
-        >
-          <Printer className="w-3.5 h-3.5" />
-          <span>{isHi ? 'प्रिंट / PDF' : 'Print / Save PDF'}</span>
-        </button>
+              {currentPage < 5 ? (
+                <button
+                  onClick={() => setCurrentPage(prev => Math.min(5, prev + 1))}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-upnavy-900 to-upnavy-800 hover:from-upsaffron-600 hover:to-amber-500 text-white text-xs font-bold flex items-center gap-2 shadow-xs active:scale-95 transition cursor-pointer"
+                >
+                  <span>{isHi ? 'अगला पृष्ठ' : 'Next Page'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              ) : onJumpToQuiz ? (
+                <button
+                  onClick={onJumpToQuiz}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-upsaffron-600 to-amber-500 hover:from-upsaffron-500 hover:to-amber-400 text-white text-xs font-bold flex items-center gap-2 shadow-xs active:scale-95 transition cursor-pointer"
+                >
+                  <span>{isHi ? '5 प्रश्नों का क्विज़' : '5 Qs Quiz'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-8">
+            {pages.map((p, idx) => (
+              <React.Fragment key={p.pageNumber}>
+                {renderA4PrintablePage(p, true)}
+                {idx < pages.length - 1 && (
+                  <div className="flex items-center gap-3 my-4 no-print">
+                    <div className="flex-1 border-t-2 border-dashed border-slate-300 dark:border-slate-700" />
+                    <span className="text-[11px] font-mono font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full border border-slate-300 dark:border-slate-700">
+                      ✂️ A4 Page Break • Section {p.pageNumber + 1} of 5 Below
+                    </span>
+                    <div className="flex-1 border-t-2 border-dashed border-slate-300 dark:border-slate-700" />
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        )}
+
+        {/* BOTTOM DOWNLOAD CALLOUT BANNER */}
+        <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs no-print">
+          <div className="space-y-0.5">
+            <div className="font-black text-upnavy-950 dark:text-white flex items-center gap-2">
+              <Printer className="w-4 h-4 text-upsaffron-600" />
+              <span>{isHi ? 'पूरे 5 पृष्ठ एक क्लिक में प्रिंट अथवा PDF सेव करें' : 'Print Clean A4 5-Page Booklet or Save as PDF'}</span>
+            </div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400">
+              {isHi ? 'प्रिंट पूर्वावलोकन खोलें और उच्च-गुणवत्ता A4 प्रारूप में अध्ययन गाइड प्राप्त करें।' : 'Open official print preview to inspect all 5 pages and export pristine academic study material.'}
+            </div>
+          </div>
+
+          <button
+            onClick={() => setIsPrintPreviewOpen(true)}
+            className="px-4 py-2 rounded-xl bg-upnavy-900 hover:bg-upsaffron-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-2xs active:scale-95 transition cursor-pointer shrink-0"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span>{isHi ? 'प्रिंट पूर्वावलोकन' : 'Open Print Preview'}</span>
+          </button>
+        </div>
       </div>
+
+      {/* ========================================================================= */}
+      {/* 3. DEDICATED FULL-SCREEN A4 PRINT PREVIEW MODAL                           */}
+      {/* ========================================================================= */}
+      {isPrintPreviewOpen && (
+        <div className="fixed inset-0 z-[70] bg-slate-950/85 backdrop-blur-md flex flex-col no-print animate-fadeIn">
+          {/* Sticky Top Toolbar */}
+          <div className="shrink-0 px-4 sm:px-6 py-3 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 z-30">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-upsaffron-600 to-amber-500 text-white flex items-center justify-center font-bold shadow-xs">
+                <Printer className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-sm font-black text-upnavy-950 dark:text-white">
+                  {isHi ? 'राष्ट्रीय पाठ्यक्रम अध्ययन गाइड - प्रिंट पूर्वावलोकन' : 'A4 Academic Study Guide • Print & PDF Preview'}
+                </h3>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                  {notes.grade} • {notes.subject.toUpperCase()} • 5 Complete A4 Pages
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleTriggerPrint}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-upsaffron-500 to-amber-500 hover:from-upsaffron-400 hover:to-amber-400 text-white font-extrabold text-xs flex items-center gap-2 shadow-xs active:scale-95 transition cursor-pointer"
+              >
+                <Printer className="w-4 h-4" />
+                <span>{isHi ? 'प्रिंट करें (या PDF सेव करें)' : 'Print 5-Page Guide (PDF)'}</span>
+              </button>
+
+              <button
+                onClick={() => setIsPrintPreviewOpen(false)}
+                className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition cursor-pointer"
+                title="Close Preview"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Scrollable Document Preview Area */}
+          <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-900/70">
+            <div className="max-w-[210mm] mx-auto space-y-8">
+              {pages.map((p) => renderA4PrintablePage(p, true))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

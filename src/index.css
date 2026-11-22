@@ -209,8 +209,17 @@ button, a, input, select, textarea, .modern-card {
   animation: subtle-float 3s ease-in-out infinite;
 }
 
+/* Dedicated Clean A4 Printable 5-Page Notes Document Base Classes */
+.notes-screen-view {
+  display: block;
+}
+
+.notes-print-document {
+  display: none;
+}
+
 /* ==========================================================================
-   Print Styles: Clean, full-bleed A4 printable layout for Timetables & Certificates
+   Print Styles: Clean, full-bleed A4 printable layout for Timetables, Certificates & Notes
    ========================================================================== */
 @media print {
   /* Hide all app navigation, banners, floating buttons, and footers */
@@ -319,6 +328,18 @@ button, a, input, select, textarea, .modern-card {
     background: #ffffff !important;
   }
 
+  /* When notes or certificates are printing, completely suppress main app dashboard */
+  body.printing-notes-active main,
+  body.printing-notes-active header,
+  body.printing-notes-active footer,
+  body.printing-notes-active nav,
+  body.printing-notes-active #root > *:not(:has(.notes-modal-overlay)),
+  body.printing-notes-active #root > div > main,
+  body:has(.notes-modal-overlay) main,
+  body:has(.notes-modal-overlay) #root > div > main {
+    display: none !important;
+  }
+
   /* Chapter Notes Multi-Page A4 Isolation & Clean Pagination */
   .notes-modal-overlay {
     position: static !important;
@@ -349,22 +370,41 @@ button, a, input, select, textarea, .modern-card {
     background: #ffffff !important;
   }
 
-  .notes-print-page {
+  .notes-screen-view {
+    display: none !important;
+  }
+
+  .notes-print-document {
     display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .notes-printable-page-a4 {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    min-height: 265mm !important;
+    height: auto !important;
+    box-sizing: border-box !important;
     page-break-after: always !important;
     break-after: page !important;
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 20mm !important;
-    padding: 10mm 12mm !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 8px !important;
+    margin: 0 0 8mm 0 !important;
+    padding: 8mm 10mm !important;
     background: #ffffff !important;
     color: #0f172a !important;
-    box-shadow: none !important;
+    border: 2px solid #0f172a !important;
+    border-radius: 4px !important;
+    position: relative !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  .notes-print-page:last-child {
+  .notes-printable-page-a4:last-child {
     page-break-after: auto !important;
     break-after: auto !important;
     margin-bottom: 0 !important;
