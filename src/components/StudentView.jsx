@@ -1507,9 +1507,6 @@ export function StudentView({
           >
             <Sparkles className="w-4 h-4 text-upsaffron-400 group-hover:rotate-12 transition-transform duration-300 shrink-0" />
             <span>Ask AI Saathi</span>
-            <span className="text-[10px] font-black bg-upsaffron-500 text-white px-1.5 py-0.2 rounded-full">
-              Free
-            </span>
           </button>
         </div>
       )}
