@@ -720,19 +720,6 @@ export function StudentView({
             <BarChart3 className="w-3.5 h-3.5" />
             <span>Mastery & Progression</span>
           </button>
-
-          <button
-            type="button"
-            onClick={onOpenXpRewards}
-            className="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shrink-0 bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 border border-amber-300/80 dark:border-amber-700/80 shadow-2xs cursor-pointer active:scale-95"
-            title="Open XP Points, Rewards & Merit Certificates Hub"
-          >
-            <Trophy className="w-3.5 h-3.5 text-upsaffron-600" />
-            <span>Rewards & Certificates</span>
-            <span className="text-[10px] font-black bg-upsaffron-500 text-white px-1.5 py-0.2 rounded-full">
-              🎁
-            </span>
-          </button>
         </div>
 
         {/* Retake Diagnostic Shortcut */}
