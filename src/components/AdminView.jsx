@@ -46,7 +46,8 @@ import {
   Phone,
   Mail,
   MapPin,
-  LogOut
+  LogOut,
+  Star
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { translations } from '../data/mockData';
@@ -257,6 +258,7 @@ export function AdminView({ lang = 'en', onLogout }) {
       setClassesList(prev => prev.map(c => c.id === editingClass.id ? { ...c, ...classForm } : c));
       showToast(`✓ Class ${classForm.grade}-${classForm.section} updated successfully.`);
       setEditingClass(null);
+      setIsAddClassModalOpen(false);
     } else {
       const newClass = {
         id: `CLS-${classForm.grade.replace('Class ', '')}${classForm.section}`,
@@ -312,6 +314,7 @@ export function AdminView({ lang = 'en', onLogout }) {
       setStudentsList(prev => prev.map(s => s.id === editingStudent.id ? { ...s, ...studentForm } : s));
       showToast(`✓ Student record for ${studentForm.name} updated.`);
       setEditingStudent(null);
+      setIsAddStudentModalOpen(false);
     } else {
       const newStudent = {
         id: 'STU-' + String(studentsList.length + 1).padStart(3, '0'),
@@ -380,6 +383,11 @@ export function AdminView({ lang = 'en', onLogout }) {
     try { confetti({ particleCount: 30, spread: 55 }); } catch (err) {}
   };
 
+  const handleDeleteModule = (id, title) => {
+    setCurriculumModules(prev => prev.filter(m => m.id !== id));
+    showToast(`✓ Chapter "${title}" removed from curriculum.`);
+  };
+
   // ==========================================
   // 6. FACULTY & STAFF STATE
   // ==========================================
@@ -423,6 +431,11 @@ export function AdminView({ lang = 'en', onLogout }) {
     showToast('✓ Weekly Lesson Plan approved and published to faculty portal.');
   };
 
+  const handleDeleteFaculty = (id, name) => {
+    setFacultyList(prev => prev.filter(f => f.id !== id));
+    showToast(`✓ Faculty member ${name} removed.`);
+  };
+
   // Staff Notice Modal
   const [isNoticeModalOpen, setIsNoticeModalOpen] = useState(false);
   const [noticeText, setNoticeText] = useState('All teachers are requested to verify offline worksheet syncing on their class tablets before 3:00 PM today.');
@@ -462,17 +475,21 @@ export function AdminView({ lang = 'en', onLogout }) {
 
   const handleCurriculumPush = () => {
     setIsPushingCurriculum(true);
-    setPushProgress(10);
+    setPushProgress(0);
     const interval = setInterval(() => {
       setPushProgress((prev) => {
-        if (prev >= 100) {
+        const next = prev + 25;
+        if (next >= 100) {
           clearInterval(interval);
-          setIsPushingCurriculum(false);
+          setTimeout(() => {
+            setIsPushingCurriculum(false);
+            setPushProgress(0);
+          }, 600);
           showToast('✓ Week 4 Remedial Curriculum & Regional Audio packs pushed to all 34 tablets via Wi-Fi Mesh!');
           try { confetti({ particleCount: 40, spread: 70, origin: { y: 0.7 } }); } catch (e) {}
           return 100;
         }
-        return prev + 25;
+        return next;
       });
     }, 400);
   };
@@ -1218,9 +1235,18 @@ export function AdminView({ lang = 'en', onLogout }) {
                     <span className="text-xs font-bold text-upsaffron-700 bg-upsaffron-50 px-2.5 py-0.5 rounded-full border border-upsaffron-200">
                       {mod.grade} • {mod.subject}
                     </span>
-                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                      {mod.status}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                        {mod.status}
+                      </span>
+                      <button
+                        onClick={() => handleDeleteModule(mod.id, mod.title)}
+                        className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                        title="Delete curriculum module"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
 
                   <h3 className="font-bold text-upnavy-950 text-sm leading-snug">
@@ -1340,16 +1366,25 @@ export function AdminView({ lang = 'en', onLogout }) {
                       </td>
 
                       <td className="py-3.5 px-3 text-right">
-                        {fac.planStatus === 'Pending Review' ? (
+                        <div className="flex items-center justify-end gap-1.5">
+                          {fac.planStatus === 'Pending Review' ? (
+                            <button
+                              onClick={() => handleApprovePlan(fac.id)}
+                              className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold transition active:scale-95"
+                            >
+                              Approve Plan
+                            </button>
+                          ) : (
+                            <span className="text-slate-400 text-[11px]">✓ Approved</span>
+                          )}
                           <button
-                            onClick={() => handleApprovePlan(fac.id)}
-                            className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold transition active:scale-95"
+                            onClick={() => handleDeleteFaculty(fac.id, fac.name)}
+                            className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                            title="Remove faculty member"
                           >
-                            Approve Plan
+                            <Trash2 className="w-3.5 h-3.5" />
                           </button>
-                        ) : (
-                          <span className="text-slate-400 text-[11px]">✓ Approved</span>
-                        )}
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -2144,7 +2179,10 @@ export function AdminView({ lang = 'en', onLogout }) {
                 </div>
               </div>
               <button
-                onClick={() => setIsAddClassModalOpen(false)}
+                onClick={() => {
+                  setIsAddClassModalOpen(false);
+                  setEditingClass(null);
+                }}
                 className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
               >
                 <X className="w-4 h-4" />
@@ -2233,7 +2271,10 @@ export function AdminView({ lang = 'en', onLogout }) {
               <div className="flex items-center justify-end gap-2.5 pt-3">
                 <button
                   type="button"
-                  onClick={() => setIsAddClassModalOpen(false)}
+                  onClick={() => {
+                    setIsAddClassModalOpen(false);
+                    setEditingClass(null);
+                  }}
                   className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition"
                 >
                   Cancel
@@ -2269,7 +2310,10 @@ export function AdminView({ lang = 'en', onLogout }) {
                 </div>
               </div>
               <button
-                onClick={() => setIsAddStudentModalOpen(false)}
+                onClick={() => {
+                  setIsAddStudentModalOpen(false);
+                  setEditingStudent(null);
+                }}
                 className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition"
               >
                 <X className="w-4 h-4" />
@@ -2358,7 +2402,10 @@ export function AdminView({ lang = 'en', onLogout }) {
               <div className="flex items-center justify-end gap-2.5 pt-3">
                 <button
                   type="button"
-                  onClick={() => setIsAddStudentModalOpen(false)}
+                  onClick={() => {
+                    setIsAddStudentModalOpen(false);
+                    setEditingStudent(null);
+                  }}
                   className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition"
                 >
                   Cancel
