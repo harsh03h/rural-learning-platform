@@ -18,7 +18,7 @@ import { CheckCircle, AlertCircle, RefreshCw, LogIn, Sparkles, GraduationCap, He
 import confetti from 'canvas-confetti';
 import { supportedLanguages } from './data/mockData';
 import posterImg from './assets/gyansetu-hero-poster.jpg';
-import { submitQuiz, syncOfflineBatch, submitDiagnostic } from './services/api';
+import { submitQuiz, syncOfflineBatch, submitDiagnostic, logout as apiLogout, clearSession, authApi, getAccessToken } from './services/api';
 
 export function App() {
   const [currentUser, setCurrentUser] = useState(() => {
@@ -28,15 +28,8 @@ export function App() {
       const saved = localStorage.getItem('gyansetu_user');
       if (saved) return JSON.parse(saved);
     } catch (e) {}
-    return {
-      id: 'stu-4',
-      name: 'Rohan Verma',
-      role: 'student',
-      grade: 'Class 7A',
-      rollNo: '24',
-      school: 'Model Senior Secondary School Rampur',
-      avatar: '🎓'
-    };
+    // Start in Guest Mode. A demo profile is never assumed to be logged in.
+    return null;
   });
 
   const [role, setRole] = useState(() => {
@@ -150,6 +143,39 @@ export function App() {
     } catch (e) {}
   }, [currentUser]);
 
+  // Restore the authenticated profile from MongoDB only when a real JWT is available.
+  // Legacy local-demo tokens and orphaned user records are discarded so no one is
+  // treated as authenticated without a server-verified session.
+  useEffect(() => {
+    const token = getAccessToken();
+    if (!token || token.startsWith('jwt_')) {
+      clearSession();
+      try {
+        localStorage.removeItem('gyansetu_user');
+        localStorage.setItem('gyansetu_is_guest', 'true');
+      } catch (e) {}
+      setCurrentUser(null);
+      return undefined;
+    }
+
+    let active = true;
+    authApi.me().then((data) => {
+      if (!active || !data?.user) return;
+      setCurrentUser(data.user);
+      setRole(data.user.role);
+      if (data.user.language) setLang(data.user.language);
+    }).catch(() => {
+      if (!active) return;
+      clearSession();
+      try {
+        localStorage.removeItem('gyansetu_user');
+        localStorage.setItem('gyansetu_is_guest', 'true');
+      } catch (e) {}
+      setCurrentUser(null);
+    });
+    return () => { active = false; };
+  }, []);
+
   useEffect(() => {
     try {
       localStorage.setItem('gyansetu_role', role);
@@ -255,6 +281,14 @@ export function App() {
     try {
       localStorage.setItem('gyansetu_user', JSON.stringify(updatedUser));
     } catch (e) {}
+    authApi.profile({
+      name: updatedUser.name,
+      language: updatedUser.language,
+      grade: updatedUser.grade,
+      rollNo: updatedUser.rollNo,
+      school: updatedUser.school,
+      avatar: updatedUser.avatar,
+    });
     if (updatedUser.language && updatedUser.language !== lang) {
       setLang(updatedUser.language);
     }
@@ -274,7 +308,11 @@ export function App() {
     showToast(`Welcome ${userData.name}! Logged in as ${userData.role}.`);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await apiLogout();
+    } catch (e) {}
+    clearSession();
     setCurrentUser(null);
     setRole('student');
     try {
@@ -286,6 +324,7 @@ export function App() {
   };
 
   const handleContinueAsGuest = () => {
+    clearSession();
     setCurrentUser(null);
     setRole('student');
     try {
@@ -331,7 +370,15 @@ export function App() {
     
     // Call batch sync endpoint on backend
     try {
-      await syncOfflineBatch([{ syncTime: new Date().toISOString(), count: pendingSyncCount }]);
+      const now = new Date().toISOString();
+      const queuedRecords = Array.from({ length: pendingSyncCount || 1 }, (_, index) => ({
+        clientId: `offline-progress-${Date.now()}-${index}`,
+        type: 'progress',
+        payload: { count: 1, syncedFrom: 'GyanSetu browser queue' },
+        clientTimestamp: now,
+      }));
+      const syncResult = await syncOfflineBatch(queuedRecords);
+      console.info('[GyanSetu] Offline batch synced:', syncResult?.syncedCount ?? 0);
     } catch (e) {
       console.warn("Backend batch sync failed, completing local sync", e);
     }
@@ -369,7 +416,14 @@ export function App() {
         : `Quiz recorded offline! Added to background sync queue.`);
     } else {
       try {
-        await submitQuiz({ chapterId, topicKey, score, total });
+        await submitQuiz({
+          chapterId,
+          courseId: String(chapterId || '').split('-').slice(0, 2).join('-'),
+          topicKey,
+          score,
+          total,
+          clientAttemptId: `quiz-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        });
       } catch (e) {}
       showToast(lang === 'hi'
         ? `क्विज़ पूरा हुआ! +${earnedXP} XP अर्जित किए।`
@@ -378,13 +432,19 @@ export function App() {
   };
 
   // Save Diagnostic
-  const handleSaveDiagnostic = async ({ weakTopics }) => {
+  const handleSaveDiagnostic = async ({ weakTopics, analysis, answers }) => {
     setDiagnosticData({
       completed: true,
-      weakTopics: weakTopics.length ? weakTopics : ['None (All Mastered)']
+      weakTopics: weakTopics.length ? weakTopics : ['None (All Mastered)'],
+      masteredTopics: (analysis || []).filter(item => item.status === 'Good').map(item => item.topic)
     });
     try {
-      await submitDiagnostic({ weakTopics });
+      await submitDiagnostic({
+        weakTopics,
+        analysis,
+        answers,
+        clientId: `diagnostic-${Date.now()}`,
+      });
     } catch (e) {}
     showToast(lang === 'hi' ? 'दक्षता स्तर जांच परिणाम अपडेट हो गए!' : 'Diagnostic assessment results recorded!');
   };
