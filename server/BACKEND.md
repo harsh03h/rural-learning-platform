@@ -68,6 +68,7 @@ Copy `server/.env.example` to `server/.env`. Defaults are developer-friendly:
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
+| `NODE_ENV` | `development` | Runtime mode; set to `production` for deployed APIs |
 | `PORT` / `HOST` | `5000` / `127.0.0.1` | Gateway bind address |
 | `MONGO_URI` | `mongodb://127.0.0.1:27017/gyansetu` | MongoDB database |
 | `JWT_SECRET` | development placeholder | Set a long random value in production |
@@ -82,6 +83,8 @@ Copy `server/.env.example` to `server/.env`. Defaults are developer-friendly:
 | `RATE_LIMIT_WINDOW_MS` / `RATE_LIMIT_MAX` | `900000` / `300` | General API limiter |
 | `LOG_REQUESTS` | `true` | Morgan request logging |
 | `SEED_ON_START` | `false` | Run idempotent seed on boot |
+
+`VERCEL=1` is injected automatically by Vercel; it prevents `app.listen()` on import. Do not set it in a local `.env`.
 
 ---
 
