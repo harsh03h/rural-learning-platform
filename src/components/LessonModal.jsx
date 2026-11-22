@@ -219,10 +219,10 @@ export function LessonModal({
         </div>
 
         {/* Modern Segmented Navigation Tabs */}
-        <div className="flex gap-1.5 sm:gap-2 my-3 sm:my-4 p-1 bg-slate-100/80 dark:bg-slate-800/80 rounded-2xl text-xs font-bold w-full sm:w-fit overflow-x-auto no-scrollbar border border-slate-200/60 dark:border-slate-700 no-print">
+        <div className="shrink-0 flex gap-1.5 sm:gap-2 my-3 sm:my-4 p-1.5 bg-slate-100/90 dark:bg-slate-800/90 rounded-2xl text-xs font-bold w-full sm:w-fit overflow-x-auto no-scrollbar border border-slate-200/80 dark:border-slate-700 min-h-[44px] z-10 no-print">
           <button
             onClick={() => setActiveTab('lesson')}
-            className={`flex-1 sm:flex-initial shrink-0 px-3 sm:px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
+            className={`flex-1 sm:flex-initial shrink-0 px-3.5 sm:px-4 py-2 min-h-[38px] rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap cursor-pointer active:scale-95 ${
               activeTab === 'lesson'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'
@@ -234,7 +234,7 @@ export function LessonModal({
 
           <button
             onClick={() => setActiveTab('notes')}
-            className={`flex-1 sm:flex-initial shrink-0 px-3 sm:px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
+            className={`flex-1 sm:flex-initial shrink-0 px-3.5 sm:px-4 py-2 min-h-[38px] rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap cursor-pointer active:scale-95 ${
               activeTab === 'notes'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'
@@ -246,7 +246,7 @@ export function LessonModal({
 
           <button
             onClick={() => setActiveTab('quiz')}
-            className={`flex-1 sm:flex-initial shrink-0 px-3 sm:px-4 py-2 rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap ${
+            className={`flex-1 sm:flex-initial shrink-0 px-3.5 sm:px-4 py-2 min-h-[38px] rounded-xl transition flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap cursor-pointer active:scale-95 ${
               activeTab === 'quiz'
                 ? 'bg-upnavy-800 text-white shadow-xs'
                 : 'text-slate-600 dark:text-slate-300 hover:text-upnavy-950 dark:hover:text-white'

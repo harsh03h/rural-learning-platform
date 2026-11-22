@@ -428,9 +428,7 @@ export function StudentView({
   }, [selectedGrade, selectedSubject, filterOfflineOnly]);
 
   const isGuest = !currentUser;
-  const studentFirstName = currentUser?.name 
-    ? currentUser.name.split(' ')[0] 
-    : (lang === 'hi' ? 'अतिथि शिक्षार्थी' : 'Guest Learner');
+  const studentDisplayName = currentUser?.name || (lang === 'hi' ? 'अतिथि शिक्षार्थी' : 'Guest Learner');
   const studentGrade = currentUser?.grade || selectedGrade;
   const studentRoll = currentUser?.rollNo || (isGuest ? 'Local-User' : '24');
   const studentSchool = currentUser?.school || (isGuest 
@@ -500,15 +498,15 @@ export function StudentView({
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black text-upnavy-950 tracking-tight leading-snug flex items-center gap-2.5">
+            <h1 className="text-2xl sm:text-3xl font-black text-upnavy-950 dark:text-white tracking-tight leading-snug flex items-center gap-2.5">
               <span className="text-3xl">{studentAvatar}</span>
               <span>
                 {lang === 'hi' 
-                  ? (isGuest ? 'ज्ञानसेतु में आपका स्वागत है! 👋' : `नमस्ते, ${studentFirstName}! 👋`) 
-                  : (isGuest ? 'Welcome to GyanSetu! 👋' : `Welcome back, ${studentFirstName}! 👋`)}
+                  ? (isGuest ? 'ज्ञानसेतु में आपका स्वागत है! 👋' : `नमस्ते, ${studentDisplayName}! 👋`) 
+                  : (isGuest ? 'Welcome to GyanSetu! 👋' : `Welcome back, ${studentDisplayName}! 👋`)}
               </span>
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-lg leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-lg leading-relaxed">
               {lang === 'hi' 
                 ? 'कक्षा 6 से 10 के सभी विषयों (गणित, विज्ञान, अंग्रेजी, सामाजिक विज्ञान, हिंदी, डिजिटल साक्षरता) की संपूर्ण तैयारी कम डेटा व ऑफ़लाइन मोड में।'
                 : 'Dedicated rural learning platform for Classes 6 to 10. Study NCERT & State Board Mathematics, Science, English, Social Science, Hindi, and Digital Literacy even on 2G/3G.'}
@@ -533,8 +531,12 @@ export function StudentView({
             </div>
 
             <button
-              onClick={() => onOpenLesson(sampleCourses[0].chapters[0])}
-              className="px-5 py-2.5 bg-upsaffron-600 hover:bg-upsaffron-700 text-white text-xs font-bold rounded-2xl shadow-sm shadow-upsaffron-600/30 hover:shadow-md transition active:scale-95 flex items-center gap-2 shrink-0 self-start sm:self-auto"
+              onClick={() => {
+                const currentGradeCourse = sampleCourses.find(c => c.classGrade === selectedGrade) || sampleCourses[0];
+                const resumeChapter = currentGradeCourse?.chapters?.[0] || sampleCourses[0].chapters[0];
+                onOpenLesson(resumeChapter);
+              }}
+              className="px-5 py-2.5 bg-upsaffron-600 hover:bg-upsaffron-700 text-white text-xs font-bold rounded-2xl shadow-sm shadow-upsaffron-600/30 hover:shadow-md transition active:scale-95 flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
             >
               <Play className="w-3.5 h-3.5 fill-white" />
               <span>{lang === 'hi' ? 'पाठ शुरू करें' : 'Resume Lesson'}</span>
@@ -1496,9 +1498,9 @@ export function StudentView({
         </div>
       )}
 
-      {/* Modern Floating AI Doubt Saathi Button */}
+      {/* Modern Floating AI Doubt Saathi Button - Elevated above footer to prevent link occlusion */}
       {!isAiSaathiOpen && (
-        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30">
+        <div className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-30 flex flex-col items-end gap-2">
           <div className="hidden sm:flex items-center gap-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 shadow-md text-[11px] text-slate-600 dark:text-slate-300">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>AI Saathi Active</span>

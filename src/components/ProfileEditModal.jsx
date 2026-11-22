@@ -239,16 +239,16 @@ export function ProfileEditModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/70 backdrop-blur-md animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-2xl w-full p-4 sm:p-7 shadow-2xl border border-slate-100 max-h-[92vh] overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-4 sm:p-7 shadow-2xl border border-slate-100 dark:border-slate-800 max-h-[92vh] overflow-hidden flex flex-col">
         
         {/* Modal Top Header */}
-        <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4 shrink-0">
+        <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-slate-800 mb-4 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-upsaffron-50 text-upsaffron-700 border border-upsaffron-200 flex items-center justify-center font-bold shadow-2xs">
               <UserCheck className="w-5 h-5 text-upsaffron-600" />
             </div>
             <div>
-              <h2 className="text-lg font-black text-upnavy-950 flex items-center gap-2">
+              <h2 className="text-lg font-black text-upnavy-950 dark:text-white flex items-center gap-2">
                 <span>Profile & Identity Card</span>
                 <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                   isStudent ? 'bg-emerald-100 text-emerald-800 border-emerald-300' :

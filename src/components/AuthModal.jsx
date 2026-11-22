@@ -331,7 +331,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
         </div>
 
         {/* Scrollable Form Body */}
-        <div className="p-4 sm:p-6 overflow-y-auto space-y-4 sm:space-y-5 flex-1 text-xs">
+        <div className="p-4 sm:p-6 pb-8 sm:pb-12 overflow-y-auto space-y-4 sm:space-y-5 flex-1 text-xs">
           
           {/* 1-Click Quick Evaluator Demo Section */}
           <div className="p-3.5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/40 to-amber-50/80 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-amber-950/40 border border-amber-200/90 dark:border-amber-700/50 shadow-2xs">

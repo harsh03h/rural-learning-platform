@@ -71,7 +71,7 @@ export function Navbar({
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-xs transition-all">
+    <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 shadow-xs transition-all">
       {/* GyanSetu EdTech Aesthetic Accent Line */}
       <div className="h-1 w-full bg-gradient-to-r from-upsaffron-600 via-amber-400 to-upnavy-800" />
       
@@ -85,7 +85,7 @@ export function Navbar({
               <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
             </div>
             <div>
-              <span className="text-base sm:text-lg font-black tracking-tight text-upnavy-950 font-sans leading-none block">
+              <span className="text-base sm:text-lg font-black tracking-tight text-upnavy-950 dark:text-white font-sans leading-none block">
                 Gyan<span className="text-upsaffron-600">Setu</span>
               </span>
               <span className="hidden sm:block text-[10px] text-slate-500 font-semibold tracking-tight">
@@ -302,10 +302,10 @@ export function Navbar({
 
             {/* Modernized Profile Dropdown Popover */}
             {isProfileMenuOpen && currentUser && (
-              <div className="absolute right-0 mt-2.5 w-[calc(100vw-24px)] max-w-xs sm:w-80 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/90 p-3 z-50 ring-1 ring-slate-900/5 animate-fadeIn text-xs">
+              <div className="absolute right-0 mt-2.5 w-[calc(100vw-24px)] max-w-xs sm:w-80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-200/90 dark:border-slate-800 p-3 z-50 ring-1 ring-slate-900/5 animate-fadeIn text-xs">
                 
                 {/* User Info Header with Avatar & Badge */}
-                <div className="p-3 bg-gradient-to-br from-slate-50 via-slate-50 to-upnavy-50/50 rounded-2xl border border-slate-200/80 mb-2">
+                <div className="p-3 bg-gradient-to-br from-slate-50 via-slate-50 to-upnavy-50/50 dark:from-slate-800/80 dark:via-slate-800/60 dark:to-slate-800/90 rounded-2xl border border-slate-200/80 dark:border-slate-700 mb-2">
                   <div className="flex items-center gap-3">
                     <div className="relative shrink-0">
                       <div className="w-11 h-11 rounded-2xl bg-upnavy-100 border border-upnavy-200 text-xl flex items-center justify-center font-bold shadow-2xs">
@@ -314,7 +314,7 @@ export function Navbar({
                       <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white" title="Active Account" />
                     </div>
                     <div className="overflow-hidden space-y-0.5">
-                      <div className="font-black text-upnavy-950 text-sm truncate leading-snug">
+                      <div className="font-black text-upnavy-950 dark:text-white text-sm truncate leading-snug">
                         {currentUser.name}
                       </div>
                       <div className="flex items-center gap-1.5 flex-wrap">

@@ -467,7 +467,7 @@ export function App() {
       />
 
       {/* Main Body Content by Active Role */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 pt-4 sm:pt-5">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 pt-4 sm:pt-5 pb-16 sm:pb-24">
         {/* Modern Compact Guest Announcement Strip */}
         {!currentUser && (
           <div className="mb-5 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-upnavy-900/95 via-upnavy-800/95 to-upnavy-950/95 text-white border border-upnavy-700/50 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
@@ -626,7 +626,7 @@ export function App() {
       />
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm py-4 text-xs text-slate-500 dark:text-slate-400">
+      <footer className="mt-auto border-t border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm py-4 text-xs text-slate-500 dark:text-slate-400 relative z-20">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
             <div className="flex items-center gap-1.5">
