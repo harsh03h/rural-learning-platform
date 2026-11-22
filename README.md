@@ -3,6 +3,12 @@
 > **Final Year Engineering Major Project (2026–2027)**  
 > **Domain:** EdTech, AI-Assisted Adaptive Learning, Human-Computer Interaction for Low-Resource Environments
 
+### 🌐 Live Deployment
+
+**Live website:** **[https://gyansetu-rural-learning.vercel.app](https://gyansetu-rural-learning.vercel.app)**
+
+The React app and the Express/MongoDB API are both served from this single Vercel project. `/api/*` calls are handled by a serverless Express function connected to MongoDB Atlas; AI Doubt Saathi uses the built-in fallback when the optional Python helper is not deployed.
+
 ---
 
 ## 🌟 1. Project Overview & Motivation
@@ -45,7 +51,7 @@ Most mainstream e-learning platforms (BYJU'S, Unacademy, Khan Academy, Coursera)
                          │
             ┌────────────┴────────────┐
             ▼                         ▼
-   [ MongoDB Database ]      [ Python FastAPI AI Microservice ]
+   [ MongoDB Database ]      [ Python AI Microservice (stdlib HTTPServer) ]
                                       │
                                       ▼
                              [ LLM Service / Gemini ]
@@ -81,6 +87,7 @@ python ai-service/server.py
 # Terminal 2: Node.js Express Backend Gateway
 cd rural-learning-platform/server
 npm install (or npm.cmd install)
+npm run seed
 node server.js
 
 # Terminal 3: React + Vite Frontend
@@ -89,6 +96,8 @@ npm.cmd run dev -- --host 127.0.0.1 --port 5173
 ```
 
 The web application is live at: **`http://localhost:5173/`**
+
+> The frontend API client talks to `http://127.0.0.1:5000/api`. MongoDB is seeded from the same curriculum banks used by the UI, so REST responses match the offline lesson and quiz data. See **[server/BACKEND.md](server/BACKEND.md)** for configuration, JWT/auth details, the complete endpoint reference, database collections, and smoke-test commands.
 
 ---
 
