@@ -31,7 +31,6 @@ import confetti from 'canvas-confetti';
 import { supportedLanguages } from '../data/mockData';
 
 export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
-  if (!isOpen) return null;
 
   // Active sub-tab
   const [activeTab, setActiveTab] = useState('helpline'); // 'helpline' | 'faq' | 'diagnostic' | 'ticket'
@@ -258,6 +257,7 @@ export function HelpSupportModal({ isOpen, onClose, lang = 'en' }) {
                           f.a.toLowerCase().includes(faqSearch.toLowerCase());
     return matchesCat && matchesSearch;
   });
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-fadeIn">

@@ -41,7 +41,6 @@ export function LessonModal({
   onRecordQuizResult,
   initialTab = "lesson"
 }) {
-  if (!isOpen || !chapter) return null;
 
   const [activeTab, setActiveTab] = useState(initialTab || 'lesson'); // 'lesson' | 'notes' | 'quiz'
 
@@ -54,7 +53,7 @@ export function LessonModal({
 
   // Guaranteed 5 curated NCERT-aligned questions for every chapter
   const questions = useMemo(() => {
-    return getQuestionsForChapter(chapter, lang);
+    return chapter ? getQuestionsForChapter(chapter, lang) : [];
   }, [chapter?.id, lang]);
 
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
@@ -159,6 +158,8 @@ export function LessonModal({
   }, 0);
   const scorePercent = Math.round((score / totalQuestions) * 100);
   const earnedXP = score * 20;
+
+  if (!isOpen || !chapter) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn notes-modal-overlay">

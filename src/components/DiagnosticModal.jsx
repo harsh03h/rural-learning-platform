@@ -4,7 +4,6 @@ import { diagnosticQuestions, getLocalized, translations } from '../data/mockDat
 import confetti from 'canvas-confetti';
 
 export function DiagnosticModal({ isOpen, onClose, lang, onSaveResults }) {
-  if (!isOpen) return null;
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -67,6 +66,8 @@ export function DiagnosticModal({ isOpen, onClose, lang, onSaveResults }) {
     setSelectedAnswers({});
     setIsSubmitted(false);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn">

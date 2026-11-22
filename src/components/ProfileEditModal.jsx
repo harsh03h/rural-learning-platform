@@ -121,7 +121,6 @@ export function ProfileEditModal({
   theme = 'light',
   setTheme
 }) {
-  if (!isOpen || !currentUser) return null;
 
   // Active Tab inside modal
   const [activeTab, setActiveTab] = useState('personal'); // 'personal' | 'academic' | 'guardian' | 'preferences'
@@ -163,29 +162,29 @@ export function ProfileEditModal({
   // Sync state if currentUser changes
   useEffect(() => {
     if (currentUser) {
-      setName(currentUser.name || 'Rohan Verma');
-      setAvatar(currentUser.avatar || '🎓');
-      setStudentId(currentUser.id || 'STU-004');
-      setGender(currentUser.gender || 'Male');
-      setVillage(currentUser.village || 'Bilaspur, Rampur');
-      setGrade(currentUser.grade || 'Class 7A');
-      setRollNo(currentUser.rollNo || '24');
-      setSchool(currentUser.school || 'Model Senior Secondary School Rampur');
-      setFavoriteSubject(currentUser.favoriteSubject || 'Mathematics');
-      setAcademicGoal(currentUser.academicGoal || 'Score 90%+ in Board Exams');
-      setDeviceAccess(currentUser.deviceAccess || 'School Mesh Tablet');
-      setDesignation(currentUser.designation || 'Senior TGT Teacher');
-      setQualification(currentUser.qualification || 'M.Sc. Mathematics, B.Ed.');
-      setAssignedClasses(currentUser.assignedClasses || 'Classes 6 to 10');
-      setParentName(currentUser.parentName || 'Suresh Verma');
-      setParentRelation(currentUser.parentRelation || 'Father');
-      setPhone(currentUser.phone || '+91 98765 43210');
-      setEmail(currentUser.email || 'rohan.student@gyansetu.edu.in');
-      setSmsAlerts(currentUser.smsAlerts ?? true);
-      setWhatsappAlerts(currentUser.whatsappAlerts ?? true);
-      setSelectedLanguage(currentUser.language || lang || 'en');
-      setAudioNarration(currentUser.audioNarration ?? true);
-      setDataSaver(currentUser.dataSaver ?? true);
+      setName(currentUser?.name || 'Rohan Verma');
+      setAvatar(currentUser?.avatar || '🎓');
+      setStudentId(currentUser?.id || 'STU-004');
+      setGender(currentUser?.gender || 'Male');
+      setVillage(currentUser?.village || 'Bilaspur, Rampur');
+      setGrade(currentUser?.grade || 'Class 7A');
+      setRollNo(currentUser?.rollNo || '24');
+      setSchool(currentUser?.school || 'Model Senior Secondary School Rampur');
+      setFavoriteSubject(currentUser?.favoriteSubject || 'Mathematics');
+      setAcademicGoal(currentUser?.academicGoal || 'Score 90%+ in Board Exams');
+      setDeviceAccess(currentUser?.deviceAccess || 'School Mesh Tablet');
+      setDesignation(currentUser?.designation || 'Senior TGT Teacher');
+      setQualification(currentUser?.qualification || 'M.Sc. Mathematics, B.Ed.');
+      setAssignedClasses(currentUser?.assignedClasses || 'Classes 6 to 10');
+      setParentName(currentUser?.parentName || 'Suresh Verma');
+      setParentRelation(currentUser?.parentRelation || 'Father');
+      setPhone(currentUser?.phone || '+91 98765 43210');
+      setEmail(currentUser?.email || 'rohan.student@gyansetu.edu.in');
+      setSmsAlerts(currentUser?.smsAlerts ?? true);
+      setWhatsappAlerts(currentUser?.whatsappAlerts ?? true);
+      setSelectedLanguage(currentUser?.language || lang || 'en');
+      setAudioNarration(currentUser?.audioNarration ?? true);
+      setDataSaver(currentUser?.dataSaver ?? true);
     }
   }, [currentUser, lang]);
 
@@ -232,10 +231,12 @@ export function ProfileEditModal({
     onClose();
   };
 
-  const isStudent = currentUser.role === 'student';
-  const isTeacher = currentUser.role === 'teacher';
-  const isParent = currentUser.role === 'parent';
-  const isAdmin = currentUser.role === 'admin';
+  const isStudent = currentUser?.role === 'student';
+  const isTeacher = currentUser?.role === 'teacher';
+  const isParent = currentUser?.role === 'parent';
+  const isAdmin = currentUser?.role === 'admin';
+
+  if (!isOpen || !currentUser) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/70 backdrop-blur-md animate-fadeIn">

@@ -521,62 +521,44 @@ export function Navbar({
       </div>
 
       {/* Mobile Role Switcher (Shown only on small screens) */}
-      <div className="md:hidden border-t border-slate-200/80 px-3 py-2 bg-slate-50/95 backdrop-blur-md flex items-center justify-between text-xs gap-1.5 overflow-x-auto scrollbar-none">
-        <div className="flex items-center gap-1.5 shrink-0">
+      <div className="md:hidden border-t border-slate-200/80 dark:border-slate-800 px-2.5 py-1.5 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md flex items-center justify-between text-xs gap-2">
+        <div className="flex items-center gap-1 bg-slate-200/70 dark:bg-slate-800/80 p-0.5 rounded-full flex-1">
           <button
             onClick={() => setRole('student')}
-            className={`px-3 py-1 rounded-full font-semibold text-xs transition ${role === 'student' ? 'bg-upnavy-800 text-white shadow-xs font-bold' : 'text-slate-600 bg-white border border-slate-200/70'}`}
+            className={`flex-1 py-1 rounded-full font-bold text-center text-[11px] transition ${role === 'student' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
           >
-            Student
+            {lang === 'hi' ? 'छात्र' : 'Student'}
           </button>
           <button
             onClick={() => setRole('teacher')}
-            className={`px-3 py-1 rounded-full font-semibold text-xs transition ${role === 'teacher' ? 'bg-upnavy-800 text-white shadow-xs font-bold' : 'text-slate-600 bg-white border border-slate-200/70'}`}
+            className={`flex-1 py-1 rounded-full font-bold text-center text-[11px] transition ${role === 'teacher' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
           >
-            Teacher
+            {lang === 'hi' ? 'शिक्षक' : 'Teacher'}
           </button>
           <button
             onClick={() => setRole('parent')}
-            className={`px-3 py-1 rounded-full font-semibold text-xs transition ${role === 'parent' ? 'bg-upnavy-800 text-white shadow-xs font-bold' : 'text-slate-600 bg-white border border-slate-200/70'}`}
+            className={`flex-1 py-1 rounded-full font-bold text-center text-[11px] transition ${role === 'parent' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
           >
-            Parent
+            {lang === 'hi' ? 'अभिभावक' : 'Parent'}
           </button>
           <button
             onClick={() => setRole('admin')}
-            className={`px-3 py-1 rounded-full font-semibold text-xs transition ${role === 'admin' ? 'bg-upnavy-800 text-white shadow-xs font-bold' : 'text-slate-600 bg-white border border-slate-200/70'}`}
+            className={`flex-1 py-1 rounded-full font-bold text-center text-[11px] transition ${role === 'admin' ? 'bg-upnavy-800 dark:bg-upsaffron-600 text-white shadow-xs' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'}`}
           >
-            Admin
+            {lang === 'hi' ? 'व्यवस्थापक' : 'Admin'}
           </button>
         </div>
         
         <div className="flex items-center gap-1.5 shrink-0">
-          {currentUser && (
-            <button
-              onClick={onLogout}
-              className="px-2.5 py-1 rounded-full font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 shrink-0 flex items-center gap-1 text-xs transition active:scale-95 cursor-pointer"
-              title="Sign Out / Logout"
-            >
-              <LogOut className="w-3 h-3 text-rose-600" />
-              <span>Logout</span>
-            </button>
-          )}
           {isOffline && (
-            <span className="text-[10px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-full border border-rose-200 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+            <span className="text-[10px] bg-rose-100 dark:bg-rose-950/50 text-rose-800 dark:text-rose-300 font-bold px-2 py-0.5 rounded-full border border-rose-200 dark:border-rose-800 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
               Offline
             </span>
           )}
           <button
-            onClick={onOpenHelp}
-            className="px-2.5 py-1 rounded-full font-bold text-upsaffron-700 bg-upsaffron-100 hover:bg-upsaffron-200 border border-upsaffron-300 shrink-0 flex items-center gap-1 text-xs"
-            title="Help & Support Desk"
-          >
-            <HelpCircle className="w-3 h-3 text-upsaffron-600" />
-            <span>Help</span>
-          </button>
-          <button
             onClick={onToggleTheme}
-            className="p-1.5 rounded-full font-bold text-slate-700 dark:text-amber-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 shrink-0 flex items-center justify-center transition active:scale-95 cursor-pointer"
+            className="p-1.5 rounded-full text-slate-700 dark:text-amber-300 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 shrink-0 flex items-center justify-center transition active:scale-95 cursor-pointer"
             title={theme === 'dark' ? (lang === 'hi' ? 'लाइट मोड' : 'Switch to Light Mode') : (lang === 'hi' ? 'डार्क मोड' : 'Switch to Dark Mode')}
             aria-label="Toggle Theme"
           >

@@ -1487,7 +1487,7 @@ export function StudentView({
 
       {/* Modern Floating AI Doubt Saathi Button - Elevated above footer to prevent link occlusion */}
       {!isAiSaathiOpen && (
-        <div className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-30">
+        <div className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-30">
           <button
             onClick={onOpenAiSaathi}
             className="flex items-center gap-2.5 bg-gradient-to-r from-upnavy-950 via-upnavy-900 to-upnavy-800 hover:from-upsaffron-600 hover:to-amber-500 text-white px-4 py-2.5 sm:px-5 sm:py-3 rounded-full shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 border border-upnavy-700/60 ring-2 ring-upsaffron-400/40 hover:ring-upsaffron-400 text-xs font-bold cursor-pointer"

@@ -42,7 +42,6 @@ export function XpRewardsModal({
   onClaimReward,
   onOpenRewardCert
 }) {
-  if (!isOpen) return null;
 
   const currentXp = studentStats.pointsXP || 350;
   const currentStreak = studentStats.streakDays || 4;
@@ -75,6 +74,7 @@ export function XpRewardsModal({
       onClaimReward({ key, title });
     }
   };
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-slate-900/75 backdrop-blur-md animate-fadeIn">

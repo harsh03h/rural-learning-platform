@@ -22,8 +22,6 @@ export function RewardCertificateModal({
   studentStats = { streakDays: 4, pointsXP: 350 },
   lang = 'en'
 }) {
-  if (!isOpen) return null;
-
   const [certLang, setCertLang] = useState(lang === 'hi' ? 'hi' : 'en');
   const [copied, setCopied] = useState(false);
 
@@ -70,6 +68,8 @@ export function RewardCertificateModal({
       alert(text);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div 

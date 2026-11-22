@@ -642,7 +642,6 @@ export function ClassTimetableModal({
   currentUser,
   lang = 'en' 
 }) {
-  if (!isOpen) return null;
 
   const isHi = lang === 'hi';
   const schedule = WEEKLY_SCHEDULES[selectedGrade] || WEEKLY_SCHEDULES['Class 7'];
@@ -678,6 +677,8 @@ export function ClassTimetableModal({
       window.print();
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="timetable-print-overlay fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-upnavy-950/70 backdrop-blur-sm animate-fadeIn">

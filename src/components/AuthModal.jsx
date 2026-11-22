@@ -61,7 +61,6 @@ const CLASS_OPTIONS = [
 ];
 
 export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsGuest }) {
-  if (!isOpen) return null;
 
   const [authMode, setAuthMode] = useState('login'); // 'login' | 'register'
   const [selectedRole, setSelectedRole] = useState('student'); // 'student' | 'teacher' | 'parent' | 'admin'
@@ -263,6 +262,7 @@ export function AuthModal({ isOpen, onClose, lang, onLoginSuccess, onContinueAsG
     onLoginSuccess(newUser);
     onClose();
   };
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-5 bg-upnavy-950/80 backdrop-blur-md animate-fadeIn">
